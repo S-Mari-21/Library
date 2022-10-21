@@ -8,5 +8,9 @@ package classes_premium;
  * @author maria
  */
 public class Pagamento {
+    //pagamento
     
+    public void Tipo(Character opcao){
+        
+    }
 }
