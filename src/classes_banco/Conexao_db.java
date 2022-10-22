@@ -43,6 +43,6 @@ public class Conexao_db {
         } catch (SQLException ex) {
             System.out.println("Erro ao desconectar ao banco de dados!"+ ex.toString());         
         }
-         System.out.println("Banco de dados desconectado!");
+         System.out.println("Banco de dados desconectado!!");
     }
 }
