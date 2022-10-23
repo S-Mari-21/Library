@@ -29,7 +29,7 @@ public class Usuario {
             return false;
         }
     }
-    public void AddUsuario(Connection con, Integer Id_Usuario, String Nome, String Data_Nascimento, String Num_Celular, String Email, String Senha) throws SQLException, ParseException{
+    public void AddUsuario(Connection con, Integer Id_Usuario, String Nome, String Data_Nascimento, String Num_Celular, String Email, String Senha, Boolean Admin) throws SQLException, ParseException{
         String sql = "insert into paciente (idpaciente, nome, sexo, datanascimento, endereco, telefone, numcelular, email) values (?, ?, ?, ?, ?, ?, ?,?)";
         PreparedStatement stmt = con.prepareStatement(sql); //Este Statement é quem permite executar esta isntrução no sql
         stmt.setInt(1, Id_Usuario);
@@ -44,6 +44,7 @@ public class Usuario {
         stmt.setString(5, Num_Celular);
         stmt.setString(6, Email);
         stmt.setString(7, Senha);
+        stmt.setBoolean(8, Admin);
         
         
         stmt.executeUpdate();
@@ -51,7 +52,7 @@ public class Usuario {
            
        }
     
-    public void AltUsuario(Connection con, Integer Id_Usuario, String Nome, String Data_Nascimento, String Num_Celular, String Email, String Senha) throws SQLException, ParseException{
+    public void AltUsuario(Connection con, Integer Id_Usuario, String Nome, String Data_Nascimento, String Num_Celular, String Email, String Senha, Boolean Admin) throws SQLException, ParseException{
         String sql = "update paciente set nome = ?, sexo = ?, datanascimento = ?, endereco = ?, telefone = ?, numcelular = ?, email = ?  where idpaciente = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         
