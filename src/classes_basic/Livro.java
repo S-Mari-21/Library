@@ -74,4 +74,8 @@ public class Livro {
         stmt.close();
         
     }
+    
+    public Integer LivrosDisponiveis(Integer quantidade_total, Integer quantidade_emprestados){
+        return quantidade_total-quantidade_emprestados;
+    }
 }
