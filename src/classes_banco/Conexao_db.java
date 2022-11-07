@@ -1,48 +1,88 @@
 package classes_banco;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
+
 
 /**
  *
  * @author maria
  */
 public class Conexao_db {
-    private Connection conexao;
-
-    private final String url; 
     
-//Editar os dados de entrada do banco
-    private final String user = "postgres";
-    private final String password = "123456";
-
-    public Conexao_db() {
-        this.url = "jdbc:postgresql://localhost:5432/ProntuarioEletronico";
-    }
-//Fim editar
-    
-    
-    public Connection Conectar(){
-        try {
-            conexao = DriverManager.getConnection(url, user, password);
-        } catch (SQLException ex) {
-           System.out.println("Erro ao conectar ao banco de dados!"+ex.toString());
-           return null;
-        }
-     System.out.println("Banco de dados conectado!");
-        return conexao;
-    }
-    
-    public void Desconectar(){
-        try {
-            if (conexao.isClosed()==false){
-                conexao.close();
-                
+    private static Connection con = null;
+	
+    public static Connection Conectar() {
+	if (con == null) {
+            try {
+		Properties props = loadProperties();
+		String url = props.getProperty("dburl");
+		con = DriverManager.getConnection(url, props);
             }
-        } catch (SQLException ex) {
-            System.out.println("Erro ao desconectar ao banco de dados!"+ ex.toString());         
-        }
-         System.out.println("Banco de dados desconectado!");
+            catch (SQLException e) {
+		throw new DbException(e.getMessage());
+            }
+	}
+	return con;
     }
-}
+	
+ 
+    public static void Desconectar() {
+	if (con != null) {
+            try {
+		con.close();
+            } catch (SQLException e) {
+		throw new DbException(e.getMessage());
+            }
+	}
+    }
+	
+    private static Properties loadProperties() {
+	try (FileInputStream fs = new FileInputStream("db.properties")) {
+            Properties props = new Properties();
+            props.load(fs);
+            return props;
+	}
+	catch (IOException e) {
+            throw new DbException(e.getMessage());
+	}
+    }
+
+    
+//    public void Conectar(){
+//        con  = getConectar();
+//    }
+//    
+//    public void Desconectar(){
+//         con  = getDesconectar();
+//         
+//    }
+}       
+        
+        
+        
+//    private Connection conexao;
+//    public Conexao_db() {
+//       
+//       String url = props.getProperty("dburl");
+//    }
+    
+//    
+////    private final String url; 
+////    
+//////Editar os dados de entrada do banco
+////    private final String user = "admin";
+////    private final String password = "Bd_M15Ql";
+////
+////    public Conexao_db() {
+////        this.url = "jdbc:mysql://localhost:3306/Library";
+////    }
+//////Fim editar
+//    
+//    
+
+

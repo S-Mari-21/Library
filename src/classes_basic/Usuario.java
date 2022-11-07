@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
  */
 public class Usuario {
         public boolean VerificarLogon(Connection con , Integer Id_usuario, String Senha) throws SQLException{
-        String sql = "select nome from medico where crm = ? and senha = ? ";
+        String sql = "";
         PreparedStatement stmt = con.prepareStatement(sql);
         stmt.setInt(1, Id_usuario);
         stmt.setString(2, Senha);
@@ -30,7 +30,7 @@ public class Usuario {
         }
     }
     public void AddUsuario(Connection con, Integer Id_Usuario, String Nome, String Data_Nascimento, String Num_Celular, String Email, String Senha, Boolean Admin) throws SQLException, ParseException{
-        String sql = "insert into paciente (idpaciente, nome, sexo, datanascimento, endereco, telefone, numcelular, email) values (?, ?, ?, ?, ?, ?, ?,?)";
+        String sql = "INSERT INTO seller (id_usuario, senha, BirthDate, BaseSalary, DepartmentId) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement stmt = con.prepareStatement(sql); //Este Statement é quem permite executar esta isntrução no sql
         stmt.setInt(1, Id_Usuario);
         stmt.setString(2, Nome);
@@ -53,7 +53,7 @@ public class Usuario {
        }
     
     public void AltUsuario(Connection con, Integer Id_Usuario, String Nome, String Data_Nascimento, String Num_Celular, String Email, String Senha, Boolean Admin) throws SQLException, ParseException{
-        String sql = "update paciente set nome = ?, sexo = ?, datanascimento = ?, endereco = ?, telefone = ?, numcelular = ?, email = ?  where idpaciente = ?";
+        String sql = "UPDATE seller SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? WHERE Id = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         
          stmt.setInt(1, Id_Usuario);
@@ -76,7 +76,7 @@ public class Usuario {
     
     
     public void DelUsuario(Connection con, Integer Id_Usuario) throws SQLException{
-        String sql = "delete from paciente where idpaciente = ?";
+        String sql = "DELETE FROM seller WHERE Id = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         stmt.setInt(1,Id_Usuario);
                 
