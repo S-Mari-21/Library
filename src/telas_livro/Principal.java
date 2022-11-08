@@ -9,6 +9,7 @@ import com.mysql.jdbc.Connection;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 /**
  *
  * @author maria
@@ -93,30 +94,30 @@ public class Principal extends javax.swing.JFrame {
         painel3Layout.setHorizontalGroup(
             painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painel3Layout.createSequentialGroup()
-                .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(painel3Layout.createSequentialGroup()
-                        .addGap(112, 112, 112)
-                        .addComponent(jLabel18)
-                        .addGap(43, 43, 43)
-                        .addComponent(jLabel19))
-                    .addGroup(painel3Layout.createSequentialGroup()
-                        .addGap(630, 630, 630)
-                        .addComponent(jLabel20)))
-                .addContainerGap(715, Short.MAX_VALUE))
+                .addGap(112, 112, 112)
+                .addComponent(jLabel18)
+                .addGap(43, 43, 43)
+                .addComponent(jLabel19)
+                .addGap(266, 266, 266)
+                .addComponent(jLabel20)
+                .addContainerGap(694, Short.MAX_VALUE))
         );
         painel3Layout.setVerticalGroup(
             painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(7, 7, 7))
+                .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painel3Layout.createSequentialGroup()
+                        .addGroup(painel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(42, 42, 42))
+                    .addGroup(painel3Layout.createSequentialGroup()
+                        .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
-        getContentPane().add(painel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 630, 1410, 70));
+        getContentPane().add(painel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 650, 1410, 50));
 
         painel2.setBackground(new java.awt.Color(0, 0, 0, 80));
 
@@ -166,7 +167,7 @@ public class Principal extends javax.swing.JFrame {
                 lbAdminMouseClicked(evt);
             }
         });
-        getContentPane().add(lbAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 10, 100, 30));
+        getContentPane().add(lbAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 0, 100, 30));
 
         painel4.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -240,7 +241,7 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/principal.jpg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1360, 700));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1380, 700));
 
         setSize(new java.awt.Dimension(1380, 735));
         setLocationRelativeTo(null);
@@ -248,7 +249,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // Ao abrir a tela principal exibir os livros e se for administrador a opção para as ferramentas do admin:
-        Boolean eAdmin = Boolean.parseBoolean(Informacoes.eAdmin);
+        Integer eAdmin = Integer.parseInt(Informacoes.eAdmin);
         
         conexao = new Conexao_db();
         try {
@@ -257,8 +258,8 @@ public class Principal extends javax.swing.JFrame {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println(eAdmin);
-        if(eAdmin == true){
-            lbAdmin.setText("Admin");
+        if(eAdmin == 1){
+            lbAdmin.setText("Administrador");
         } else {
               lbAdmin.setText("");
     
@@ -276,7 +277,16 @@ public class Principal extends javax.swing.JFrame {
 
     private void lbAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAdminMouseClicked
         // Ao clicar em admin exibir página com as ferramentas do administrador:
-        
+        Integer eAdmin = Integer.parseInt(Informacoes.eAdmin);
+        if(eAdmin == 1){
+            Administracao adm = new Administracao();
+            adm.setVisible(true);
+            dispose();
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuário não possui previlégios para acessar as ferramentas de administrador!", "Não permitido!", 2);
+    
+        }
     }//GEN-LAST:event_lbAdminMouseClicked
 
     /**

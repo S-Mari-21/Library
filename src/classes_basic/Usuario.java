@@ -13,13 +13,13 @@ import java.text.SimpleDateFormat;
  */
 public class Usuario {
         public boolean VerificarLogon(Connection con , String Email, String Senha) throws SQLException{
-        String sql = "select nome from usuario where email = ? and senha = ? ";
+        String sql = "select eAdmin from usuario where email = ? and senha = ? ";
         PreparedStatement stmt = con.prepareStatement(sql);
         stmt.setString(1, Email);
         stmt.setString(2, Senha);
         ResultSet rs = stmt.executeQuery();
         if (rs.next()){
-            Informacoes.nomeusuario = rs.getString("nome");
+            Informacoes.eAdmin = rs.getString("eAdmin");
             rs.close();
             stmt.close();
             return true;
