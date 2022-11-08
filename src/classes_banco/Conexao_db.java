@@ -22,6 +22,7 @@ public class Conexao_db {
 		Properties props = loadProperties();
 		String url = props.getProperty("dburl");
 		con = DriverManager.getConnection(url, props);
+                System.out.println("Banco de dados conectado!");
             }
             catch (SQLException e) {
 		throw new DbException(e.getMessage());
@@ -34,6 +35,7 @@ public class Conexao_db {
     public static void Desconectar() {
 	if (con != null) {
             try {
+                System.out.println("Banco de dados desconectado!");
 		con.close();
             } catch (SQLException e) {
 		throw new DbException(e.getMessage());
