@@ -289,6 +289,8 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela :
         conexao.Desconectar();
+        Login l = new Login();
+        l.setVisible(true);
   
     }//GEN-LAST:event_formWindowClosing
 

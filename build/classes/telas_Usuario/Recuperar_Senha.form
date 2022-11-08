@@ -104,7 +104,7 @@
                                           </Group>
                                           <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="tfUsuario" min="-2" pref="143" max="-2" attributes="0"/>
+                                              <Component id="tfNumCelular" min="-2" pref="143" max="-2" attributes="0"/>
                                               <Component id="PfNovaSenha" alignment="0" min="-2" pref="143" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
@@ -120,7 +120,7 @@
                                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -142,7 +142,7 @@
                   <EmptySpace pref="17" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="tfUsuario" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="tfNumCelular" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -202,7 +202,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Usu&#xe1;rio:"/>
+            <Property name="text" type="java.lang.String" value="N&#xba; de Celular:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
@@ -216,9 +216,9 @@
             <Property name="text" type="java.lang.String" value="Nova senha:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="tfUsuario">
+        <Component class="javax.swing.JTextField" name="tfNumCelular">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfUsuarioActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfNumCelularActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="PfNovaSenha">

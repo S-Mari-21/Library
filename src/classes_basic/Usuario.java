@@ -30,6 +30,25 @@ public class Usuario {
             return false;
         }
     }
+    
+       public boolean VerificarLogon_RecuperarSenha(Connection con , String Email, String Num_Celular) throws SQLException{
+        String sql = "select id_usuario from usuario where email = ? and num_celular = ? ";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, Email);
+        stmt.setString(2, Num_Celular);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()){
+            Informacoes.id_usuario = rs.getString("id_usuario");
+            rs.close();
+            stmt.close();
+            return true;
+        }
+        else {
+            rs.close();
+            stmt.close();
+            return false;
+        }
+    }   
         
     public void AddUsuario(Connection con, Integer Id_Usuario, String Nome,String Senha, String Data_Nascimento, String Num_Celular, String Email, Boolean Admin) throws SQLException, ParseException{
         String sql = "INSERT INTO usuario (id_usuario, nome, senha, data_nascimento, num_celular, email, eAdmin) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -78,6 +97,17 @@ public class Usuario {
         stmt.executeUpdate();
         stmt.close();
     }
+       public void Recuperar_Senha(Connection con, String Senha, Integer Id_usuario) throws SQLException, ParseException{ 
+        String sql = "UPDATE usuario SET senha = ? WHERE id_usuario = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        
+        stmt.setInt(2, Id_usuario);
+        stmt.setString(1, Senha);  
+        
+        stmt.executeUpdate();
+        stmt.close();
+    }
+    
     
     
     public void DelUsuario(Connection con, Integer Id_Usuario) throws SQLException{

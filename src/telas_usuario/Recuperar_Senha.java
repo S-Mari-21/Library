@@ -3,13 +3,20 @@ package telas_usuario;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 import classes_banco.Conexao_db;
+import classes_basic.Informacoes;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import classes_basic.Usuario;
+import java.sql.SQLException;
+import java.text.ParseException;
 /**
  *
  * @author maria
  */
 public class Recuperar_Senha extends javax.swing.JFrame {
-//    Conexao_db conexao;
-//    private Connection con;
+    Conexao_db conexao;
+    private Connection con;
     /**
      * Creates new form LoginUser
      */
@@ -33,7 +40,7 @@ public class Recuperar_Senha extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        tfUsuario = new javax.swing.JTextField();
+        tfNumCelular = new javax.swing.JTextField();
         PfNovaSenha = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -99,15 +106,15 @@ public class Recuperar_Senha extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Usuário:");
+        jLabel2.setText("Nº de Celular:");
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Nova senha:");
 
-        tfUsuario.addActionListener(new java.awt.event.ActionListener() {
+        tfNumCelular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfUsuarioActionPerformed(evt);
+                tfNumCelularActionPerformed(evt);
             }
         });
 
@@ -151,7 +158,7 @@ public class Recuperar_Senha extends javax.swing.JFrame {
                                             .addComponent(jLabel3))
                                         .addGap(21, 21, 21)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(tfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(tfNumCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(PfNovaSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel7)
@@ -160,7 +167,7 @@ public class Recuperar_Senha extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(59, 59, 59)
                                 .addComponent(jLabel6)))
-                        .addGap(0, 6, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(124, 124, 124)
@@ -177,7 +184,7 @@ public class Recuperar_Senha extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
-                    .addComponent(tfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfNumCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -203,26 +210,64 @@ public class Recuperar_Senha extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         //Conectar ao banco de dados
-//        conexao = new Conexao_db;
-//        con = conexao.Conexao_db();
+        conexao = new Conexao_db();
+        try {
+            con = conexao.Conectar();
+        } catch (IOException ex) {
+            Logger.getLogger(Recuperar_Senha.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
        // Desconectar o banco de dados
-//        conexao.Desconectar();
+        conexao.Desconectar();
+        Login l = new Login();
+        l.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
     private void BtConfirmarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtConfirmarMouseClicked
-        // Ao clicar verificar login do usuário entrar no banco:
+        // Ao clicar verificar login do usuário e alterar a senha:
+        Usuario user = new Usuario();
+        String email = String.valueOf(tfEmail.getText());
+        String num_celular = String.valueOf(tfNumCelular.getText());
+        String senha = String.valueOf(PfNovaSenha.getPassword());
+        
+        if (email.length()>0 && num_celular.length()>0 && senha.length()>0){
+            try {
+                if (user.VerificarLogon_RecuperarSenha(con, email, num_celular) == true){
+                    try {
+                        Integer id = Integer.parseInt(Informacoes.id_usuario);
+                        System.out.println(id);
+                        user.Recuperar_Senha(con, senha, id);
+                        tfEmail.setText("");
+                        tfNumCelular.setText("");
+                        PfNovaSenha.setText("");
+                        JOptionPane.showMessageDialog(null, "Senha alterada com sucesso!", "Senha Alterada!", 1);
+                        
+                        
+                    } catch (SQLException | ParseException ex) {
+                        Logger.getLogger(Recuperar_Senha.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Usuário não encontrado, verifique os dados informados!", "Erro!", 2);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Recuperar_Senha.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos!", "Erro!", 2);
+            
+        }
     }//GEN-LAST:event_BtConfirmarMouseClicked
 
     private void BtConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtConfirmarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BtConfirmarActionPerformed
 
-    private void tfUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfUsuarioActionPerformed
+    private void tfNumCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNumCelularActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfUsuarioActionPerformed
+    }//GEN-LAST:event_tfNumCelularActionPerformed
 
     private void tfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEmailActionPerformed
         // TODO add your handling code here:
@@ -291,6 +336,6 @@ public class Recuperar_Senha extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField tfEmail;
-    private javax.swing.JTextField tfUsuario;
+    private javax.swing.JTextField tfNumCelular;
     // End of variables declaration//GEN-END:variables
 }

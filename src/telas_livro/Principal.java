@@ -45,13 +45,14 @@ public class Principal extends javax.swing.JFrame {
         lbPesquisar = new javax.swing.JLabel();
         lbAdmin = new javax.swing.JLabel();
         painel4 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        lbEmprestimos = new javax.swing.JLabel();
+        lbCategorias = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
+        lbHistorico = new javax.swing.JLabel();
+        lbPerfil = new javax.swing.JLabel();
+        lbRecomendados = new javax.swing.JLabel();
+        lbAreaPremium = new javax.swing.JLabel();
+        lbCarrinho = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -171,35 +172,40 @@ public class Principal extends javax.swing.JFrame {
 
         painel4.setBackground(new java.awt.Color(0, 0, 0));
 
-        jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("EMPRESTIMOS");
-        jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbEmprestimos.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbEmprestimos.setForeground(new java.awt.Color(255, 255, 255));
+        lbEmprestimos.setText("EMPRESTIMOS");
+        lbEmprestimos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("CATEGORIAS");
-        jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbCategorias.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbCategorias.setForeground(new java.awt.Color(255, 255, 255));
+        lbCategorias.setText("CATEGORIAS");
+        lbCategorias.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel14.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setText("HISTÓRICO");
-        jLabel14.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbHistorico.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbHistorico.setForeground(new java.awt.Color(255, 255, 255));
+        lbHistorico.setText("HISTÓRICO");
+        lbHistorico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel15.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setText("CARRINHO");
-        jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbPerfil.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbPerfil.setForeground(new java.awt.Color(255, 255, 255));
+        lbPerfil.setText("PERFIL");
+        lbPerfil.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel16.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setText("RECOMENDADOS");
-        jLabel16.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbRecomendados.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbRecomendados.setForeground(new java.awt.Color(255, 255, 255));
+        lbRecomendados.setText("RECOMENDADOS");
+        lbRecomendados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel17.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel17.setText("ÁREA PREMIUM");
-        jLabel17.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbAreaPremium.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbAreaPremium.setForeground(new java.awt.Color(255, 255, 255));
+        lbAreaPremium.setText("ÁREA PREMIUM");
+        lbAreaPremium.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        lbCarrinho.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbCarrinho.setForeground(new java.awt.Color(255, 255, 255));
+        lbCarrinho.setText("CARRINHO");
+        lbCarrinho.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout painel4Layout = new javax.swing.GroupLayout(painel4);
         painel4.setLayout(painel4Layout);
@@ -207,33 +213,36 @@ public class Principal extends javax.swing.JFrame {
             painel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painel4Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
-                .addComponent(jLabel11)
-                .addGap(93, 93, 93)
+                .addComponent(lbEmprestimos)
+                .addGap(97, 97, 97)
+                .addComponent(lbCategorias)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
-                .addComponent(jLabel14)
-                .addGap(133, 133, 133)
-                .addComponent(jLabel16)
-                .addGap(154, 154, 154)
-                .addComponent(jLabel17)
-                .addGap(146, 146, 146)
-                .addComponent(jLabel15)
-                .addGap(59, 59, 59))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addComponent(lbHistorico)
+                .addGap(98, 98, 98)
+                .addComponent(lbRecomendados)
+                .addGap(86, 86, 86)
+                .addComponent(lbAreaPremium)
+                .addGap(102, 102, 102)
+                .addComponent(lbCarrinho)
+                .addGap(138, 138, 138)
+                .addComponent(lbPerfil)
+                .addGap(70, 70, 70))
         );
         painel4Layout.setVerticalGroup(
             painel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(painel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12)
+                    .addComponent(lbEmprestimos)
+                    .addComponent(lbCategorias)
                     .addComponent(jLabel13)
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lbPerfil)
+                    .addComponent(lbHistorico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbRecomendados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbAreaPremium, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbCarrinho))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -327,20 +336,21 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lbAdmin;
+    private javax.swing.JLabel lbAreaPremium;
+    private javax.swing.JLabel lbCarrinho;
+    private javax.swing.JLabel lbCategorias;
+    private javax.swing.JLabel lbEmprestimos;
+    private javax.swing.JLabel lbHistorico;
+    private javax.swing.JLabel lbPerfil;
     private javax.swing.JLabel lbPesquisar;
+    private javax.swing.JLabel lbRecomendados;
     private javax.swing.JPanel painel2;
     private javax.swing.JPanel painel3;
     private javax.swing.JPanel painel4;

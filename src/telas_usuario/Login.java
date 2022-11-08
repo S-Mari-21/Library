@@ -246,7 +246,7 @@ public class Login extends javax.swing.JFrame {
         //Ao Clicar em recuperar a senha:
         Recuperar_Senha r = new Recuperar_Senha();
         r.setVisible(true);
-        
+        dispose();
         
     }//GEN-LAST:event_jLabel4MouseClicked
 
@@ -254,7 +254,7 @@ public class Login extends javax.swing.JFrame {
         //Ao clicar em criar novo usuário:
         Cadastro_Usuario cadastrar = new Cadastro_Usuario();
         cadastrar.setVisible(true);
-        
+        dispose();
         
         
     }//GEN-LAST:event_jLabel5MouseClicked
@@ -263,6 +263,7 @@ public class Login extends javax.swing.JFrame {
       // Desconectar o banco de dados
         
         conexao.Desconectar();
+        
     }//GEN-LAST:event_formWindowClosing
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
