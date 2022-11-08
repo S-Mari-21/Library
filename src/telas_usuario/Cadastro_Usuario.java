@@ -3,20 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package telas_usuario;
-
+import classes_basic.Usuario;
+import javax.swing.JOptionPane;
+import classes_banco.Conexao_db;
+import com.mysql.jdbc.Connection;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFormattedTextField;
-import javax.swing.JTextField;
-import javax.swing.text.MaskFormatter;
-
 /**
  *
  * @author maria
  */
 public class Cadastro_Usuario extends javax.swing.JFrame {
-
+    Conexao_db conexao;
+    private Connection con;
     /**
      * Creates new form Cadastro_Usuario
      */
@@ -37,8 +39,6 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         tfNumCelular = new javax.swing.JTextField();
-        pfConfSenha = new javax.swing.JPasswordField();
-        jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         btCadastrar = new javax.swing.JButton();
         pfSenha = new javax.swing.JPasswordField();
@@ -52,9 +52,17 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Novo Cadastro");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -79,16 +87,6 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
                 tfNumCelularActionPerformed(evt);
             }
         });
-
-        pfConfSenha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pfConfSenhaActionPerformed(evt);
-            }
-        });
-
-        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Confirmar a Senha:");
 
         jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
@@ -169,7 +167,6 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel9)
                             .addComponent(jLabel8)
                             .addComponent(jLabel7)
                             .addComponent(jLabel10))
@@ -177,7 +174,6 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(pfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pfConfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(tfDataNascimento, javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,11 +213,7 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pfConfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addComponent(btCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
@@ -239,12 +231,31 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfNumCelularActionPerformed
 
-    private void pfConfSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pfConfSenhaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pfConfSenhaActionPerformed
-
     private void btCadastrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCadastrarMouseClicked
-        // Ao clicar verificar login do usuário entrar no banco:
+        // Ao clicar cadastrar inserir no banco:
+        String nome = String.valueOf(tfNome.getText());
+        String data_nascimento = String.valueOf(tfDataNascimento.getText());
+        String cel = String.valueOf(tfNumCelular.getText());
+        String email = String.valueOf(tfEmail.getText());
+        String senha = String.valueOf(pfSenha.getPassword());
+                
+        Usuario usuario = new Usuario();
+        if (nome.length()>0 && data_nascimento.length()>0 && cel.length()>0 && email.length()>0 && senha.length()>0){
+        
+                try {
+                    usuario.AddUsuario(con, 0, nome, senha, data_nascimento, cel, email, false);
+                    JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Usuário Cadastrado!", 1);
+                
+                } catch (SQLException | ParseException ex) {
+                    Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+        }
+         else {
+           JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos!", "Cadastro inválido!", 2);
+        }
+               
+        
     }//GEN-LAST:event_btCadastrarMouseClicked
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
@@ -274,6 +285,22 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         login.setVisible(true);
         dispose();
     }//GEN-LAST:event_jLabel11MouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // Ao fechar a tela :
+        conexao.Desconectar();
+  
+    }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        //Ao abrir a tela conectar ao banco:
+        conexao = new Conexao_db();
+        try {
+            con = (Connection) conexao.Conectar();
+        } catch (IOException ex) {
+            Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -321,9 +348,7 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField pfConfSenha;
     private javax.swing.JPasswordField pfSenha;
     private javax.swing.JTextField tfDataNascimento;
     private javax.swing.JTextField tfEmail;

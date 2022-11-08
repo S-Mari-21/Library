@@ -51,7 +51,7 @@ public class Recuperar_Senha extends javax.swing.JFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Recuperar Senha");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {

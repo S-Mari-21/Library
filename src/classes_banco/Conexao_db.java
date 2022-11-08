@@ -16,7 +16,7 @@ public class Conexao_db {
     
     private static Connection con = null;
 	
-    public static Connection Conectar() {
+    public static Connection Conectar() throws IOException {
 	if (con == null) {
             try {
 		Properties props = loadProperties();
@@ -41,7 +41,7 @@ public class Conexao_db {
 	}
     }
 	
-    private static Properties loadProperties() {
+    private static Properties loadProperties() throws IOException {
 	try (FileInputStream fs = new FileInputStream("db.properties")) {
             Properties props = new Properties();
             props.load(fs);

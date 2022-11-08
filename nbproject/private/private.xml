@@ -3,16 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_premium/Pagamento.java</file>
-            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_basic/Emprestimo.java</file>
-            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_premium/Usuario_Premium.java</file>
-            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/telas_usuario/Recuperar_Senha.java</file>
-            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_premium/Historico_Financeiro.java</file>
-            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_premium/Livro_Premium.java</file>
-            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_basic/Historico.java</file>
-            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/telas_usuario/Login_User.java</file>
-            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_basic/Usuario.java</file>
-            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/telas_usuario/Login_Admin.java</file>
+            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_banco/DbException.java</file>
+            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/telas_usuario/Login.java</file>
+            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/telas_livro/Principal.java</file>
+            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/telas_usuario/Cadastro_Usuario.java</file>
+            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_banco/Connection.java</file>
+            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_banco/db.properties</file>
+            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_banco/Conexao_db.java</file>
             <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/telas_usuario/Assinatura_Premium.java</file>
         </group>
     </open-files>
