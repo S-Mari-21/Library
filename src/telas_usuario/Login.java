@@ -193,11 +193,9 @@ public class Login extends javax.swing.JFrame {
         if ((tfEmail.getText().length()>0) && (PfSenha.getText().length()>0)){
             try {
                 if( usuario.VerificarLogon(con, email, senha) == true){
-                    // JOptionPane.showMessageDialog(null, "Parabéns!", "Login válido!", 1);
                     
                     Principal principal = new Principal();
                     principal.setVisible(true);
-                    conexao.Desconectar();
                     dispose();
                 }
                 else{
@@ -243,7 +241,7 @@ public class Login extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
       // Desconectar o banco de dados
         
-        conexao.Desconectar();
+       //Conexao_db.Desconectar();
         
     }//GEN-LAST:event_formWindowClosing
 
@@ -251,7 +249,7 @@ public class Login extends javax.swing.JFrame {
         // Ao abrir a tela conectar ao banco
         conexao = new Conexao_db();
         try {
-            con = conexao.Conectar();
+            con = Conexao_db.Conectar();
         } catch (IOException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -5,8 +5,14 @@
         <group>
             <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/telas_usuario/Login.java</file>
             <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/telas_livro/Principal.java</file>
+            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/telas_livro/Perfil_Usuario.java</file>
+            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_premium/Usuario_Premium.java</file>
+            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/telas_usuario/Cadastro_Usuario.java</file>
+            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/telas_livro/Administracao.java</file>
+            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_banco/Conexao_db.java</file>
             <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_basic/Livro.java</file>
             <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_basic/Usuario.java</file>
+            <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/classes_basic/Informacoes.java</file>
             <file>file:/C:/Users/maria/OneDrive/Documentos/NetBeansProjects/Library/src/telas_livro/Cadastro_Livro.java</file>
         </group>
     </open-files>

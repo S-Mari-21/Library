@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package telas_usuario;
 import classes_basic.Usuario;
 import javax.swing.JOptionPane;
@@ -164,6 +160,9 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
                 .addContainerGap(63, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(121, 121, 121))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel6)
@@ -178,13 +177,11 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(tfDataNascimento, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(tfNumCelular, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)))
-                        .addGap(106, 106, 106))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(btCadastrar)
-                        .addGap(26, 26, 26))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(121, 121, 121))))
+                        .addGap(106, 106, 106))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btCadastrar)
+                .addGap(26, 26, 26))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,9 +210,9 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(btCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addGap(78, 78, 78))
         );
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 500, 390));
@@ -239,17 +236,32 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         String email = String.valueOf(tfEmail.getText());
         String senha = String.valueOf(pfSenha.getPassword());
                 
+        
+        
         Usuario usuario = new Usuario();
         if (nome.length()>0 && data_nascimento.length()>0 && cel.length()>0 && email.length()>0 && senha.length()>0){
-        
-                try {
-                    usuario.AddUsuario(con, 0, nome, senha, data_nascimento, cel, email, false);
+         
+            try { 
+                if (usuario.VerificarEmail(con, email) == false){
+                    try {
+                        usuario.AddUsuario(con, 0, nome, senha, data_nascimento, cel, email, false, false);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Usuário Cadastrado!", 1);
-                
-                } catch (SQLException | ParseException ex) {
-                    Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
+                    
+                    //Limpando os campos:
+                    tfDataNascimento.setText("");
+                    tfEmail.setText("");
+                    tfNome.setText("");
+                    tfNumCelular.setText("");
+                    pfSenha.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(null, "O e-mail informado já está cadastrado no sistema!", "Erro!", 2);
                 }
-
+            } catch (SQLException ex) {
+                Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
          else {
            JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos!", "Cadastro inválido!", 2);
@@ -288,7 +300,7 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela :
-        conexao.Desconectar();
+        Conexao_db.Desconectar();
         Login l = new Login();
         l.setVisible(true);
   
@@ -298,7 +310,7 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         //Ao abrir a tela conectar ao banco:
         conexao = new Conexao_db();
         try {
-            con = (Connection) conexao.Conectar();
+            con = (Connection) Conexao_db.Conectar();
         } catch (IOException ex) {
             Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
         }

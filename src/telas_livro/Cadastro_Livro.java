@@ -1,5 +1,6 @@
 package telas_livro;
 import classes_banco.Conexao_db;
+import classes_basic.Informacoes;
 import classes_basic.Livro;
 import java.awt.Graphics2D;
 import com.mysql.jdbc.Connection;
@@ -15,6 +16,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
@@ -119,6 +121,11 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         lbExcluir.setForeground(new java.awt.Color(255, 255, 255));
         lbExcluir.setText("Excluir");
         lbExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbExcluir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbExcluirMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -418,8 +425,20 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         String autor = String.valueOf(tfAutor.getText());
         String data_lancamento = String.valueOf(tfDataLancamento.getText());
         String descricao = String.valueOf(tfDescricao.getText());
+        Integer qtd = Integer.parseInt(Quantidade.getText());
         
-       
+        Boolean epremium = false;
+        
+        if (rbBasico.isSelected()){
+             epremium = false;
+        } else if (rbPremium.isSelected()){
+            epremium = true;
+        } else {
+            System.out.println("Erro ao selecionar o se é premium!");
+        }
+        
+        
+        
         
         Livro livro = new Livro();
         
@@ -427,7 +446,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
 
             try {
                 if (livro.Verificar(con, titulo) == false){
-                    //livro.AddLivro(con, 0, titulo, descricao, data_lancamento, autor, capa, MAXIMIZED_BOTH, HAND_CURSOR, SOMEBITS);
+               // livro.AddLivro(con, 0, titulo, descricao, data_lancamento, autor, getCapa() , qtd, 0, epremium);
                     principal.PreencherTabela(sql);
                 }
             } catch (SQLException ex) {
@@ -470,7 +489,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
     private void btInserirCapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInserirCapaActionPerformed
         //Ao clicar em capa:
         imagem = selecionarImagem();   
-        
+        abrirImagem(imagem);
         
     }//GEN-LAST:event_btInserirCapaActionPerformed
 
@@ -481,6 +500,27 @@ public class Cadastro_Livro extends javax.swing.JFrame {
     private void rbPremiumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPremiumActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rbPremiumActionPerformed
+
+    private void lbExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbExcluirMouseClicked
+        // Ao clicar em excluir livro:
+        Livro livro = new Livro();
+        Integer id = Integer.parseInt(Informacoes.id_livro);
+        
+        Object[] options = { "Sim", "Não" };
+        int opcao = JOptionPane.showOptionDialog(null, "Tem certeza que deseja excluir a sua conta?", "Excluir minha conta", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+               
+        if(opcao == 0){
+         
+            try {
+                livro.DelLivro(con, id);
+            } catch (SQLException ex) {
+                Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                JOptionPane.showMessageDialog(null, "O livro foi excluído com sucesso!", "Livro Excluído!", 1);
+                       
+  
+        } 
+    }//GEN-LAST:event_lbExcluirMouseClicked
     public File selecionarImagem(){
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Images em JPEG e PNG", "jpg","png");
@@ -496,8 +536,6 @@ public class Cadastro_Livro extends javax.swing.JFrame {
     
     private byte[] getCapa() throws IOException{
         boolean isPng = false;
-        
-       
         
         if (imagem != null){
             isPng = imagem.getName().endsWith("png");
@@ -531,6 +569,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         }
         return null;
     }
+    
     private void abrirImagem(Object source){
 	if(source instanceof File){
 		ImageIcon icon = new ImageIcon(imagem.getAbsolutePath());
@@ -538,10 +577,10 @@ public class Cadastro_Livro extends javax.swing.JFrame {
 		lbcapa.setIcon(icon);
 		
 		
-//	} else if (source instanceof byte[] ){
-//		ImageIcon icon = new ImageIcon(livro.getImagem());
-//		icon.setImage(icon.getImage().getScaledInstance(capa.getWidth() -5, capa.getHeight() -10, 100));
-//		lbcapa.setIcon(icon);
+	} else if (source instanceof byte []){
+		ImageIcon icon = new ImageIcon(btInserirCapa.getText());
+		icon.setImage(icon.getImage().getScaledInstance(capa.getWidth() -5, capa.getHeight() -10, 100));
+		lbcapa.setIcon(icon);
 	}
 }
     /*

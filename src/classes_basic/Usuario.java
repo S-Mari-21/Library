@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
  */
 public class Usuario {
         public boolean VerificarLogon(Connection con , String Email, String Senha) throws SQLException{
-        String sql = "select eAdmin,id_usuario from usuario where email = ? and senha = ? ";
+        String sql = "select eAdmin,id_usuario, ePremium from usuario where email = ? and senha = ? ";
         PreparedStatement stmt = con.prepareStatement(sql);
         stmt.setString(1, Email);
         stmt.setString(2, Senha);
@@ -21,6 +21,7 @@ public class Usuario {
         if (rs.next()){
             Informacoes.eAdmin = rs.getString("eAdmin");
             Informacoes.id_usuario = rs.getString("id_usuario");
+            Informacoes.ePremium = rs.getString("ePremium");
             rs.close();
             stmt.close();
             return true;
@@ -50,13 +51,31 @@ public class Usuario {
             return false;
         }
         
-        
-    }   
+      }
+       
+      public boolean VerificarEmail(Connection con , String Email) throws SQLException{
+        String sql = "select * from usuario where email = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, Email);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()){
+            rs.close();
+            stmt.close();
+            return true;
+        }
+        else {
+            rs.close();
+            stmt.close();
+            return false;
+        }
+          
+      }
+           
     
     
        
-    public void AddUsuario(Connection con, Integer Id_Usuario, String Nome,String Senha, String Data_Nascimento, String Num_Celular, String Email, Boolean Admin) throws SQLException, ParseException{
-        String sql = "INSERT INTO usuario (id_usuario, nome, senha, data_nascimento, num_celular, email, eAdmin) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public void AddUsuario(Connection con, Integer Id_Usuario, String Nome,String Senha, String Data_Nascimento, String Num_Celular, String Email, Boolean Admin, Boolean EPremium) throws SQLException, ParseException{
+        String sql = "INSERT INTO usuario (id_usuario, nome, senha, data_nascimento, num_celular, email, eAdmin, ePremium) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = con.prepareStatement(sql); //Este Statement é quem permite executar esta isntrução no sql
         stmt.setInt(1, Id_Usuario);
         stmt.setString(2, Nome);
@@ -72,6 +91,7 @@ public class Usuario {
         stmt.setString(6, Email);
         
         stmt.setBoolean(7, Admin);
+        stmt.setBoolean(8, EPremium);
         
         
         stmt.executeUpdate();
@@ -79,8 +99,8 @@ public class Usuario {
            
        }
     
-    public void AltUsuario(Connection con, Integer Id_Usuario, String Nome,String Senha, String Data_Nascimento, String Num_Celular, String Email, Boolean Admin) throws SQLException, ParseException{
-        String sql = "UPDATE usuario SET nome = ?, senha = ?, num_celular = ?,  email = ?, eAdmin = ? WHERE id_usuario = ?";
+    public void AltUsuario(Connection con, Integer Id_Usuario, String Nome,String Senha, String Data_Nascimento, String Num_Celular, String Email, Boolean Admin, Boolean EPremium) throws SQLException, ParseException{
+        String sql = "UPDATE usuario SET nome = ?, senha = ?, num_celular = ?,  email = ?, eAdmin = ?, ePremium = ? WHERE id_usuario = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         
         stmt.setInt(1, Id_Usuario);
@@ -97,6 +117,7 @@ public class Usuario {
         stmt.setString(6, Email);
         
         stmt.setBoolean(7, Admin);
+        stmt.setBoolean(8, EPremium);
         
         
         stmt.executeUpdate();
@@ -116,7 +137,7 @@ public class Usuario {
     
     
     public void DelUsuario(Connection con, Integer Id_Usuario) throws SQLException{
-        String sql = "DELETE FROM usuario WHERE Id = ?";
+        String sql = "Delete from usuario where id_usuario = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         stmt.setInt(1,Id_Usuario);
                 

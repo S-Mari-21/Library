@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package telas_livro;
 import classes_banco.Conexao_db;
 import classes_basic.Informacoes;
+import classes_basic.Livro;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -23,6 +20,7 @@ public class Principal extends javax.swing.JFrame {
     private Connection con;
     
     String sql = "select titulo,nome_autor,descricao,capa from livro order by titulo";
+    String sqlPesquisa = "select titulo,nome_autor,descricao,capa from livro where titulo = ? or nome_autor = ? order by titulo";
     /**
      * Creates new form Catalogo
      */
@@ -140,6 +138,11 @@ public class Principal extends javax.swing.JFrame {
         lbPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/lupa.png"))); // NOI18N
         lbPesquisar.setText("  ");
         lbPesquisar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbPesquisarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout painel2Layout = new javax.swing.GroupLayout(painel2);
         painel2.setLayout(painel2Layout);
@@ -307,26 +310,31 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // Ao abrir a tela principal exibir os livros e se for administrador a opção para as ferramentas do admin:
-        Integer eAdmin = Integer.parseInt(Informacoes.eAdmin);
-        
-        conexao = new Conexao_db();
-        try {
-            con = (Connection) conexao.Conectar();
+        try {                                  
+            // Ao abrir a tela principal exibir os livros e se for administrador a opção para as ferramentas do admin:
+            Integer eAdmin = Integer.parseInt(Informacoes.eAdmin);
+            
+            conexao = new Conexao_db();
+            
             try {
-                PreencherTabela(sql);
-            } catch (SQLException ex) {
+                con = (Connection) Conexao_db.Conectar();
+            } catch (IOException ex) {
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (IOException ex) {
+            PreencherTabela(sql);
+            
+            
+            System.out.println(eAdmin);
+            if(eAdmin == 1){
+                lbAdmin.setText("Administrador");
+            } else {
+                lbAdmin.setText("");
+            }
+            
+            
+            
+        } catch (SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println(eAdmin);
-        if(eAdmin == 1){
-            lbAdmin.setText("Administrador");
-        } else {
-              lbAdmin.setText("");
-    
         }
         
         
@@ -335,8 +343,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        conexao.Desconectar();
-        dispose();
+        Conexao_db.Desconectar();
+  
     }//GEN-LAST:event_formWindowClosing
 
     private void lbAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAdminMouseClicked
@@ -402,6 +410,25 @@ public class Principal extends javax.swing.JFrame {
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tabelaMouseClicked
+
+    private void lbPesquisarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPesquisarMouseClicked
+        try {
+            // Ao clicar na lupa:
+            String pesquisa = String.valueOf(tfPesquisa.getText());
+            
+            
+            if (pesquisa.length()>0){
+                PreencherTabela(sqlPesquisa);
+                
+            } else {
+                JOptionPane.showMessageDialog(null, "O campo de pesquisa precisa ser preenchido!", "Erro!", 2);
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_lbPesquisarMouseClicked
 
     /**
      * @param args the command line arguments
