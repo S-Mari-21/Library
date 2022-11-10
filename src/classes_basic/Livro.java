@@ -5,15 +5,38 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+import classes_banco.Conexao_db;
+import java.io.File;
+import java.sql.Blob;
+import java.sql.ResultSet;
 /**
  *
  * @author maria
  */
 public class Livro {
+    Connection conexao;
+    private Conexao_db con;
+
+    public boolean Verificar(Connection con,  String Titulo) throws SQLException{
+        String sql = "select * from livro where titulo = ? ";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, Titulo);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()){
+            rs.close();
+            stmt.close();
+            return true;
+        }
+        else {
+            rs.close();
+            stmt.close();
+            return false;
+        }
+    }
+  
     
-    public void AddLivro(Connection con, Integer Id_Livro, String Titulo, String Descricao, String Ano_Lancamento, String Nome_Autor, Byte Capa, Integer Quantidade_Total, Integer Quantidade_Emprestados, Integer EPremium) throws SQLException, ParseException{
-        String sql = "insert into medico (crm, nome, cpf, email, numcelular, datanascimento, senha) values (?, ?, ?, ?, ?, ?, ?)";
+    public void AddLivro(Connection con, Integer Id_Livro, String Titulo, String Descricao, String Ano_Lancamento, String Nome_Autor, Byte  Capa, Integer Quantidade_Total, Integer Quantidade_Emprestados, Integer EPremium) throws SQLException, ParseException{
+        String sql = "insert into livro (id_livro, titulo, descricao, data_lancamento, nome_autor, quantidade, quantidade_emprestados, epremium) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = con.prepareStatement(sql); //Este Statement é quem permite executar esta isntrução no sql
         stmt.setInt(1, Id_Livro);
         stmt.setString(2, Titulo);
@@ -38,8 +61,9 @@ public class Livro {
            
        }
     
-    public void AltLivro(Connection con, Integer Id_Livro, String Titulo, String Descricao, String Ano_Lancamento, String Nome_Autor, Byte Capa, Integer Quantidade_Total, Integer Quantidade_Emprestados, Integer EPremium) throws SQLException, ParseException{
-        String sql = "update medico set nome = ?, cpf = ?, email = ?, numcelular = ?, datanascimento = ?, senha = ? where crm = ?";
+    
+     public void AltLivro(Connection con, Integer Id_Livro, String Titulo, String Descricao, String Ano_Lancamento, String Nome_Autor, Byte Capa, Integer Quantidade_Total, Integer Quantidade_Emprestados, Integer EPremium) throws SQLException, ParseException{
+        String sql = "update livro set titulo = ?, descricao = ?, data_lancamento = ?, nome_autor = ?, quantidade = ?, quantidade_emprestados = ?, epremium = ? where id_livro = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         
 
@@ -66,7 +90,7 @@ public class Livro {
     }
        
     public void DelLivro(Connection con, Integer Id_Livro) throws SQLException{
-        String sql = "delete from medico where crm = ?";
+        String sql = "delete from livro where id_livro = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         stmt.setInt(1, Id_Livro);
                 
@@ -78,4 +102,6 @@ public class Livro {
     public Integer LivrosDisponiveis(Integer quantidade_total, Integer quantidade_emprestados){
         return quantidade_total-quantidade_emprestados;
     }
+    
+
 }

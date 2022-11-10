@@ -71,6 +71,7 @@ public class Splash extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -119,9 +120,9 @@ public class Splash extends javax.swing.JFrame {
         getContentPane().add(lbCarregando, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/livros.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 320));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 450, 330));
 
-        setSize(new java.awt.Dimension(457, 360));
+        setSize(new java.awt.Dimension(441, 321));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

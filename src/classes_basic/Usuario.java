@@ -13,13 +13,14 @@ import java.text.SimpleDateFormat;
  */
 public class Usuario {
         public boolean VerificarLogon(Connection con , String Email, String Senha) throws SQLException{
-        String sql = "select eAdmin from usuario where email = ? and senha = ? ";
+        String sql = "select eAdmin,id_usuario from usuario where email = ? and senha = ? ";
         PreparedStatement stmt = con.prepareStatement(sql);
         stmt.setString(1, Email);
         stmt.setString(2, Senha);
         ResultSet rs = stmt.executeQuery();
         if (rs.next()){
             Informacoes.eAdmin = rs.getString("eAdmin");
+            Informacoes.id_usuario = rs.getString("id_usuario");
             rs.close();
             stmt.close();
             return true;
@@ -48,8 +49,12 @@ public class Usuario {
             stmt.close();
             return false;
         }
-    }   
         
+        
+    }   
+    
+    
+       
     public void AddUsuario(Connection con, Integer Id_Usuario, String Nome,String Senha, String Data_Nascimento, String Num_Celular, String Email, Boolean Admin) throws SQLException, ParseException{
         String sql = "INSERT INTO usuario (id_usuario, nome, senha, data_nascimento, num_celular, email, eAdmin) VALUES (?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = con.prepareStatement(sql); //Este Statement é quem permite executar esta isntrução no sql

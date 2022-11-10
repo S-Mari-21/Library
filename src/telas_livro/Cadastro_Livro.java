@@ -1,15 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package telas_livro;
-
+import classes_banco.Conexao_db;
+import classes_basic.Livro;
+import java.awt.Graphics2D;
+import com.mysql.jdbc.Connection;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import classes_basic.Livro;
+import java.awt.AlphaComposite;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
  * @author maria
  */
 public class Cadastro_Livro extends javax.swing.JFrame {
-
+    Conexao_db conexao;
+    private Connection con;
+    File imagem;
+    
+    String sql = "select titulo,nome_autor,descricao,capa from livro order by titulo";
+    Principal principal = new Principal();
     /**
      * Creates new form Cadastro_Livro
      */
@@ -26,23 +43,508 @@ public class Cadastro_Livro extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        Tipo = new javax.swing.ButtonGroup();
+        jPanel2 = new javax.swing.JPanel();
+        lbCadastrar = new javax.swing.JLabel();
+        lbAlterar = new javax.swing.JLabel();
+        lbRedefinir = new javax.swing.JLabel();
+        lbExcluir = new javax.swing.JLabel();
+        transparencia = new javax.swing.JPanel();
+        tfTitulo = new javax.swing.JTextField();
+        tfDataLancamento = new javax.swing.JTextField();
+        tfAutor = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        capa = new javax.swing.JPanel();
+        lbcapa = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tfDescricao = new javax.swing.JTextArea();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabela = new javax.swing.JTable();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        cbCategoria = new javax.swing.JComboBox<>();
+        cbEditora = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        btInserirCapa = new javax.swing.JButton();
+        Quantidade = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        rbBasico = new javax.swing.JRadioButton();
+        rbPremium = new javax.swing.JRadioButton();
+        jLabel1 = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 678, Short.MAX_VALUE)
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gerenciar Livros");
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
+
+        lbCadastrar.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbCadastrar.setForeground(new java.awt.Color(255, 255, 255));
+        lbCadastrar.setText("Cadastrar");
+        lbCadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbCadastrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbCadastrarMouseClicked(evt);
+            }
+        });
+
+        lbAlterar.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbAlterar.setForeground(new java.awt.Color(255, 255, 255));
+        lbAlterar.setText("Alterar");
+        lbAlterar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        lbRedefinir.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbRedefinir.setForeground(new java.awt.Color(255, 255, 255));
+        lbRedefinir.setText("Redefinir");
+        lbRedefinir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        lbExcluir.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbExcluir.setForeground(new java.awt.Color(255, 255, 255));
+        lbExcluir.setText("Excluir");
+        lbExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbCadastrar)
+                .addGap(18, 18, 18)
+                .addComponent(lbAlterar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addComponent(lbRedefinir)
+                .addGap(18, 18, 18)
+                .addComponent(lbExcluir)
+                .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 460, Short.MAX_VALUE)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbCadastrar)
+                    .addComponent(lbAlterar)
+                    .addComponent(lbRedefinir)
+                    .addComponent(lbExcluir))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, -1));
+
+        transparencia.setBackground(new java.awt.Color(0, 0, 0, 80));
+        transparencia.setForeground(new java.awt.Color(255, 255, 255));
+
+        tfTitulo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfTituloActionPerformed(evt);
+            }
+        });
+
+        tfDataLancamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfDataLancamentoActionPerformed(evt);
+            }
+        });
+
+        tfAutor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfAutorActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Editora:");
+
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Descrição:");
+
+        capa.setBackground(new java.awt.Color(255, 255, 255));
+        capa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        javax.swing.GroupLayout capaLayout = new javax.swing.GroupLayout(capa);
+        capa.setLayout(capaLayout);
+        capaLayout.setHorizontalGroup(
+            capaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lbcapa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+        );
+        capaLayout.setVerticalGroup(
+            capaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lbcapa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Quantidade total:");
+
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Categoria:");
+
+        tfDescricao.setColumns(20);
+        tfDescricao.setRows(5);
+        jScrollPane2.setViewportView(tfDescricao);
+
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Título", "Descrição", "Capa"
+            }
+        ));
+        jScrollPane1.setViewportView(tabela);
+        if (tabela.getColumnModel().getColumnCount() > 0) {
+            tabela.getColumnModel().getColumn(0).setResizable(false);
+            tabela.getColumnModel().getColumn(1).setResizable(false);
+            tabela.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Data de Lancamento:");
+
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Livros Cadastrados");
+
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Autor:");
+
+        cbCategoria.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        cbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCategoria.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cbCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbCategoriaActionPerformed(evt);
+            }
+        });
+
+        cbEditora.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        cbEditora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbEditora.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Título:");
+
+        btInserirCapa.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        btInserirCapa.setText("Inserir Capa");
+        btInserirCapa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btInserirCapaActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Tipo:");
+
+        Tipo.add(rbBasico);
+        rbBasico.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        rbBasico.setForeground(new java.awt.Color(255, 255, 255));
+        rbBasico.setSelected(true);
+        rbBasico.setText("Básico");
+        rbBasico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbBasicoActionPerformed(evt);
+            }
+        });
+
+        Tipo.add(rbPremium);
+        rbPremium.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        rbPremium.setForeground(new java.awt.Color(255, 255, 255));
+        rbPremium.setText("Premium");
+        rbPremium.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbPremiumActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout transparenciaLayout = new javax.swing.GroupLayout(transparencia);
+        transparencia.setLayout(transparenciaLayout);
+        transparenciaLayout.setHorizontalGroup(
+            transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(transparenciaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(transparenciaLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(29, 29, 29)
+                        .addComponent(tfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(transparenciaLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(29, 29, 29)
+                        .addComponent(tfAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(transparenciaLayout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfDataLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel8)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(transparenciaLayout.createSequentialGroup()
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(20, 20, 20)
+                            .addComponent(cbEditora, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(transparenciaLayout.createSequentialGroup()
+                            .addComponent(jLabel10)
+                            .addGap(5, 5, 5)
+                            .addComponent(cbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btInserirCapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(transparenciaLayout.createSequentialGroup()
+                            .addComponent(jLabel7)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(transparenciaLayout.createSequentialGroup()
+                            .addComponent(rbBasico)
+                            .addGap(18, 18, 18)
+                            .addComponent(rbPremium)))
+                    .addComponent(jLabel11))
+                .addGap(31, 31, 31)
+                .addComponent(capa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addComponent(jScrollPane1)
+            .addGroup(transparenciaLayout.createSequentialGroup()
+                .addGap(342, 342, 342)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        transparenciaLayout.setVerticalGroup(
+            transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(transparenciaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(transparenciaLayout.createSequentialGroup()
+                        .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(transparenciaLayout.createSequentialGroup()
+                                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(tfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(10, 10, 10)
+                                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(tfAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(10, 10, 10)
+                                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(tfDataLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(transparenciaLayout.createSequentialGroup()
+                                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(cbEditora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(9, 9, 9)
+                                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(cbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(8, 8, 8)
+                                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(Quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel8)
+                        .addGap(4, 4, 4)
+                        .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(transparenciaLayout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(rbBasico)
+                                    .addComponent(rbPremium))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btInserirCapa))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(capa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        getContentPane().add(transparencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 860, 480));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/cadastrar_livros.jpg"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 950, 550));
+
+        setSize(new java.awt.Dimension(967, 588));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
+    private void tfTituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTituloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfTituloActionPerformed
+
+    private void tfAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfAutorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfAutorActionPerformed
+
+    private void tfDataLancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfDataLancamentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfDataLancamentoActionPerformed
+
+    private void cbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCategoriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbCategoriaActionPerformed
+
+    private void lbCadastrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbCadastrarMouseClicked
+        // Ao clicar em cadastrar:
+        
+        String titulo = String.valueOf(tfTitulo.getText());
+        String autor = String.valueOf(tfAutor.getText());
+        String data_lancamento = String.valueOf(tfDataLancamento.getText());
+        String descricao = String.valueOf(tfDescricao.getText());
+        
+       
+        
+        Livro livro = new Livro();
+        
+        if(titulo.length()>0 && autor.length()>0 && data_lancamento.length()>0 && descricao.length()>0){
+
+            try {
+                if (livro.Verificar(con, titulo) == false){
+                    //livro.AddLivro(con, 0, titulo, descricao, data_lancamento, autor, capa, MAXIMIZED_BOTH, HAND_CURSOR, SOMEBITS);
+                    principal.PreencherTabela(sql);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+ 
+        }
+        else {
+            
+        }
+        
+    }//GEN-LAST:event_lbCadastrarMouseClicked
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        //Ao abrir a tela:
+        conexao = new Conexao_db();
+        try {
+            con = (Connection) conexao.Conectar();
+            Principal principal = new Principal();
+            try {
+                principal.PreencherTabela(sql);
+            } catch (SQLException ex) {
+                Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // Ao fechar a tela:
+        conexao.Desconectar();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void btInserirCapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInserirCapaActionPerformed
+        //Ao clicar em capa:
+        imagem = selecionarImagem();   
+        
+        
+    }//GEN-LAST:event_btInserirCapaActionPerformed
+
+    private void rbBasicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbBasicoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbBasicoActionPerformed
+
+    private void rbPremiumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPremiumActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbPremiumActionPerformed
+    public File selecionarImagem(){
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Images em JPEG e PNG", "jpg","png");
+        fileChooser.addChoosableFileFilter(filtro);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
+        fileChooser.setCurrentDirectory(new File("c:"));
+        fileChooser.showOpenDialog(this);
+
+        return fileChooser.getSelectedFile();
+    }  
+
+    
+    private byte[] getCapa() throws IOException{
+        boolean isPng = false;
+        
+       
+        
+        if (imagem != null){
+            isPng = imagem.getName().endsWith("png");
+
+            BufferedImage image = ImageIO.read(imagem);
+            
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            int type = BufferedImage.TYPE_INT_RGB;
+
+            if (isPng){
+                type = BufferedImage.BITMASK;
+
+            }
+            //Redmensionando a imagem:
+            BufferedImage novaImagem = new BufferedImage(capa.getWidth() - 5, capa.getHeight() - 10, type);
+            Graphics2D g = novaImagem.createGraphics();
+            g.setComposite(AlphaComposite.Src);
+            g.drawImage(image, 0,0, capa.getWidth() -5,  capa.getHeight() -10, null);
+
+            if(isPng){
+                ImageIO.write(novaImagem, "png", out);
+            }else {
+                ImageIO.write(novaImagem, "jpg", out);
+            }
+
+            out.flush();
+            byte[] byteArray = out.toByteArray();
+            out.close();
+            return byteArray;
+
+        }
+        return null;
+    }
+    private void abrirImagem(Object source){
+	if(source instanceof File){
+		ImageIcon icon = new ImageIcon(imagem.getAbsolutePath());
+		icon.setImage(icon.getImage().getScaledInstance(capa.getWidth() -5, capa.getHeight() -10, 100));
+		lbcapa.setIcon(icon);
+		
+		
+//	} else if (source instanceof byte[] ){
+//		ImageIcon icon = new ImageIcon(livro.getImagem());
+//		icon.setImage(icon.getImage().getScaledInstance(capa.getWidth() -5, capa.getHeight() -10, 100));
+//		lbcapa.setIcon(icon);
+	}
+}
+    /*
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -78,5 +580,37 @@ public class Cadastro_Livro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Quantidade;
+    private javax.swing.ButtonGroup Tipo;
+    private javax.swing.JButton btInserirCapa;
+    private javax.swing.JPanel capa;
+    private javax.swing.JComboBox<String> cbCategoria;
+    private javax.swing.JComboBox<String> cbEditora;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbAlterar;
+    private javax.swing.JLabel lbCadastrar;
+    private javax.swing.JLabel lbExcluir;
+    private javax.swing.JLabel lbRedefinir;
+    private javax.swing.JLabel lbcapa;
+    private javax.swing.JRadioButton rbBasico;
+    private javax.swing.JRadioButton rbPremium;
+    private javax.swing.JTable tabela;
+    private javax.swing.JTextField tfAutor;
+    private javax.swing.JTextField tfDataLancamento;
+    private javax.swing.JTextArea tfDescricao;
+    private javax.swing.JTextField tfTitulo;
+    private javax.swing.JPanel transparencia;
     // End of variables declaration//GEN-END:variables
 }

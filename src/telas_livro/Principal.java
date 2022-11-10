@@ -7,9 +7,13 @@ import classes_banco.Conexao_db;
 import classes_basic.Informacoes;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author maria
@@ -17,6 +21,8 @@ import javax.swing.JOptionPane;
 public class Principal extends javax.swing.JFrame {
     Conexao_db conexao;
     private Connection con;
+    
+    String sql = "select titulo,nome_autor,descricao,capa from livro order by titulo";
     /**
      * Creates new form Catalogo
      */
@@ -44,6 +50,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lbPesquisar = new javax.swing.JLabel();
         lbAdmin = new javax.swing.JLabel();
+        tabela = new javax.swing.JTable();
         painel4 = new javax.swing.JPanel();
         lbEmprestimos = new javax.swing.JLabel();
         lbCategorias = new javax.swing.JLabel();
@@ -118,7 +125,7 @@ public class Principal extends javax.swing.JFrame {
                         .addContainerGap())))
         );
 
-        getContentPane().add(painel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 650, 1410, 50));
+        getContentPane().add(painel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 650, 1410, 60));
 
         painel2.setBackground(new java.awt.Color(0, 0, 0, 80));
 
@@ -170,12 +177,40 @@ public class Principal extends javax.swing.JFrame {
         });
         getContentPane().add(lbAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 0, 100, 30));
 
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Título", "Autor", "Descrição", "Imagem"
+            }
+        ));
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
+        getContentPane().add(tabela, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, 1180, 350));
+        if (tabela.getColumnModel().getColumnCount() > 0) {
+            tabela.getColumnModel().getColumn(0).setResizable(false);
+            tabela.getColumnModel().getColumn(2).setResizable(false);
+            tabela.getColumnModel().getColumn(3).setResizable(false);
+        }
+
         painel4.setBackground(new java.awt.Color(0, 0, 0));
 
         lbEmprestimos.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lbEmprestimos.setForeground(new java.awt.Color(255, 255, 255));
         lbEmprestimos.setText("EMPRESTIMOS");
         lbEmprestimos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbEmprestimos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbEmprestimosMouseClicked(evt);
+            }
+        });
 
         lbCategorias.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lbCategorias.setForeground(new java.awt.Color(255, 255, 255));
@@ -191,6 +226,11 @@ public class Principal extends javax.swing.JFrame {
         lbPerfil.setForeground(new java.awt.Color(255, 255, 255));
         lbPerfil.setText("PERFIL");
         lbPerfil.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbPerfil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbPerfilMouseClicked(evt);
+            }
+        });
 
         lbRecomendados.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lbRecomendados.setForeground(new java.awt.Color(255, 255, 255));
@@ -201,11 +241,21 @@ public class Principal extends javax.swing.JFrame {
         lbAreaPremium.setForeground(new java.awt.Color(255, 255, 255));
         lbAreaPremium.setText("ÁREA PREMIUM");
         lbAreaPremium.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbAreaPremium.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbAreaPremiumMouseClicked(evt);
+            }
+        });
 
         lbCarrinho.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lbCarrinho.setForeground(new java.awt.Color(255, 255, 255));
         lbCarrinho.setText("CARRINHO");
         lbCarrinho.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbCarrinho.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbCarrinhoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout painel4Layout = new javax.swing.GroupLayout(painel4);
         painel4.setLayout(painel4Layout);
@@ -263,6 +313,11 @@ public class Principal extends javax.swing.JFrame {
         conexao = new Conexao_db();
         try {
             con = (Connection) conexao.Conectar();
+            try {
+                PreencherTabela(sql);
+            } catch (SQLException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -297,6 +352,56 @@ public class Principal extends javax.swing.JFrame {
     
         }
     }//GEN-LAST:event_lbAdminMouseClicked
+
+    private void lbCarrinhoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbCarrinhoMouseClicked
+        // Ao clicar em Carrinho:
+        Carrinho carrinho = new Carrinho();
+        carrinho.setVisible(true);
+    }//GEN-LAST:event_lbCarrinhoMouseClicked
+
+    private void lbPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPerfilMouseClicked
+        // Ao clicar em Perfil:
+        Perfil_Usuario perfil = new Perfil_Usuario();
+        perfil.setVisible(true);
+    }//GEN-LAST:event_lbPerfilMouseClicked
+
+    private void lbEmprestimosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbEmprestimosMouseClicked
+        // Ao clicar em emprestimos:
+        Emprestimo emprestimo = new Emprestimo();
+        emprestimo.setVisible(true);
+    }//GEN-LAST:event_lbEmprestimosMouseClicked
+    public void PreencherTabela(String sql) throws SQLException{ 
+       PreparedStatement stmt = con.prepareStatement(sql);
+       ResultSet rs = stmt.executeQuery(); //Resultado do banco de dados
+      
+       //Gravando as informações da tabela no banco de dados
+       DefaultTableModel modelo = (DefaultTableModel)tabela.getModel();
+       modelo.setNumRows(0);
+       
+//       //Formatando a data
+//       DateFormat data = new SimpleDateFormat("dd/MM/yyyy");
+       while(rs.next()) {
+          modelo.addRow(new Object[]
+          {
+              rs.getInt("titulo"),
+              rs.getString("descricao"),
+              rs.getString("nome_autor"),
+              rs.getString("capa"),
+          });
+       
+     } //Fim while
+      rs.close();
+      stmt.close();
+    }
+    private void lbAreaPremiumMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAreaPremiumMouseClicked
+        //Ao clicar em área premium:
+        //1º Verificar se já é usuário premium:
+        
+    }//GEN-LAST:event_lbAreaPremiumMouseClicked
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabelaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -354,6 +459,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel painel2;
     private javax.swing.JPanel painel3;
     private javax.swing.JPanel painel4;
+    private javax.swing.JTable tabela;
     private javax.swing.JTextField tfPesquisa;
     // End of variables declaration//GEN-END:variables
 }
