@@ -1,0 +1,174 @@
+create database library;
+use library;
+
+-- Criação das tabelas:
+create table usuario (
+	id_usuario int(4) auto_increment,
+	nome varchar(35) not null,
+	senha varchar(20) not null,
+	data_nascimento varchar(10) not null,
+	num_celular int(12) not null,
+	email varchar(30) not null,
+	eAdmin boolean not null,
+    ePremium boolean not null,
+
+	primary key(id_usuario)
+);
+
+create table usuario_premium (
+	id_usuario int not null,
+	logradouro varchar(50) null,
+	num_local int(6) null,
+	bairro varchar(30) null,
+	cidade varchar(30) null,
+	uf varchar(4) null,
+	cep varchar(8) null,
+	cpf varchar(11) null,
+	
+	primary key (id_usuario),
+	FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario)
+);
+
+create table categoria(
+	id_categoria int(4) auto_increment,
+    nome_categoria varchar(20) not null,
+    
+    primary key(id_categoria)
+);
+
+create table editora(
+	id_editora int(4) auto_increment,
+	nome_editora varchar(30) not null,
+	ano_fundacao varchar(4) not null,
+	descricao varchar(2000) not null,
+
+	primary key(id_editora)
+);
+
+create table livro (
+	id_livro int(4) auto_increment,
+	id_editora int not null,
+    id_categoria int not null,
+	titulo varchar(50) not null,
+	descricao varchar(2000) not null,
+	data_lancamento varchar(8) not null,
+	nome_autor varchar(30) not null,
+	capa longblob,
+	quantidade int(50) not null,
+	quantidade_emprestados int(50) not null,
+	epremium boolean not null,
+
+	primary key(id_livro),
+	FOREIGN KEY (id_editora) REFERENCES editora (id_editora),
+    FOREIGN KEY (id_categoria) REFERENCES categoria (id_categoria)
+);
+
+create table livro_premium (
+	id_livro int not null,
+	valor_venda decimal(10,2) not null,
+	valor_aluguel decimal(10,2) not null,
+
+	primary key(id_livro),
+	FOREIGN KEY (id_livro) REFERENCES livro (id_livro)
+);
+
+create table emprestimo (
+	id_emprestimo int(4) auto_increment,
+	data_emprestimo varchar(8) not null,
+	data_devolucao varchar(8) null,
+	multa decimal(10,2) null,
+	situacao varchar(50) not null,
+
+	primary key(id_emprestimo)
+);
+
+create table transacao (
+	codigo_transacao int(4) auto_increment,
+	valor decimal(10,2) not null,
+	data_transacao varchar(8) not null,
+	descricao varchar(250) not null,
+	id_livro int not null,
+
+	primary key(codigo_transacao),
+	FOREIGN KEY (id_livro) REFERENCES livro (id_livro)
+);
+
+create table historico (
+	id_historico int(4) auto_increment,
+	id_usuario int not null,		
+	id_livro int not null,			
+	id_editora int not null,
+	id_emprestimo int not null,
+	codigo_transacao int not null,
+			
+	primary key(id_historico),
+	FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario),
+	FOREIGN KEY (id_livro) REFERENCES livro (id_livro),
+	FOREIGN KEY (id_editora) REFERENCES editora (id_editora),
+	FOREIGN KEY (id_emprestimo) REFERENCES emprestimo (id_emprestimo),
+	FOREIGN KEY (codigo_transacao) REFERENCES transacao (codigo_transacao)
+);
+
+
+-- Inserindo Alguns dados nas tabelas:
+insert into usuario values (null,'Admin','123','06/08/2001','999948831','adm@gmail.com',true,false);
+insert into usuario values (null,'User','123','06/08/2001','999948831','user@gmail.com',false,true);
+insert into usuario_premium values (2,'Rua Bahia','039','Siqueira Campos','Aracaju','SE','49100000','09157087520');
+
+insert into categoria values (null,'Romance');
+insert into categoria values (null,'Drama');
+insert into categoria values (null,'Ficção Cientifica');
+insert into categoria values (null,'Infantil');
+
+insert into editora values (null,'Rocco','1975','A Rocco tem como compromisso publicar as melhores obras de autores nacionais e estrangeiros.
+Criada em 1975 por Paulo Roberto Rocco, a editora sempre se mostrou atenta às manifestações da sociedade, antecipando tendências e difundindo
+ novas ideias em diferentes segmentos.  Na década de 1980, ousou ao trazer para o catálogo pensadores importantes como Michel Maffesoli e Jean
+ Baudrillard, além de abrir espaço para nomes de vanguarda no cenário político nacional como Fernando Gabeira, Herbert Daniel e Alex Polari,
+ entre outros intelectuais e ativistas que marcaram época.
+
+No mesmo período, deu início à formação de seu prestigioso catálogo de ficção, com títulos como A fogueira das vaidades, de Tom Wolfe, que até 
+hoje é referência na prosa norte-americana e foi adquirido num dos primeiros grandes leilões do mercado editorial. A Wolfe viriam se juntar, nos 
+anos seguintes, nomes como Gore Vidal, Noah Gordon, Ken Follett, Anne Rice e Carlos Fuentes, para citar apenas alguns, formando um painel variado
+ da literatura e do pensamento mundial do século XX.');
+ 
+insert into editora values (null,'Intrínseca','2003','UMA EDITORA JOVEM, NÃO SÓ NA IDADE — AFINAL FOI FUNDADA EM DEZEMBRO DE 2003 — MAS NO ESPÍRITO
+ INOVADOR DE OPTAR PELA PUBLICAÇÃO DE FICÇÃO E NÃO FICÇÃO PRIORIZANDO A QUALIDADE, E NÃO A QUANTIDADE DE LANÇAMENTOS. ESSA É A MARCA DA INTRÍNSECA,
+ CUJO CATÁLOGO REÚNE TÍTULOS CUIDADOSAMENTE SELECIONADOS, DOTADOS DE UMA VOCAÇÃO RARA: CONJUGAR VALOR LITERÁRIO E SUCESSO COMERCIAL.
+
+Com uma apurada seleção de títulos, vários livros alcançam um expressivo número de leitores, figurando em listas de best-sellers por muitos meses, 
+obtendo assim uma incomum unanimidade de elogios por parte do público, da crítica e do mercado. À bem cuidada curadoria editorial alia-se o apuro 
+na produção gráfica, o que transforma as edições em objetos de culto a serviço da boa literatura.');
+
+-- Anotações de comandos:
+UPDATE usuario SET nome = 'Mariana', senha = '123', num_celular = '999988888',  email = 'maria@gmail.br', eAdmin = true WHERE id_usuario = 1;
+UPDATE usuario SET ePremium = true WHERE id_usuario=2;
+
+ALTER TABLE usuario ADD ePremium boolean not null;
+ALTER TABLE livro CHANGE epremium epremium boolean not null;
+ALTER TABLE editora CHANGE descricao descricao varchar(2000) not null;
+
+select * from usuario where email = 'mariana@gmail.com' and senha = '123456';
+select * from usuario where email = 'sarah@gmail.com' and num_celular = '99998888';
+select titulo, nome_autor, descricao, capa from livro where titulo ='' or nome_autor = '' order by titulo;
+select titulo, nome_autor, descricao, capa from livro order by titulo;
+select id_livro, titulo, descricao, capa from livro;
+select * from livro where titulo = 'Joana';
+select eAdmin, id_usuario from usuario where email = 'maria@gmail.br' and senha = '123';
+
+Delete from usuario where id_usuario = 4;
+
+
+-- Selecionando as tabelas:
+select *from usuario;
+select *from usuario_premium;
+select *from livro;
+select *from livro_premium;
+select *from transacao;
+select *from historico;
+select *from editora;
+select *from emprestimo;
+select *from categoria;
+
+
+-- Excluindo o banco de dados:
+drop database library;

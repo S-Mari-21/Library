@@ -26,7 +26,6 @@ public class Assinatura_Premium extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel11 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         tfNumCelular = new javax.swing.JTextField();
@@ -49,17 +48,6 @@ public class Assinatura_Premium extends javax.swing.JFrame {
         setTitle("Assinatura Premium");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Voltar a página anterior");
-        jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel11MouseClicked(evt);
-            }
-        });
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 470, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0, 80));
 
@@ -228,14 +216,6 @@ public class Assinatura_Premium extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
-        // Ao clicar em voltar a página anterior:
-
-        Login login = new Login();
-        login.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jLabel11MouseClicked
-
     private void tfNumCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNumCelularActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfNumCelularActionPerformed
@@ -307,7 +287,6 @@ public class Assinatura_Premium extends javax.swing.JFrame {
     private javax.swing.JButton btCadastrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
