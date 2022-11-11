@@ -12,7 +12,7 @@ public class Editora {
 
     
     public void AddEditora(Connection con, Integer Id_Editora, String Nome_Editora, Integer Ano_Fundacao, String Descricao) throws SQLException, ParseException{
-        String sql = "insert into medico (crm, nome, cpf, email, numcelular, datanascimento, senha) values (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into editora (id_editora, nome_editora, ano_fundacao , descricao) values (?, ?, ?, ?)";
         PreparedStatement stmt = con.prepareStatement(sql); //Este Statement é quem permite executar esta isntrução no sql
         stmt.setInt(1, Id_Editora);
         stmt.setString(2, Nome_Editora);
@@ -25,7 +25,7 @@ public class Editora {
        }
     
     public void AltEditora(Connection con, Integer Id_Editora, String Nome_Editora, Integer Ano_Fundacao, String Descricao) throws SQLException, ParseException{
-        String sql = "update medico set nome = ?, cpf = ?, email = ?, numcelular = ?, datanascimento = ?, senha = ? where crm = ?";
+        String sql = "update editora set nome_editora = ?, ano_fundacao  = ?, descricao  = ? where id_editora = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         
         stmt.setInt(1, Id_Editora);
@@ -42,7 +42,7 @@ public class Editora {
     
     
     public void DelEditora(Connection con, Integer Id_Editora) throws SQLException{
-        String sql = "delete from medico where crm = ?";
+        String sql = "delete from editora where id_editora = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         stmt.setInt(1, Id_Editora);
                 
