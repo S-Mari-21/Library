@@ -3,6 +3,7 @@ package telas_usuario;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 import classes_banco.Conexao_db;
+import classes_basic.Gerenciar_Usuario;
 import classes_basic.Informacoes;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -17,6 +18,7 @@ import java.text.ParseException;
 public class Recuperar_Senha extends javax.swing.JFrame {
     Conexao_db conexao;
     private Connection con;
+    private Gerenciar_Usuario user;
     /**
      * Creates new form LoginUser
      */
@@ -227,18 +229,24 @@ public class Recuperar_Senha extends javax.swing.JFrame {
 
     private void BtConfirmarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtConfirmarMouseClicked
         // Ao clicar verificar login do usuário e alterar a senha:
-        Usuario user = new Usuario();
+        Usuario usuario = new Usuario();
         String email = String.valueOf(tfEmail.getText());
         String num_celular = String.valueOf(tfNumCelular.getText());
         String senha = String.valueOf(PfNovaSenha.getPassword());
         
+        
+        usuario.setEmail(email);
+        usuario.setNum_celular(num_celular);
+        usuario.setSenha(senha); 
+        
+        
         if (email.length()>0 && num_celular.length()>0 && senha.length()>0){
             try {
-                if (user.VerificarLogon_RecuperarSenha(con, email, num_celular) == true){
+                if (user.VerificarLogon_RecuperarSenha(usuario) == true){
                     try {
                         Integer id = Integer.parseInt(Informacoes.id_usuario);
                         System.out.println(id);
-                        user.Recuperar_Senha(con, senha, id);
+                        user.Recuperar_Senha(usuario);
                         tfEmail.setText("");
                         tfNumCelular.setText("");
                         PfNovaSenha.setText("");
@@ -316,10 +324,8 @@ public class Recuperar_Senha extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Recuperar_Senha().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Recuperar_Senha().setVisible(true);
         });
     }
 

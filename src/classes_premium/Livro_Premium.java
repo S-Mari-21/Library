@@ -4,13 +4,13 @@ package classes_premium;
  *
  * @author maria
  */
-import classes_basic.Livro;
+import classes_basic.Gerenciar_Livro;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
 
-public class Livro_Premium extends Livro{
+public class Livro_Premium extends Gerenciar_Livro{
     
 public void AddLivroPremium(Connection con, Integer Id_Livro, Double Preco_Livro, Double Preco_Total, Double Desconto, Double Valor_Frete) throws SQLException, ParseException{
         String sql = "insert into medico (crm, nome, cpf, email, numcelular, datanascimento, senha) values (?, ?, ?, ?, ?, ?, ?)";

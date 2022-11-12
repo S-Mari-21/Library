@@ -1,13 +1,15 @@
 package telas_livro;
 import classes_banco.Conexao_db;
-import classes_basic.Usuario;
+import classes_basic.Gerenciar_Usuario;
+import classes_basic.Informacoes;
 import com.mysql.jdbc.Connection;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import classes_basic.Informacoes;
+import classes_basic.Usuario;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import telas_usuario.Assinatura_Premium;
 /**
  *
@@ -16,6 +18,7 @@ import telas_usuario.Assinatura_Premium;
 public class Perfil_Usuario extends javax.swing.JFrame {
     Conexao_db conexao;
     private Connection con;
+    private Gerenciar_Usuario user;
     /**
      * Creates new form Perfil_Usuario
      */
@@ -216,7 +219,7 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         });
 
         lbAssinaturaPremium.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        lbAssinaturaPremium.setForeground(new java.awt.Color(255, 153, 51));
+        lbAssinaturaPremium.setForeground(new java.awt.Color(255, 255, 51));
         lbAssinaturaPremium.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbAssinaturaPremium.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -241,14 +244,13 @@ public class Perfil_Usuario extends javax.swing.JFrame {
                                     .addComponent(jLabel10))
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel3)
                                             .addGroup(jPanel2Layout.createSequentialGroup()
                                                 .addGap(15, 15, 15)
-                                                .addComponent(jLabel2)
-                                                .addGap(28, 28, 28)))
-                                        .addGap(114, 114, 114)
+                                                .addComponent(jLabel2)))
+                                        .addGap(138, 138, 138)
                                         .addComponent(lbExcluirConta))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
@@ -281,16 +283,16 @@ public class Perfil_Usuario extends javax.swing.JFrame {
                                                 .addComponent(tfCPF1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(jLabel11))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(lbAssinaturaPremium, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                                 .addComponent(jLabel15)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(tfCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jLabel16)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(tfUF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                .addComponent(tfUF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(lbAssinaturaPremium, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(80, 80, 80))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -363,40 +365,33 @@ public class Perfil_Usuario extends javax.swing.JFrame {
     }//GEN-LAST:event_tfNumCelularActionPerformed
 
     private void btAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btAlterarMouseClicked
-        // Ao clicar cadastrar inserir no banco:
-//        String nome = String.valueOf(tfNome.getText());
-//        String data_nascimento = String.valueOf(tfDataNascimento.getText());
-//        String cel = String.valueOf(tfNumCelular.getText());
-//        String email = String.valueOf(tfEmail.getText());
-//        
-//        Usuario usuario = new Usuario();
-//        if (nome.length()>0 && data_nascimento.length()>0 && cel.length()>0 && email.length()>0){
-//
-//            try {
-//                if (usuario.VerificarEmail(con, email) == false){
-//                    try {
-//                        usuario.AddUsuario(con, 0, nome, senha, data_nascimento, cel, email, false);
-//                    } catch (ParseException ex) {
-//                        Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                    JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Usuário Cadastrado!", 1);
-//
-//                    //Limpando os campos:
-//                    tfDataNascimento.setText("");
-//                    tfEmail.setText("");
-//                    tfNome.setText("");
-//                    tfNumCelular.setText("");
-//                    
-//                } else {
-//                    JOptionPane.showMessageDialog(null, "O e-mail informado já está cadastrado no sistema!", "Erro!", 2);
-//                }
-//            } catch (SQLException ex) {
-//                Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//        else {
-//            JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos!", "Cadastro inválido!", 2);
-//        }
+        // Ao clicar alterar inserir no banco:
+        String nome = String.valueOf(tfNome.getText());
+        String data_nascimento = String.valueOf(tfDataNascimento.getText());
+        String cel = String.valueOf(tfNumCelular.getText());
+        String email = String.valueOf(tfEmail.getText());
+        
+        Usuario usuario = new Usuario();
+        usuario.setNome(nome);
+        usuario.setData_nascimento(data_nascimento);
+        usuario.setNum_celular(cel);
+        usuario.setEmail(email);
+        
+        
+        if (nome.length()>0 && data_nascimento.length()>0 && cel.length()>0 && email.length()>0){
+      
+            try {
+                user.AltUsuario(usuario);
+                LimparCampos();
+                
+            } catch (SQLException | ParseException ex) {
+                Logger.getLogger(Perfil_Usuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(null, "Alteração de Cadastro realizada com sucesso!", "Conta alterada!", 1);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos!", "Cadastro inválido!", 2);
+        }
 
     }//GEN-LAST:event_btAlterarMouseClicked
 
@@ -443,21 +438,24 @@ public class Perfil_Usuario extends javax.swing.JFrame {
     private void lbExcluirContaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbExcluirContaMouseClicked
         //Ao clicar em excluir minha conta:
         Usuario usuario = new Usuario();
+            
         Integer id = Integer.parseInt(Informacoes.id_usuario);
+        usuario.setId_usuario(id);
         
         Object[] options = { "Sim", "Não" };
         int opcao = JOptionPane.showOptionDialog(null, "Tem certeza que deseja excluir a sua conta?", "Excluir minha conta", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
         System.out.println("Opcao: " + opcao);
         
         if(opcao == 0){
+           
             try {
-                usuario.DelUsuario(con, id);
+                user.DelUsuario(usuario);
                 JOptionPane.showMessageDialog(null, "A conta foi excluída com sucesso!", "Conta Excluída!", 1);
-                System.exit(0);          
-                
+                System.exit(0);   
             } catch (SQLException ex) {
                 Logger.getLogger(Perfil_Usuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }      
+         
         }       
        
         
@@ -497,7 +495,25 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         ass.setVisible(true);
         dispose();
     }//GEN-LAST:event_lbAssinaturaPremiumMouseClicked
-
+    
+//Limpando os campos:
+    public void LimparCampos(){
+        //Basic
+        tfDataNascimento.setText("");
+        tfEmail.setText("");
+        tfNome.setText("");
+        tfNumCelular.setText("");
+        
+        //Premium
+        tfCEP1.setText("");
+        tfCPF1.setText("");
+        tfCidade.setText("");
+        tfLogradouro.setText("");
+        tfNumero.setText("");
+        tfUF.setText("");
+               
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -526,10 +542,8 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Perfil_Usuario().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Perfil_Usuario().setVisible(true);
         });
     }
 

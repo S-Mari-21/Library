@@ -5,13 +5,13 @@ package classes_premium;
  *
  * @author maria
  */
-import classes_basic.Usuario;
+import classes_basic.Gerenciar_Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
 
-public class Usuario_Premium extends Usuario{
+public class Usuario_Premium extends Gerenciar_Usuario{
     
     public void AddUsuarioPremium(Connection con, Integer Id_Usuario, String logradouro, Integer Num_Casa, String Bairro, String Cidade, String UF, String CEP, String CPF) throws SQLException, ParseException{
         String sql = "insert into usuario_premium (id_usuario, logradouro, num_casa, bairro, cidade, uf, cep, cpf) values (?, ?, ?, ?, ?, ?, ?, ?)";

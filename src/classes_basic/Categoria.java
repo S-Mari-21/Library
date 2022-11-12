@@ -1,44 +1,24 @@
 package classes_basic;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.text.ParseException;
 
 public class Categoria{
+    private Integer id_categoria;
+    private String nome_categoria;
     
-    public void AddCategoria(Connection con, Integer Id_Categoria, String Nome_Categoria) throws SQLException, ParseException{
-        String sql = "insert into categoria (id_categoria, nome_categoria) values (?, ?)";
-        PreparedStatement stmt = con.prepareStatement(sql); //Este Statement é quem permite executar esta isntrução no sql
-        stmt.setInt(1, Id_Categoria);
-        stmt.setString(2, Nome_Categoria);
-
-        stmt.executeUpdate();
-        stmt.close();
-           
-       }
     
-    public void AltCategoria(Connection con, Integer Id_Categoria, String Nome_Categoria) throws SQLException, ParseException{
-        String sql = "update medico set nome_categoria = ? where crm = ?";
-        PreparedStatement stmt = con.prepareStatement(sql);
-        
-        stmt.setInt(1, Id_Categoria);
-        stmt.setString(2, Nome_Categoria);
-
-        stmt.executeUpdate();
-        stmt.close();
+    public Integer getId_categoria() {
+        return id_categoria;
+    }
+    public void setId_categoria(Integer id_categoria) {
+        this.id_categoria = id_categoria;
     }
     
-
-    
-    public void DelCategoria(Connection con, Integer Id_Categoria) throws SQLException{
-        String sql = "delete from categoria where id_categoria = ?";
-        PreparedStatement stmt = con.prepareStatement(sql);
-        stmt.setInt(1, Id_Categoria);
-                
-        stmt.executeUpdate();
-        stmt.close();
-        
+    public String getNome_categoria() {
+        return nome_categoria;
     }
+    public void setNome_categoria(String nome_categoria) {
+        this.nome_categoria = nome_categoria;
+    }
+   
 
 }

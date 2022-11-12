@@ -2,6 +2,7 @@ package telas_usuario;
 import classes_basic.Usuario;
 import javax.swing.JOptionPane;
 import classes_banco.Conexao_db;
+import classes_basic.Gerenciar_Usuario;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,6 +16,7 @@ import java.util.logging.Logger;
 public class Cadastro_Usuario extends javax.swing.JFrame {
     Conexao_db conexao;
     private Connection con;
+    private Gerenciar_Usuario user;
     /**
      * Creates new form Cadastro_Usuario
      */
@@ -235,21 +237,20 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         String cel = String.valueOf(tfNumCelular.getText());
         String email = String.valueOf(tfEmail.getText());
         String senha = String.valueOf(pfSenha.getPassword());
-                
-        
         
         Usuario usuario = new Usuario();
+        usuario.setEmail(nome);
+        usuario.setData_nascimento(data_nascimento);
+        usuario.setNum_celular(cel);
+        usuario.setEmail(email);
+        usuario.setSenha(senha);              
+        
         if (nome.length()>0 && data_nascimento.length()>0 && cel.length()>0 && email.length()>0 && senha.length()>0){
-         
-            try { 
-                if (usuario.VerificarEmail(con, email) == false){
-                    try {
-                        usuario.AddUsuario(con, 0, nome, senha, data_nascimento, cel, email, false, false);
-                    } catch (ParseException ex) {
-                        Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+            try {
+                if (user.VerificarEmail(usuario) == false){
+                    user.AddUsuario(usuario);
                     JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Usuário Cadastrado!", 1);
-                    
+
                     //Limpando os campos:
                     tfDataNascimento.setText("");
                     tfEmail.setText("");
@@ -259,7 +260,7 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "O e-mail informado já está cadastrado no sistema!", "Erro!", 2);
                 }
-            } catch (SQLException ex) {
+            } catch (SQLException | ParseException ex) {
                 Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

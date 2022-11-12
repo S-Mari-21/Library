@@ -2,7 +2,6 @@ package telas_livro;
 import telas_system.Administracao;
 import classes_banco.Conexao_db;
 import classes_basic.Informacoes;
-import classes_basic.Livro;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -12,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import telas_usuario.Assinatura_Premium;
 /**
  *
  * @author maria
@@ -382,13 +382,11 @@ public class Principal extends javax.swing.JFrame {
     public void PreencherTabela(String sql) throws SQLException{ 
        PreparedStatement stmt = con.prepareStatement(sql);
        ResultSet rs = stmt.executeQuery(); //Resultado do banco de dados
-      
+       
        //Gravando as informações da tabela no banco de dados
        DefaultTableModel modelo = (DefaultTableModel)tabela.getModel();
        modelo.setNumRows(0);
        
-//       //Formatando a data
-//       DateFormat data = new SimpleDateFormat("dd/MM/yyyy");
        while(rs.next()) {
           modelo.addRow(new Object[]
           {
@@ -405,7 +403,15 @@ public class Principal extends javax.swing.JFrame {
     private void lbAreaPremiumMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAreaPremiumMouseClicked
         //Ao clicar em área premium:
         //1º Verificar se já é usuário premium:
-        
+       Boolean epremium = Boolean.valueOf(Informacoes.ePremium);
+       
+       if (epremium == true ){
+           //Exibir os livros premium na tabela
+       } else {
+          Assinatura_Premium ass = new Assinatura_Premium();
+          ass.setVisible(true);
+       }
+       
     }//GEN-LAST:event_lbAreaPremiumMouseClicked
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
@@ -417,15 +423,13 @@ public class Principal extends javax.swing.JFrame {
             // Ao clicar na lupa:
             String pesquisa = String.valueOf(tfPesquisa.getText());
             
-            
             if (pesquisa.length()>0){
                 PreencherTabela(sqlPesquisa);
                 
             } else {
                 JOptionPane.showMessageDialog(null, "O campo de pesquisa precisa ser preenchido!", "Erro!", 2);
             }
-            
-            
+                   
         } catch (SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -6,8 +6,9 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import classes_basic.Usuario;
 import java.io.IOException;
+import classes_basic.Gerenciar_Usuario;
+import classes_basic.Usuario;
 
 
 
@@ -15,7 +16,7 @@ import java.io.IOException;
 public class Login extends javax.swing.JFrame {
     classes_banco.Conexao_db conexao;
     private Connection con;
-    
+    private Gerenciar_Usuario user;
     
     /**
      * Creates new form Recuperar_Senha
@@ -181,26 +182,22 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtLoginMouseClicked
-//        // Ao clicar verificar login do usuário entrar no banco e abrir a tela de catalogo:
-        String email;
-        String senha;
-        
-        email = String.valueOf(tfEmail.getText());
-        senha = String.valueOf(PfSenha.getPassword());
-
-        Usuario usuario = new Usuario();
-        
+//        // Ao clicar verificar login do usuário entrar no banco e abrir a tela de catalogo: 
+                
         if ((tfEmail.getText().length()>0) && (PfSenha.getText().length()>0)){
+            Usuario usuario = new Usuario();
+            usuario.setEmail(tfEmail.getText());
+            usuario.setSenha(PfSenha.getText());
             try {
-                if( usuario.VerificarLogon(con, email, senha) == true){
-                    
+                if(user.VerificarLogon(usuario) == true){
                     Principal principal = new Principal();
                     principal.setVisible(true);
                     dispose();
-                }
-                else{
+                    
+                } else{
                     JOptionPane.showMessageDialog(null, "Usuário e/ou senha incorreta!", "Login inválido!", 2);
-                    }
+                }
+
             } catch (SQLException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -241,7 +238,7 @@ public class Login extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
       // Desconectar o banco de dados
         
-       //Conexao_db.Desconectar();
+      Conexao_db.Desconectar();
         
     }//GEN-LAST:event_formWindowClosing
 
@@ -284,10 +281,8 @@ public class Login extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Login().setVisible(true);
         });
     }
 

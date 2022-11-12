@@ -110,6 +110,9 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbAlterarMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lbRedefinir">
           <Properties>
@@ -124,6 +127,9 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbRedefinirMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lbExcluir">
           <Properties>

@@ -1,14 +1,12 @@
 package telas_livro;
 import classes_banco.Conexao_db;
 import classes_basic.Informacoes;
-import classes_basic.Livro;
 import java.awt.Graphics2D;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import classes_basic.Livro;
 import java.awt.AlphaComposite;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -17,6 +15,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import classes_basic.Gerenciar_Livro;
+import classes_basic.Livro;
+import java.text.ParseException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
@@ -25,10 +26,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Cadastro_Livro extends javax.swing.JFrame {
     Conexao_db conexao;
     private Connection con;
+    private Gerenciar_Livro gerenciar_livro;
     File imagem;
     
     String sql = "select titulo,nome_autor,descricao,capa from livro order by titulo";
     Principal principal = new Principal();
+           
+        
     /**
      * Creates new form Cadastro_Livro
      */
@@ -111,11 +115,21 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         lbAlterar.setForeground(new java.awt.Color(255, 255, 255));
         lbAlterar.setText("Alterar");
         lbAlterar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbAlterar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbAlterarMouseClicked(evt);
+            }
+        });
 
         lbRedefinir.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lbRedefinir.setForeground(new java.awt.Color(255, 255, 255));
         lbRedefinir.setText("Redefinir");
         lbRedefinir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbRedefinir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbRedefinirMouseClicked(evt);
+            }
+        });
 
         lbExcluir.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lbExcluir.setForeground(new java.awt.Color(255, 255, 255));
@@ -437,25 +451,31 @@ public class Cadastro_Livro extends javax.swing.JFrame {
             System.out.println("Erro ao selecionar o se é premium!");
         }
         
-        
-        
-        
         Livro livro = new Livro();
+        livro.setTitulo(titulo);
+        livro.setNome_autor(autor);
+        livro.setAno_lancamento(data_lancamento);
+        livro.setDescricao(descricao);
+        livro.setQuantidade_total(qtd);
+        livro.setEpremium(epremium);
+        livro.setCapa(getCapa());
+        
         
         if(titulo.length()>0 && autor.length()>0 && data_lancamento.length()>0 && descricao.length()>0){
 
             try {
-                if (livro.Verificar(con, titulo) == false){
-               // livro.AddLivro(con, 0, titulo, descricao, data_lancamento, autor, getCapa() , qtd, 0, epremium);
+                if (gerenciar_livro.Verificar(livro) == false){
+                    gerenciar_livro.AddLivro(livro);
                     principal.PreencherTabela(sql);
+                    JOptionPane.showMessageDialog(null, "O livro foi cadastrado com sucesso!", "Livro Cadastrado!", 1);
                 }
-            } catch (SQLException ex) {
+            } catch (SQLException | ParseException ex) {
                 Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
             }
  
         }
         else {
-            
+            JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos!", "Erro!", 2);
         }
         
     }//GEN-LAST:event_lbCadastrarMouseClicked
@@ -505,6 +525,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         // Ao clicar em excluir livro:
         Livro livro = new Livro();
         Integer id = Integer.parseInt(Informacoes.id_livro);
+        livro.setId_livro(id);
         
         Object[] options = { "Sim", "Não" };
         int opcao = JOptionPane.showOptionDialog(null, "Tem certeza que deseja excluir a sua conta?", "Excluir minha conta", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
@@ -512,7 +533,9 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         if(opcao == 0){
          
             try {
-                livro.DelLivro(con, id);
+                gerenciar_livro.DelLivro(livro);
+                principal.PreencherTabela(sql);
+                
             } catch (SQLException ex) {
                 Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -521,6 +544,57 @@ public class Cadastro_Livro extends javax.swing.JFrame {
   
         } 
     }//GEN-LAST:event_lbExcluirMouseClicked
+
+    private void lbAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAlterarMouseClicked
+        //Ao clicar em Alterar livro:
+               
+        String titulo = String.valueOf(tfTitulo.getText());
+        String autor = String.valueOf(tfAutor.getText());
+        String data_lancamento = String.valueOf(tfDataLancamento.getText());
+        String descricao = String.valueOf(tfDescricao.getText());
+        Integer qtd = Integer.parseInt(Quantidade.getText());
+        
+        Boolean epremium = false;
+        
+        if (rbBasico.isSelected()){
+             epremium = false;
+        } else if (rbPremium.isSelected()){
+            epremium = true;
+        } else {
+            System.out.println("Erro ao selecionar o se é premium!");
+        }
+        
+        Livro livro = new Livro();
+        livro.setTitulo(titulo);
+        livro.setNome_autor(autor);
+        livro.setAno_lancamento(data_lancamento);
+        livro.setDescricao(descricao);
+        livro.setQuantidade_total(qtd);
+        livro.setEpremium(epremium);
+        livro.setCapa(getCapa());
+        
+        
+        if(titulo.length()>0 && autor.length()>0 && data_lancamento.length()>0 && descricao.length()>0){             
+            try {
+                gerenciar_livro.AltLivro(livro);
+                principal.PreencherTabela(sql);
+                JOptionPane.showMessageDialog(null, "O livro foi alterado com sucesso!", "Livro Alterado!", 1);
+                
+            } catch (SQLException | ParseException ex) {
+                Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos!", "Erro!", 2);
+        }
+        
+    }//GEN-LAST:event_lbAlterarMouseClicked
+
+    private void lbRedefinirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbRedefinirMouseClicked
+        //Ao clicar em redefinir:
+        
+        
+    }//GEN-LAST:event_lbRedefinirMouseClicked
     public File selecionarImagem(){
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Images em JPEG e PNG", "jpg","png");
