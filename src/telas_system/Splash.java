@@ -77,7 +77,7 @@ public class Splash extends javax.swing.JFrame {
 
         BarradeRolagem.setBackground(new java.awt.Color(0, 153, 153));
         BarradeRolagem.setForeground(new java.awt.Color(153, 0, 153));
-        getContentPane().add(BarradeRolagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 380, 20));
+        getContentPane().add(BarradeRolagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 380, 20));
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0, 80));
 
@@ -117,12 +117,12 @@ public class Splash extends javax.swing.JFrame {
         lbCarregando.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
         lbCarregando.setForeground(new java.awt.Color(255, 255, 255));
         lbCarregando.setText("Carregando...");
-        getContentPane().add(lbCarregando, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, -1, -1));
+        getContentPane().add(lbCarregando, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/livros.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 450, 330));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 440, 330));
 
-        setSize(new java.awt.Dimension(441, 321));
+        setSize(new java.awt.Dimension(431, 307));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

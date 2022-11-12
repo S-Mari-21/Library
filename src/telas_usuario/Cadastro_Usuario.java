@@ -247,8 +247,8 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         
         if (nome.length()>0 && data_nascimento.length()>0 && cel.length()>0 && email.length()>0 && senha.length()>0){
             try {
-                if (user.VerificarEmail(usuario) == false){
-                    user.AddUsuario(usuario);
+                if (user.VerificarEmail(con,usuario) == false){
+                    user.AddUsuario(con,usuario);
                     JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Usuário Cadastrado!", 1);
 
                     //Limpando os campos:

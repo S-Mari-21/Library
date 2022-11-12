@@ -65,6 +65,11 @@ public class Administracao extends javax.swing.JFrame {
         lbCategoria.setForeground(new java.awt.Color(255, 255, 255));
         lbCategoria.setText("CATEGORIA");
         lbCategoria.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbCategoriaMouseClicked(evt);
+            }
+        });
 
         lbHistorico.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lbHistorico.setForeground(new java.awt.Color(255, 255, 255));
@@ -162,6 +167,12 @@ public class Administracao extends javax.swing.JFrame {
         principal.setVisible(true);
         dispose();
     }//GEN-LAST:event_lbHomeMouseClicked
+
+    private void lbCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbCategoriaMouseClicked
+        //Ao clicar em categoria:
+        Tela_Categoria categoria = new Tela_Categoria();
+        categoria.setVisible(true);
+    }//GEN-LAST:event_lbCategoriaMouseClicked
 
     /**
      * @param args the command line arguments

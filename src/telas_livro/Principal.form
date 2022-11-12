@@ -244,53 +244,6 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JTable" name="tabela">
-      <Properties>
-        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-          <Table columnCount="4" rowCount="4">
-            <Column editable="true" title="T&#xed;tulo" type="java.lang.Object"/>
-            <Column editable="true" title="Autor" type="java.lang.Object"/>
-            <Column editable="true" title="Descri&#xe7;&#xe3;o" type="java.lang.Object"/>
-            <Column editable="true" title="Imagem" type="java.lang.Object"/>
-          </Table>
-        </Property>
-        <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-          <TableColumnModel selectionModel="0">
-            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
-              <Title/>
-              <Editor/>
-              <Renderer/>
-            </Column>
-            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-              <Title/>
-              <Editor/>
-              <Renderer/>
-            </Column>
-            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
-              <Title/>
-              <Editor/>
-              <Renderer/>
-            </Column>
-            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
-              <Title/>
-              <Editor/>
-              <Renderer/>
-            </Column>
-          </TableColumnModel>
-        </Property>
-        <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-          <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabelaMouseClicked"/>
-      </Events>
-      <Constraints>
-        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="80" y="270" width="1180" height="350"/>
-        </Constraint>
-      </Constraints>
-    </Component>
     <Container class="javax.swing.JPanel" name="painel4">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -458,6 +411,59 @@
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbCarrinhoMouseClicked"/>
           </Events>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JScrollPane" name="tabela1">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="80" y="260" width="1190" height="370"/>
+        </Constraint>
+      </Constraints>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="tabela">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="4" rowCount="2">
+                <Column editable="true" title="Titulo" type="java.lang.Object"/>
+                <Column editable="true" title="Autor (a)" type="java.lang.Object"/>
+                <Column editable="true" title="Descri&#xe7;&#xe3;o" type="java.lang.Object"/>
+                <Column editable="true" title="Capa" type="java.lang.Object"/>
+              </Table>
+            </Property>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
+            </Property>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

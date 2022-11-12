@@ -20,8 +20,9 @@ public class Principal extends javax.swing.JFrame {
     Conexao_db conexao;
     private Connection con;
     
-    String sql = "select titulo,nome_autor,descricao,capa from livro order by titulo";
-    String sqlPesquisa = "select titulo,nome_autor,descricao,capa from livro where titulo = ? or nome_autor = ? order by titulo";
+    
+    String sql = "select * from livro order by titulo";
+    String sqlPesquisa = "select * from livro where titulo = ? or nome_autor = ? order by titulo";
     /**
      * Creates new form Catalogo
      */
@@ -49,7 +50,6 @@ public class Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lbPesquisar = new javax.swing.JLabel();
         lbAdmin = new javax.swing.JLabel();
-        tabela = new javax.swing.JTable();
         painel4 = new javax.swing.JPanel();
         lbEmprestimos = new javax.swing.JLabel();
         lbCategorias = new javax.swing.JLabel();
@@ -59,6 +59,8 @@ public class Principal extends javax.swing.JFrame {
         lbRecomendados = new javax.swing.JLabel();
         lbAreaPremium = new javax.swing.JLabel();
         lbCarrinho = new javax.swing.JLabel();
+        tabela1 = new javax.swing.JScrollPane();
+        tabela = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -181,29 +183,6 @@ public class Principal extends javax.swing.JFrame {
         });
         getContentPane().add(lbAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 0, 100, 30));
 
-        tabela.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Título", "Autor", "Descrição", "Imagem"
-            }
-        ));
-        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabelaMouseClicked(evt);
-            }
-        });
-        getContentPane().add(tabela, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, 1180, 350));
-        if (tabela.getColumnModel().getColumnCount() > 0) {
-            tabela.getColumnModel().getColumn(0).setResizable(false);
-            tabela.getColumnModel().getColumn(2).setResizable(false);
-            tabela.getColumnModel().getColumn(3).setResizable(false);
-        }
-
         painel4.setBackground(new java.awt.Color(0, 0, 0));
 
         lbEmprestimos.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -302,6 +281,19 @@ public class Principal extends javax.swing.JFrame {
 
         getContentPane().add(painel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 1360, 30));
 
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Titulo", "Autor (a)", "Descrição", "Capa"
+            }
+        ));
+        tabela1.setViewportView(tabela);
+
+        getContentPane().add(tabela1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 260, 1190, 370));
+
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/principal.jpg"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1380, 700));
@@ -393,7 +385,7 @@ public class Principal extends javax.swing.JFrame {
               rs.getInt("titulo"),
               rs.getString("descricao"),
               rs.getString("nome_autor"),
-              rs.getString("capa"),
+              rs.getBytes("capa"),
           });
        
      } //Fim while
@@ -413,10 +405,6 @@ public class Principal extends javax.swing.JFrame {
        }
        
     }//GEN-LAST:event_lbAreaPremiumMouseClicked
-
-    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tabelaMouseClicked
 
     private void lbPesquisarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPesquisarMouseClicked
         try {
@@ -492,6 +480,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel painel3;
     private javax.swing.JPanel painel4;
     private javax.swing.JTable tabela;
+    private javax.swing.JScrollPane tabela1;
     private javax.swing.JTextField tfPesquisa;
     // End of variables declaration//GEN-END:variables
 }

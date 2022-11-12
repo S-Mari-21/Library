@@ -4,6 +4,7 @@ import classes_basic.Informacoes;
 import java.awt.Graphics2D;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
+
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -458,14 +459,14 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         livro.setDescricao(descricao);
         livro.setQuantidade_total(qtd);
         livro.setEpremium(epremium);
-        livro.setCapa(getCapa());
+        //livro.setCapa(getCapa());
         
         
         if(titulo.length()>0 && autor.length()>0 && data_lancamento.length()>0 && descricao.length()>0){
 
             try {
-                if (gerenciar_livro.Verificar(livro) == false){
-                    gerenciar_livro.AddLivro(livro);
+                if (gerenciar_livro.Verificar(con,livro) == false){
+                    gerenciar_livro.AddLivro(con,livro);
                     principal.PreencherTabela(sql);
                     JOptionPane.showMessageDialog(null, "O livro foi cadastrado com sucesso!", "Livro Cadastrado!", 1);
                 }
@@ -524,7 +525,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
     private void lbExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbExcluirMouseClicked
         // Ao clicar em excluir livro:
         Livro livro = new Livro();
-        Integer id = Integer.parseInt(Informacoes.id_livro);
+        Integer id = Informacoes.id_livro;
         livro.setId_livro(id);
         
         Object[] options = { "Sim", "Não" };
@@ -533,7 +534,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         if(opcao == 0){
          
             try {
-                gerenciar_livro.DelLivro(livro);
+                gerenciar_livro.DelLivro(con,livro);
                 principal.PreencherTabela(sql);
                 
             } catch (SQLException ex) {
@@ -571,12 +572,12 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         livro.setDescricao(descricao);
         livro.setQuantidade_total(qtd);
         livro.setEpremium(epremium);
-        livro.setCapa(getCapa());
+        //livro.setCapa(getCapa());
         
         
         if(titulo.length()>0 && autor.length()>0 && data_lancamento.length()>0 && descricao.length()>0){             
             try {
-                gerenciar_livro.AltLivro(livro);
+                gerenciar_livro.AltLivro(con,livro);
                 principal.PreencherTabela(sql);
                 JOptionPane.showMessageDialog(null, "O livro foi alterado com sucesso!", "Livro Alterado!", 1);
                 

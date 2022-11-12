@@ -3,16 +3,33 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
-import classes_banco.Conexao_db;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GerenciarEditora {
-    Conexao_db conexao;
-    private Connection con;
     
-    public void AddEditora(Editora editora) throws SQLException, ParseException{
+    public boolean VerificarEditora(Connection con,Editora editora) throws SQLException, ParseException{
+        String sql = "select *from editora where nome_editora = ?";
+        
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, editora.getNome_editora());
+        ResultSet rs = stmt.executeQuery();
+        
+        if (rs.next()){
+            Informacoes.id_editora  = rs.getInt("id_editora");;
+            rs.close();
+            stmt.close();
+            return true;
+        }
+        else {
+            rs.close();
+            stmt.close();
+            return false;
+        }
+           
+    } 
+    public void AddEditora(Connection con,Editora editora) throws SQLException, ParseException{
         String sql = "insert into editora (id_editora, nome_editora, ano_fundacao , descricao) values (?, ?, ?, ?)";
         PreparedStatement stmt = con.prepareStatement(sql); //Este Statement é quem permite executar esta isntrução no sql
         stmt.setInt(1, editora.getId_editora());
@@ -25,7 +42,7 @@ public class GerenciarEditora {
            
        }
     
-    public void AltEditora(Editora editora) throws SQLException, ParseException{
+    public void AltEditora(Connection con,Editora editora) throws SQLException, ParseException{
         String sql = "update editora set nome_editora = ?, ano_fundacao  = ?, descricao  = ? where id_editora = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         
@@ -43,7 +60,7 @@ public class GerenciarEditora {
     }
     
     
-    public void DelEditora(Editora editora) throws SQLException{
+    public void DelEditora(Connection con,Editora editora) throws SQLException{
         String sql = "delete from editora where id_editora = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         stmt.setInt(1, editora.getId_editora());
@@ -53,7 +70,7 @@ public class GerenciarEditora {
         
     }
     
-    public List<Editora> listarEditora() throws SQLException{
+    public List<Editora> listarEditora(Connection con) throws SQLException{
     
             String sql = "select *from editora where id_editora = ?";
             

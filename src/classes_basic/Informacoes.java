@@ -10,9 +10,15 @@ public class Informacoes {
     public static String emailusuario;
     public static String ePremium;
     public static String eAdmin;
-    public static String id_usuario;
+    public static Integer id_usuario;
     
     //Livro:
-    public static String id_livro;
+    public static Integer id_livro;
+    
+    //Categoria:
+    public static Integer id_categoria;
+    
+    //Editora:
+    public static Integer id_editora;
     
 }

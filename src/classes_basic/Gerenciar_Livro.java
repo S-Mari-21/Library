@@ -1,6 +1,5 @@
 package classes_basic;
 
-import classes_banco.Conexao_db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,18 +14,15 @@ import java.util.List;
  * @author maria
  */
 public class Gerenciar_Livro {
-    Connection conexao;
-    private Conexao_db con;
     
-    
-    public boolean Verificar(Livro livro) throws SQLException{
+    public boolean Verificar(Connection con,Livro livro) throws SQLException{
         String sql = "select id_livro from livro where titulo = ? ";
         PreparedStatement stmt = con.prepareStatement(sql);
         
         stmt.setString(1, livro.getTitulo());
         ResultSet rs = stmt.executeQuery();
         if (rs.next()){
-            Informacoes.id_livro = rs.getString("id_livro");
+            Informacoes.id_livro = rs.getInt("id_livro");
             rs.close();
             stmt.close();
             return true;
@@ -39,28 +35,16 @@ public class Gerenciar_Livro {
     }
   
   
-    public void AddLivro(Livro livro) throws SQLException, ParseException{
+    public void AddLivro(Connection con,Livro livro) throws SQLException, ParseException{
         String sql = "insert into livro (id_livro, titulo, descricao, data_lancamento, nome_autor, capa, quantidade, quantidade_emprestados, epremium) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = con.prepareStatement(sql); //Este Statement é quem permite executar esta isntrução no sql
         
         stmt.setInt(1, livro.getId_livro());
         stmt.setString(2, livro.getTitulo());
         stmt.setString(3, livro.getDescricao());
-
-        
-        //Conversão do campo data sql-java
-        SimpleDateFormat sdf = new  SimpleDateFormat("dd/MM/yyyy"); //Estabelecendo o formato da data String
-        java.util.Date data = sdf.parse(livro.getAno_lancamento()); // Transformando a data para um campo java
-        java.sql.Date datasql = new java.sql.Date(data.getTime()); // Transformando a data para sql
-        stmt.setDate(4, datasql);
-        
-        
+        stmt.setString(4, livro.getAno_lancamento()); 
         stmt.setString(5, livro.getNome_autor());
-        
-        
-        stmt.setBytes(6,livro.getCapa());
-        
-        
+        //stmt.setBytes(6,livro.getCapa());
         stmt.setInt(7, livro.getQuantidade_total()); 
         stmt.setInt(8, livro.getQuantidade_emprestados()); 
         stmt.setBoolean(9, livro.getEpremium()); 
@@ -71,23 +55,16 @@ public class Gerenciar_Livro {
        }
     
     
-     public void AltLivro(Livro livro) throws SQLException, ParseException{
+     public void AltLivro(Connection con,Livro livro) throws SQLException, ParseException{
         String sql = "update livro set titulo = ?, descricao = ?, data_lancamento = ?, nome_autor = ?, capa = ?, quantidade = ?, quantidade_emprestados = ?, epremium = ? where id_livro = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         
         stmt.setInt(1, livro.getId_livro());
         stmt.setString(2, livro.getTitulo());
         stmt.setString(3, livro.getDescricao());
-        
-        //Conversão do campo data sql-java
-        SimpleDateFormat sdf = new  SimpleDateFormat("dd/MM/yyyy"); //Estabelecendo o formato da data String
-        java.util.Date data = sdf.parse(livro.getAno_lancamento()); // Transformando a data para um campo java
-        java.sql.Date datasql = new java.sql.Date(data.getTime()); // Transformando a data para sql
-        stmt.setDate(4, datasql);
-        
-        
+        stmt.setString(4, livro.getAno_lancamento()); 
         stmt.setString(5, livro.getNome_autor());
-        stmt.setBytes(6,livro.getCapa());
+        //stmt.setBytes(6,livro.getCapa());
         stmt.setInt(7, livro.getQuantidade_total()); 
         stmt.setInt(8, livro.getQuantidade_emprestados()); 
         stmt.setBoolean(9, livro.getEpremium()); 
@@ -97,7 +74,7 @@ public class Gerenciar_Livro {
         stmt.close();
     }
        
-    public void DelLivro(Livro livro) throws SQLException{
+    public void DelLivro(Connection con,Livro livro) throws SQLException{
         String sql = "delete from livro where id_livro = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         stmt.setInt(1, livro.getId_livro());
@@ -107,7 +84,7 @@ public class Gerenciar_Livro {
         
     }
     
-        public List<Livro> listarLivros() throws SQLException{
+        public List<Livro> listarLivros(Connection con) throws SQLException{
     
             String sql = "select *from livro where id_livro = ?";
             
@@ -122,7 +99,7 @@ public class Gerenciar_Livro {
                 livro.setTitulo(rs.getString("livro"));
                 livro.setNome_autor(rs.getString("nome_autor"));
                 livro.setDescricao(rs.getString("descricao"));
-                livro.setCapa(rs.getBytes("capa"));
+                //livro.setCapa(rs.getBytes("capa"));
    
                 lista.add(livro);
             }

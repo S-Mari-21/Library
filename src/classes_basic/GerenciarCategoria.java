@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
-import classes_banco.Conexao_db;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -12,11 +11,30 @@ import java.util.List;
  * @author maria
  */
 public class GerenciarCategoria {
-    Conexao_db conexao;
-    private Connection con;
     
+    @SuppressWarnings("empty-statement")
+    public boolean VerificarCategoria(Connection con,Categoria categoria) throws SQLException, ParseException{
+        String sql = "select *from categoria where nome_categoria = ?";
+        
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setString(1, categoria.getNome_categoria());
+        ResultSet rs = stmt.executeQuery();
+        
+        if (rs.next()){
+            Informacoes.id_categoria  = rs.getInt("id_categoria");;
+            rs.close();
+            stmt.close();
+            return true;
+        }
+        else {
+            rs.close();
+            stmt.close();
+            return false;
+        }
+           
+    } 
     
-     public void AddCategoria(Categoria categoria) throws SQLException, ParseException{
+     public void AddCategoria(Connection con,Categoria categoria) throws SQLException, ParseException{
         String sql = "insert into categoria (id_categoria, nome_categoria) values (?, ?)";
         
         PreparedStatement stmt = con.prepareStatement(sql); //Este Statement é quem permite executar esta isntrução no sql
@@ -29,7 +47,7 @@ public class GerenciarCategoria {
            
        }
     
-    public void AltCategoria(Categoria categoria) throws SQLException, ParseException{
+    public void AltCategoria(Connection con,Categoria categoria) throws SQLException, ParseException{
         String sql = "update medico set nome_categoria = ? where crm = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         
@@ -42,7 +60,7 @@ public class GerenciarCategoria {
     
 
     
-    public void DelCategoria(Categoria categoria) throws SQLException{
+    public void DelCategoria(Connection con,Categoria categoria) throws SQLException{
         String sql = "delete from categoria where id_categoria = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         
@@ -53,7 +71,7 @@ public class GerenciarCategoria {
         
     }
     
-    public List<Categoria> listarCategoria() throws SQLException{
+    public List<Categoria> listarCategoria(Connection con) throws SQLException{
     
             String sql = "select *from categoria where id_categoria = ?";
             

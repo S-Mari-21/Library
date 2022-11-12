@@ -8,6 +8,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import classes_basic.Usuario;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import telas_usuario.Assinatura_Premium;
@@ -26,7 +28,16 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         initComponents();
         
     }
-
+    public void PreencherCampos(String sql) throws SQLException{ 
+       PreparedStatement stmt = con.prepareStatement(sql);
+       ResultSet rs = stmt.executeQuery(); //Resultado do banco de dados
+        rs.getString("nome");
+        rs.getString("data_nascimento");
+        rs.getString("descricao");
+       
+        rs.close();
+        stmt.close();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -381,7 +392,7 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         if (nome.length()>0 && data_nascimento.length()>0 && cel.length()>0 && email.length()>0){
       
             try {
-                user.AltUsuario(usuario);
+                user.AltUsuario(con,usuario);
                 LimparCampos();
                 
             } catch (SQLException | ParseException ex) {
@@ -439,7 +450,7 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         //Ao clicar em excluir minha conta:
         Usuario usuario = new Usuario();
             
-        Integer id = Integer.parseInt(Informacoes.id_usuario);
+        Integer id = Informacoes.id_usuario;
         usuario.setId_usuario(id);
         
         Object[] options = { "Sim", "Não" };
@@ -449,7 +460,7 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         if(opcao == 0){
            
             try {
-                user.DelUsuario(usuario);
+                user.DelUsuario(con,usuario);
                 JOptionPane.showMessageDialog(null, "A conta foi excluída com sucesso!", "Conta Excluída!", 1);
                 System.exit(0);   
             } catch (SQLException ex) {

@@ -18,6 +18,8 @@ public class Login extends javax.swing.JFrame {
     private Connection con;
     private Gerenciar_Usuario user;
     
+    
+    
     /**
      * Creates new form Recuperar_Senha
      */
@@ -182,14 +184,17 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtLoginMouseClicked
-//        // Ao clicar verificar login do usuário entrar no banco e abrir a tela de catalogo: 
-                
-        if ((tfEmail.getText().length()>0) && (PfSenha.getText().length()>0)){
-            Usuario usuario = new Usuario();
-            usuario.setEmail(tfEmail.getText());
-            usuario.setSenha(PfSenha.getText());
+        // Ao clicar verificar login do usuário entrar no banco e abrir a tela de catalogo: 
+        String email = String.valueOf(tfEmail.getText());
+        String senha = String.valueOf(PfSenha.getPassword());
+        
+        Usuario usuario = new Usuario();
+        usuario.setEmail(email);
+        usuario.setSenha(senha);
+        
+        if ((email.length()>0) && (senha.length()>0)){
             try {
-                if(user.VerificarLogon(usuario) == true){
+                if(user.VerificarLogon(con,usuario) == true){
                     Principal principal = new Principal();
                     principal.setVisible(true);
                     dispose();
@@ -236,8 +241,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-      // Desconectar o banco de dados
-        
+      // Desconectar o banco de dados       
       Conexao_db.Desconectar();
         
     }//GEN-LAST:event_formWindowClosing
@@ -246,7 +250,8 @@ public class Login extends javax.swing.JFrame {
         // Ao abrir a tela conectar ao banco
         conexao = new Conexao_db();
         try {
-            con = Conexao_db.Conectar();
+            con = conexao.Conectar();
+            
         } catch (IOException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }

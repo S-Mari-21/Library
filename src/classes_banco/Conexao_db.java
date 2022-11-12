@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -54,42 +53,4 @@ public class Conexao_db {
             throw new DbException(e.getMessage());
 	}
     }
-
-    
-//    public void Conectar(){
-//        con  = getConectar();
-//    }
-//    
-//    public void Desconectar(){
-//         con  = getDesconectar();
-//         
-//    }
-
-    public PreparedStatement prepareStatement(String sql) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-}       
-        
-        
-        
-//    private Connection conexao;
-//    public Conexao_db() {
-//       
-//       String url = props.getProperty("dburl");
-//    }
-    
-//    
-////    private final String url; 
-////    
-//////Editar os dados de entrada do banco
-////    private final String user = "admin";
-////    private final String password = "Bd_M15Ql";
-////
-////    public Conexao_db() {
-////        this.url = "jdbc:mysql://localhost:3306/Library";
-////    }
-//////Fim editar
-//    
-//    
-
-
+}

@@ -242,11 +242,11 @@ public class Recuperar_Senha extends javax.swing.JFrame {
         
         if (email.length()>0 && num_celular.length()>0 && senha.length()>0){
             try {
-                if (user.VerificarLogon_RecuperarSenha(usuario) == true){
+                if (user.VerificarLogon_RecuperarSenha(con,usuario) == true){
                     try {
-                        Integer id = Integer.parseInt(Informacoes.id_usuario);
+                        Integer id = Informacoes.id_usuario;
                         System.out.println(id);
-                        user.Recuperar_Senha(usuario);
+                        user.Recuperar_Senha(con,usuario);
                         tfEmail.setText("");
                         tfNumCelular.setText("");
                         PfNovaSenha.setText("");
