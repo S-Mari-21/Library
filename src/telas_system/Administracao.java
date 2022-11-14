@@ -1,9 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package telas_system;
 
+import classes_banco.Conexao_db;
+import com.mysql.jdbc.Connection;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import telas_livro.Cadastro_Livro;
 import telas_livro.Principal;
 
@@ -12,7 +13,8 @@ import telas_livro.Principal;
  * @author maria
  */
 public class Administracao extends javax.swing.JFrame {
-
+    Conexao_db conexao;
+    Connection con;
     /**
      * Creates new form Administracao
      */
@@ -45,6 +47,9 @@ public class Administracao extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -79,11 +84,21 @@ public class Administracao extends javax.swing.JFrame {
         lbEditora.setForeground(new java.awt.Color(255, 255, 255));
         lbEditora.setText("EDITORA");
         lbEditora.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbEditora.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbEditoraMouseClicked(evt);
+            }
+        });
 
         lbUsuario.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lbUsuario.setForeground(new java.awt.Color(255, 255, 255));
         lbUsuario.setText("USUÁRIO");
         lbUsuario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbUsuarioMouseClicked(evt);
+            }
+        });
 
         lbHome.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lbHome.setForeground(new java.awt.Color(255, 255, 255));
@@ -142,7 +157,7 @@ public class Administracao extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/principal.jpg"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1380, 700));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1380, 740));
 
         pack();
         setLocationRelativeTo(null);
@@ -156,9 +171,10 @@ public class Administracao extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela:
-        Principal principal = new Principal();
-        principal.setVisible(true);
-        dispose();
+//        Principal principal = new Principal();
+//        principal.setVisible(true);
+        //conexao.Desconectar();
+       // dispose();
     }//GEN-LAST:event_formWindowClosing
 
     private void lbHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbHomeMouseClicked
@@ -173,6 +189,28 @@ public class Administracao extends javax.swing.JFrame {
         Tela_Categoria categoria = new Tela_Categoria();
         categoria.setVisible(true);
     }//GEN-LAST:event_lbCategoriaMouseClicked
+
+    private void lbEditoraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbEditoraMouseClicked
+        //Ao clicar em Editora:
+        Tela_Editora editora = new Tela_Editora();
+        editora.setVisible(true);
+    }//GEN-LAST:event_lbEditoraMouseClicked
+
+    private void lbUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbUsuarioMouseClicked
+        // Ao clicar em Usuario:
+        Usuarios usuarios = new Usuarios();
+        usuarios.setVisible(true);
+    }//GEN-LAST:event_lbUsuarioMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // Conectar ao banco:
+        conexao = new Conexao_db();
+        try {
+            con = (Connection) Conexao_db.Conectar();
+        } catch (IOException ex) {
+            Logger.getLogger(Administracao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments

@@ -21,8 +21,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Tela_Categoria extends javax.swing.JFrame {
     Conexao_db conexao;
-    private Connection con;
-    private GerenciarCategoria cat;
+    Connection con;
+    GerenciarCategoria cat;
     
     String sql = "select * from categoria order by nome_categoria";
     /**
@@ -41,15 +41,16 @@ public class Tela_Categoria extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
+        painel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         tfCategoria = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabela = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
         lbNova = new javax.swing.JLabel();
         lbEditar = new javax.swing.JLabel();
         lbExcluir = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabela = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -63,42 +64,26 @@ public class Tela_Categoria extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        painel2.setBackground(new java.awt.Color(0, 0, 0, 80));
 
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("CATEGORIAS");
 
+        tfCategoria.setBackground(new java.awt.Color(0, 0, 0));
+        tfCategoria.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfCategoria.setForeground(new java.awt.Color(255, 255, 255));
         tfCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfCategoriaActionPerformed(evt);
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Categoria:");
 
-        lbNova.setText("Nova");
-        lbNova.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbNova.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbNovaMouseClicked(evt);
-            }
-        });
-
-        lbEditar.setText("Editar");
-        lbEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbEditar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbEditarMouseClicked(evt);
-            }
-        });
-
-        lbExcluir.setText("Excluir");
-        lbExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbExcluir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbExcluirMouseClicked(evt);
-            }
-        });
-
+        tabela.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
@@ -117,53 +102,103 @@ public class Tela_Categoria extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabela);
 
+        javax.swing.GroupLayout painel2Layout = new javax.swing.GroupLayout(painel2);
+        painel2.setLayout(painel2Layout);
+        painel2Layout.setHorizontalGroup(
+            painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painel2Layout.createSequentialGroup()
+                .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painel2Layout.createSequentialGroup()
+                        .addGap(221, 221, 221)
+                        .addComponent(jLabel2))
+                    .addGroup(painel2Layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(painel2Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(56, Short.MAX_VALUE))
+        );
+        painel2Layout.setVerticalGroup(
+            painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painel2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(tfCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        getContentPane().add(painel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 560, 450));
+
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
+
+        lbNova.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbNova.setForeground(new java.awt.Color(255, 255, 255));
+        lbNova.setText("Nova");
+        lbNova.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbNova.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbNovaMouseClicked(evt);
+            }
+        });
+
+        lbEditar.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbEditar.setForeground(new java.awt.Color(255, 255, 255));
+        lbEditar.setText("Editar");
+        lbEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbEditar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbEditarMouseClicked(evt);
+            }
+        });
+
+        lbExcluir.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbExcluir.setForeground(new java.awt.Color(255, 255, 255));
+        lbExcluir.setText("Excluir");
+        lbExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbExcluir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbExcluirMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lbNova)
-                        .addGap(18, 18, 18)
-                        .addComponent(lbEditar)
-                        .addGap(18, 18, 18)
-                        .addComponent(lbExcluir))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(tfCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(44, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(234, 234, 234))
+                .addGap(26, 26, 26)
+                .addComponent(lbNova)
+                .addGap(28, 28, 28)
+                .addComponent(lbEditar)
+                .addGap(18, 18, 18)
+                .addComponent(lbExcluir)
+                .addContainerGap(98, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(tfCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbNova)
                     .addComponent(lbEditar)
                     .addComponent(lbExcluir))
-                .addGap(41, 41, 41)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 540, 490));
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-5, -6, 520, 390));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, -1));
 
-        setSize(new java.awt.Dimension(659, 568));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/leitor.jpg"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 500));
+
+        setSize(new java.awt.Dimension(657, 537));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -185,8 +220,12 @@ public class Tela_Categoria extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // Ao fechar a tela:
-        conexao.Desconectar();
+//        try {
+//            //        // Ao fechar a tela:;
+//            //conexao.Conectar();
+//        } catch (IOException ex) {
+//            Logger.getLogger(Tela_Categoria.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_formWindowClosing
 
     private void lbNovaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbNovaMouseClicked
@@ -197,6 +236,7 @@ public class Tela_Categoria extends javax.swing.JFrame {
         categoria.setNome_categoria(campo_categoria);
         categoria.setId_categoria(0);
         
+        cat = new GerenciarCategoria();
         if (campo_categoria.length()>0){
          
             try {
@@ -225,6 +265,7 @@ public class Tela_Categoria extends javax.swing.JFrame {
         categoria.setNome_categoria(campo_categoria);
         categoria.setId_categoria(Informacoes.id_categoria);
         
+        cat = new GerenciarCategoria();
         if (campo_categoria.length()>0){
          
             try {
@@ -243,11 +284,13 @@ public class Tela_Categoria extends javax.swing.JFrame {
     private void lbExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbExcluirMouseClicked
         // Ao clicar em excluir:
         String campo_categoria = String.valueOf(tfCategoria.getText());
-        Integer id = Informacoes.id_categoria;
         
         Categoria categoria = new Categoria();
         categoria.setNome_categoria(campo_categoria);
-        categoria.setId_categoria(id);
+        categoria.setId_categoria(Informacoes.id_categoria);
+        
+        
+        cat = new GerenciarCategoria();
         
         Object[] options = { "Sim", "Não" };
         int opcao = JOptionPane.showOptionDialog(null, "Tem certeza que deseja excluir esta categoria?", "Excluir categoria", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
@@ -256,11 +299,12 @@ public class Tela_Categoria extends javax.swing.JFrame {
         if(opcao == 0){
             try {
                 cat.DelCategoria(con,categoria);
+                JOptionPane.showMessageDialog(null, "A conta foi excluída com sucesso!", "Conta Excluída!", 1);
                 PreencherTabela(sql);
             } catch (SQLException ex) {
                 Logger.getLogger(Tela_Categoria.class.getName()).log(Level.SEVERE, null, ex);
             }
-            JOptionPane.showMessageDialog(null, "A conta foi excluída com sucesso!", "Conta Excluída!", 1);
+            
          
         }   
     }//GEN-LAST:event_lbExcluirMouseClicked
@@ -270,6 +314,7 @@ public class Tela_Categoria extends javax.swing.JFrame {
         int linha = tabela.getSelectedRow();
          
         tfCategoria.setText(tabela.getValueAt(linha,0).toString());
+        
     }//GEN-LAST:event_tabelaMouseClicked
     public void PreencherTabela(String sql) throws SQLException{ 
        PreparedStatement stmt = con.prepareStatement(sql);
@@ -333,6 +378,7 @@ public class Tela_Categoria extends javax.swing.JFrame {
     private javax.swing.JLabel lbEditar;
     private javax.swing.JLabel lbExcluir;
     private javax.swing.JLabel lbNova;
+    private javax.swing.JPanel painel2;
     private javax.swing.JTable tabela;
     private javax.swing.JTextField tfCategoria;
     // End of variables declaration//GEN-END:variables

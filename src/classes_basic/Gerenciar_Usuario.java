@@ -149,6 +149,18 @@ public class Gerenciar_Usuario {
         
     }
     
+    public void NivelUsuario(Connection con, Usuario usuario) throws SQLException{
+        String sql = "UPDATE usuario SET eAdmin = ? WHERE id_usuario = ?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setInt(1,usuario.getId_usuario());
+        stmt.setInt(2,usuario.getId_usuario());
+        
+        
+        stmt.executeUpdate();
+        stmt.close();
+        
+    }
+    
     public List<Usuario> listarUsuarios(Connection con) throws SQLException{
     
         String sql = "select *from usuario where id_usuario = ?";

@@ -26,12 +26,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Cadastro_Livro extends javax.swing.JFrame {
     Conexao_db conexao;
-    private Connection con;
-    private Gerenciar_Livro gerenciar_livro;
+    Connection con;
+    Gerenciar_Livro gerenciar_livro;
     File imagem;
+    Principal principal;
     
-    String sql = "select titulo,nome_autor,descricao,capa from livro order by titulo";
-    Principal principal = new Principal();
+    String sql = "select * from livro order by titulo";
+    
            
         
     /**
@@ -461,7 +462,8 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         livro.setEpremium(epremium);
         //livro.setCapa(getCapa());
         
-        
+        gerenciar_livro = new Gerenciar_Livro();
+        principal = new Principal();
         if(titulo.length()>0 && autor.length()>0 && data_lancamento.length()>0 && descricao.length()>0){
 
             try {
@@ -489,7 +491,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         //Ao abrir a tela:
         conexao = new Conexao_db();
         try {
-            con = (Connection) conexao.Conectar();
+            con = (Connection) Conexao_db.Conectar();
             Principal principal = new Principal();
             try {
                 principal.PreencherTabela(sql);

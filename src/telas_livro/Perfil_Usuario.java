@@ -19,8 +19,9 @@ import telas_usuario.Assinatura_Premium;
  */
 public class Perfil_Usuario extends javax.swing.JFrame {
     Conexao_db conexao;
-    private Connection con;
-    private Gerenciar_Usuario user;
+    Connection con;
+    Gerenciar_Usuario user;
+    
     /**
      * Creates new form Perfil_Usuario
      */
@@ -28,16 +29,7 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         initComponents();
         
     }
-    public void PreencherCampos(String sql) throws SQLException{ 
-       PreparedStatement stmt = con.prepareStatement(sql);
-       ResultSet rs = stmt.executeQuery(); //Resultado do banco de dados
-        rs.getString("nome");
-        rs.getString("data_nascimento");
-        rs.getString("descricao");
-       
-        rs.close();
-        stmt.close();
-    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -74,6 +66,8 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         tfNumero = new javax.swing.JTextField();
         tfUF = new javax.swing.JTextField();
         lbAssinaturaPremium = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        tfBairro = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -238,6 +232,16 @@ public class Perfil_Usuario extends javax.swing.JFrame {
             }
         });
 
+        jLabel18.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel18.setText("Bairro:");
+
+        tfBairro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfBairroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -279,6 +283,10 @@ public class Perfil_Usuario extends javax.swing.JFrame {
                                 .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(tfCEP1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -352,11 +360,15 @@ public class Perfil_Usuario extends javax.swing.JFrame {
                     .addComponent(jLabel13)
                     .addComponent(tfLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel17)
-                    .addComponent(tfCEP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel18)
+                        .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel14)
+                        .addComponent(jLabel17)
+                        .addComponent(tfCEP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addComponent(btAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
@@ -388,7 +400,7 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         usuario.setNum_celular(cel);
         usuario.setEmail(email);
         
-        
+        user = new Gerenciar_Usuario();
         if (nome.length()>0 && data_nascimento.length()>0 && cel.length()>0 && email.length()>0){
       
             try {
@@ -486,7 +498,11 @@ public class Perfil_Usuario extends javax.swing.JFrame {
                 tfCPF1.setEnabled(false);
                 tfUF.setEnabled(false);
                 
+                
+               
                 lbAssinaturaPremium.setText("CLIQUE AQUI PARA SE TORNAR PRÊMIUM!");
+            } else {
+                
             }
             
         } catch (IOException ex) {
@@ -506,6 +522,10 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         ass.setVisible(true);
         dispose();
     }//GEN-LAST:event_lbAssinaturaPremiumMouseClicked
+
+    private void tfBairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfBairroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfBairroActionPerformed
     
 //Limpando os campos:
     public void LimparCampos(){
@@ -569,6 +589,7 @@ public class Perfil_Usuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -577,6 +598,7 @@ public class Perfil_Usuario extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lbAssinaturaPremium;
     private javax.swing.JLabel lbExcluirConta;
+    private javax.swing.JTextField tfBairro;
     private javax.swing.JTextField tfCEP1;
     private javax.swing.JTextField tfCPF1;
     private javax.swing.JTextField tfCidade;

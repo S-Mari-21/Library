@@ -14,12 +14,11 @@ import classes_basic.Usuario;
 
 
 public class Login extends javax.swing.JFrame {
-    classes_banco.Conexao_db conexao;
-    private Connection con;
-    private Gerenciar_Usuario user;
+    Conexao_db conexao;
+    Gerenciar_Usuario user;
     
-    
-    
+    private Connection con;    
+ 
     /**
      * Creates new form Recuperar_Senha
      */
@@ -192,9 +191,11 @@ public class Login extends javax.swing.JFrame {
         usuario.setEmail(email);
         usuario.setSenha(senha);
         
+        user = new Gerenciar_Usuario();   
+        
         if ((email.length()>0) && (senha.length()>0)){
             try {
-                if(user.VerificarLogon(con,usuario) == true){
+                if(user.VerificarLogon(con, usuario) == true){
                     Principal principal = new Principal();
                     principal.setVisible(true);
                     dispose();
@@ -202,7 +203,6 @@ public class Login extends javax.swing.JFrame {
                 } else{
                     JOptionPane.showMessageDialog(null, "Usuário e/ou senha incorreta!", "Login inválido!", 2);
                 }
-
             } catch (SQLException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -242,7 +242,7 @@ public class Login extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
       // Desconectar o banco de dados       
-      Conexao_db.Desconectar();
+      conexao.Desconectar();
         
     }//GEN-LAST:event_formWindowClosing
 

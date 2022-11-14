@@ -17,8 +17,8 @@ import java.text.ParseException;
  */
 public class Recuperar_Senha extends javax.swing.JFrame {
     Conexao_db conexao;
-    private Connection con;
-    private Gerenciar_Usuario user;
+    Connection con;
+    Gerenciar_Usuario user;
     /**
      * Creates new form LoginUser
      */
@@ -239,6 +239,7 @@ public class Recuperar_Senha extends javax.swing.JFrame {
         usuario.setNum_celular(num_celular);
         usuario.setSenha(senha); 
         
+        user = new Gerenciar_Usuario();
         
         if (email.length()>0 && num_celular.length()>0 && senha.length()>0){
             try {

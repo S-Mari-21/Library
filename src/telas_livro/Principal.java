@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import telas_system.Desenvolvedoras;
+import telas_system.Informacoes_Sistema;
 import telas_usuario.Assinatura_Premium;
 /**
  *
@@ -18,11 +20,12 @@ import telas_usuario.Assinatura_Premium;
  */
 public class Principal extends javax.swing.JFrame {
     Conexao_db conexao;
-    private Connection con;
+    Connection con;
     
     
     String sql = "select * from livro order by titulo";
-    String sqlPesquisa = "select * from livro where titulo = ? or nome_autor = ? order by titulo";
+    
+    
     /**
      * Creates new form Catalogo
      */
@@ -87,11 +90,21 @@ public class Principal extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("Quem Somos");
         jLabel18.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel18MouseClicked(evt);
+            }
+        });
 
         jLabel19.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setText("Informações do Sistema");
         jLabel19.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel19MouseClicked(evt);
+            }
+        });
 
         jLabel20.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(255, 255, 255));
@@ -290,6 +303,11 @@ public class Principal extends javax.swing.JFrame {
                 "Titulo", "Autor (a)", "Descrição", "Capa"
             }
         ));
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
         tabela1.setViewportView(tabela);
 
         getContentPane().add(tabela1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 260, 1190, 370));
@@ -306,7 +324,7 @@ public class Principal extends javax.swing.JFrame {
         try {                                  
             // Ao abrir a tela principal exibir os livros e se for administrador a opção para as ferramentas do admin:
             Integer eAdmin = Integer.parseInt(Informacoes.eAdmin);
-            
+            System.out.println(eAdmin);
             conexao = new Conexao_db();
             
             try {
@@ -336,7 +354,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        Conexao_db.Desconectar();
+       //1 Conexao_db.Desconectar();
+       System.exit(0);
   
     }//GEN-LAST:event_formWindowClosing
 
@@ -346,7 +365,7 @@ public class Principal extends javax.swing.JFrame {
         if(eAdmin == 1){
             Administracao adm = new Administracao();
             adm.setVisible(true);
-            dispose();
+            //dispose();
             
         } else {
             JOptionPane.showMessageDialog(null, "Usuário não possui previlégios para acessar as ferramentas de administrador!", "Não permitido!", 2);
@@ -382,10 +401,13 @@ public class Principal extends javax.swing.JFrame {
        while(rs.next()) {
           modelo.addRow(new Object[]
           {
-              rs.getInt("titulo"),
-              rs.getString("descricao"),
+              
+              rs.getString("titulo"),             
               rs.getString("nome_autor"),
+              rs.getString("descricao"),
               rs.getBytes("capa"),
+              rs.getInt("id_livro"),
+              rs.getInt("id_editora"),
           });
        
      } //Fim while
@@ -410,6 +432,7 @@ public class Principal extends javax.swing.JFrame {
         try {
             // Ao clicar na lupa:
             String pesquisa = String.valueOf(tfPesquisa.getText());
+            String sqlPesquisa = "SELECT * FROM livro WHERE titulo LIKE '%"+pesquisa+"%' OR nome_autor LIKE '%"+pesquisa+"%';";
             
             if (pesquisa.length()>0){
                 PreencherTabela(sqlPesquisa);
@@ -422,6 +445,33 @@ public class Principal extends javax.swing.JFrame {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_lbPesquisarMouseClicked
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        // Ao clicar na tabela:
+        int linha = tabela.getSelectedRow();
+        
+        Informacoes.id_livro = Integer.parseInt(tabela.getValueAt(linha,4).toString());
+        Informacoes.titulo = String.valueOf(tabela.getValueAt(linha,0).toString());
+        Informacoes.descricao = String.valueOf(tabela.getValueAt(linha,2).toString());
+        Informacoes.autor = String.valueOf(tabela.getValueAt(linha,1).toString());
+        Informacoes.capa = Byte.valueOf(tabela.getValueAt(linha,3).toString());
+        Informacoes.id_editora =Integer.parseInt(tabela.getValueAt(linha,5).toString());
+        
+        Pagina_livro pag = new Pagina_livro();
+        pag.setVisible(true);
+    }//GEN-LAST:event_tabelaMouseClicked
+
+    private void jLabel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel18MouseClicked
+        // Ao clicar em quem somos:
+        Desenvolvedoras des = new Desenvolvedoras();
+        des.setVisible(true);
+    }//GEN-LAST:event_jLabel18MouseClicked
+
+    private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
+        // Ao clicar em informações do sistema:
+        Informacoes_Sistema info = new Informacoes_Sistema();
+        info.setVisible(true);
+    }//GEN-LAST:event_jLabel19MouseClicked
 
     /**
      * @param args the command line arguments

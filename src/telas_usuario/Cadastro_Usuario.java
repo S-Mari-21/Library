@@ -15,8 +15,8 @@ import java.util.logging.Logger;
  */
 public class Cadastro_Usuario extends javax.swing.JFrame {
     Conexao_db conexao;
-    private Connection con;
-    private Gerenciar_Usuario user;
+    Gerenciar_Usuario user;
+    Connection con;
     /**
      * Creates new form Cadastro_Usuario
      */
@@ -243,11 +243,12 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         usuario.setData_nascimento(data_nascimento);
         usuario.setNum_celular(cel);
         usuario.setEmail(email);
-        usuario.setSenha(senha);              
+        usuario.setSenha(senha);       
         
+        user = new Gerenciar_Usuario();   
         if (nome.length()>0 && data_nascimento.length()>0 && cel.length()>0 && email.length()>0 && senha.length()>0){
             try {
-                if (user.VerificarEmail(con,usuario) == false){
+                if (user.VerificarEmail(con, usuario) == false){
                     user.AddUsuario(con,usuario);
                     JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Usuário Cadastrado!", 1);
 

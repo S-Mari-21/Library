@@ -21,8 +21,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Tela_Editora extends javax.swing.JFrame {
     Conexao_db conexao;
-    private Connection con;
-    private GerenciarEditora ger_editora;
+    Connection con;
+    GerenciarEditora ger_editora;
     
     String sql = "select *from editora order by nome_editora";
     /**
@@ -41,7 +41,11 @@ public class Tela_Editora extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        lbEditar = new javax.swing.JLabel();
+        lbNova = new javax.swing.JLabel();
+        lbExcluir = new javax.swing.JLabel();
+        painel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -50,9 +54,6 @@ public class Tela_Editora extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tfDescricao = new javax.swing.JTextArea();
         tfAno = new javax.swing.JTextField();
-        lbNova = new javax.swing.JLabel();
-        lbEditar = new javax.swing.JLabel();
-        lbExcluir = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -69,28 +70,10 @@ public class Tela_Editora extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
 
-        jLabel2.setText("EDITORAS");
-
-        jLabel3.setText("Nome:");
-
-        jLabel4.setText("Ano de Fundação:");
-
-        jLabel5.setText("Descrição:");
-
-        tfDescricao.setColumns(20);
-        tfDescricao.setRows(5);
-        jScrollPane1.setViewportView(tfDescricao);
-
-        lbNova.setText("Nova");
-        lbNova.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbNova.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbNovaMouseClicked(evt);
-            }
-        });
-
+        lbEditar.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbEditar.setForeground(new java.awt.Color(255, 255, 255));
         lbEditar.setText("Editar");
         lbEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbEditar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -99,6 +82,18 @@ public class Tela_Editora extends javax.swing.JFrame {
             }
         });
 
+        lbNova.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbNova.setForeground(new java.awt.Color(255, 255, 255));
+        lbNova.setText("Nova");
+        lbNova.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbNova.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbNovaMouseClicked(evt);
+            }
+        });
+
+        lbExcluir.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbExcluir.setForeground(new java.awt.Color(255, 255, 255));
         lbExcluir.setText("Excluir");
         lbExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbExcluir.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -106,6 +101,64 @@ public class Tela_Editora extends javax.swing.JFrame {
                 lbExcluirMouseClicked(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(28, Short.MAX_VALUE)
+                .addComponent(lbNova)
+                .addGap(18, 18, 18)
+                .addComponent(lbEditar)
+                .addGap(18, 18, 18)
+                .addComponent(lbExcluir)
+                .addGap(26, 26, 26))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbNova)
+                    .addComponent(lbEditar)
+                    .addComponent(lbExcluir))
+                .addGap(0, 13, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 30));
+
+        painel2.setBackground(new java.awt.Color(0, 0, 0, 80));
+
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("EDITORAS");
+
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Nome:");
+
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Ano de Fundação:");
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Descrição:");
+
+        tfNome.setBackground(new java.awt.Color(0, 0, 0));
+        tfNome.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfNome.setForeground(new java.awt.Color(255, 255, 255));
+
+        tfDescricao.setBackground(new java.awt.Color(0, 0, 0));
+        tfDescricao.setColumns(20);
+        tfDescricao.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfDescricao.setForeground(new java.awt.Color(255, 255, 255));
+        tfDescricao.setRows(5);
+        jScrollPane1.setViewportView(tfDescricao);
+
+        tfAno.setBackground(new java.awt.Color(0, 0, 0));
+        tfAno.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfAno.setForeground(new java.awt.Color(255, 255, 255));
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -122,70 +175,60 @@ public class Tela_Editora extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tabela);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lbNova)
-                                .addGap(18, 18, 18)
-                                .addComponent(lbEditar)
-                                .addGap(18, 18, 18)
-                                .addComponent(lbExcluir))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel5)
-                                        .addComponent(jLabel3))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jLabel4)
-                                            .addGap(10, 10, 10)
-                                            .addComponent(tfAno))
-                                        .addComponent(jScrollPane1)))
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(256, 256, 256)
+        javax.swing.GroupLayout painel2Layout = new javax.swing.GroupLayout(painel2);
+        painel2.setLayout(painel2Layout);
+        painel2Layout.setHorizontalGroup(
+            painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painel2Layout.createSequentialGroup()
+                .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painel2Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, painel2Layout.createSequentialGroup()
+                                .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(painel2Layout.createSequentialGroup()
+                                        .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tfAno))
+                                    .addComponent(jScrollPane1)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(painel2Layout.createSequentialGroup()
+                        .addGap(237, 237, 237)
                         .addComponent(jLabel2)))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+        painel2Layout.setVerticalGroup(
+            painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painel2Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
                 .addComponent(jLabel2)
-                .addGap(35, 35, 35)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbNova)
-                    .addComponent(lbEditar)
-                    .addComponent(lbExcluir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 580, 560));
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 600));
+        getContentPane().add(painel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 560, 450));
 
-        setSize(new java.awt.Dimension(669, 639));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/leitor.jpg"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 490));
+
+        setSize(new java.awt.Dimension(669, 527));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -203,7 +246,7 @@ public class Tela_Editora extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela:
-        conexao.Desconectar();
+        //conexao.Desconectar();
     }//GEN-LAST:event_formWindowClosing
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
@@ -229,6 +272,8 @@ public class Tela_Editora extends javax.swing.JFrame {
         editora.setNome_editora(nome);
         editora.setDescricao(descricao);
         editora.setId_editora(0);
+        
+        ger_editora = new GerenciarEditora();
         
         if (nome.length()>0 && ano.length()>0 && descricao.length()>0){
             try {
@@ -359,12 +404,13 @@ public class Tela_Editora extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbEditar;
     private javax.swing.JLabel lbExcluir;
     private javax.swing.JLabel lbNova;
+    private javax.swing.JPanel painel2;
     private javax.swing.JTable tabela;
     private javax.swing.JTextField tfAno;
     private javax.swing.JTextArea tfDescricao;

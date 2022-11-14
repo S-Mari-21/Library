@@ -14,6 +14,12 @@ public class Informacoes {
     
     //Livro:
     public static Integer id_livro;
+    public static String titulo;
+    public static String descricao;
+    public static String autor;
+    public static byte capa;
+    
+    
     
     //Categoria:
     public static Integer id_categoria;
