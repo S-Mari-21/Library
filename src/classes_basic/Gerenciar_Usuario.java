@@ -23,8 +23,12 @@ public class Gerenciar_Usuario {
         ResultSet rs = stmt.executeQuery();
         if (rs.next()){
             Informacoes.eAdmin = rs.getString("eAdmin");
+            Informacoes.ePremium = rs.getBoolean("ePremium");
             Informacoes.id_usuario = rs.getInt("id_usuario");
-            Informacoes.ePremium = rs.getString("ePremium");
+            Informacoes.nomeusuario = rs.getString("nome");
+            Informacoes.numcelular = rs.getString("num_celular");
+            Informacoes.datanascimento = rs.getString("data_nascimento");
+            Informacoes.emailusuario= rs.getString("email");
             rs.close();
             stmt.close();
             return true;
@@ -77,7 +81,7 @@ public class Gerenciar_Usuario {
     
     
        
-    public void AddUsuario(Connection con,Usuario usuario) throws SQLException, ParseException{
+    public void AddUsuario(Connection con, Usuario usuario) throws SQLException, ParseException{
         String sql = "INSERT INTO usuario (id_usuario, nome, senha, data_nascimento, num_celular, email, eAdmin, ePremium) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = con.prepareStatement(sql); //Este Statement é quem permite executar esta isntrução no sql
         stmt.setInt(1, usuario.getId_usuario());

@@ -3,8 +3,12 @@ package telas_livro;
 import classes_banco.Conexao_db;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,6 +17,8 @@ import java.util.logging.Logger;
 public class Emprestimo extends javax.swing.JFrame {
     Conexao_db conexao;
     Connection con;
+    
+    String sql = "select *from emprestimo order by data_emprestimo";
     /**
      * Creates new form Emprestimo
      */
@@ -29,7 +35,7 @@ public class Emprestimo extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        painel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -52,45 +58,49 @@ public class Emprestimo extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        painel2.setBackground(new java.awt.Color(0, 0, 0, 80));
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Data do empréstimo", "Titulo do livro", "Devolucao", "Multa", "Situacao"
+                "Data do empréstimo", "Código do livro", "Devolucao", "Multa", "Situacao"
             }
         ));
         jScrollPane1.setViewportView(tabela);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("EMPRÉSTIMOS");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(263, 263, 263))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+        javax.swing.GroupLayout painel2Layout = new javax.swing.GroupLayout(painel2);
+        painel2.setLayout(painel2Layout);
+        painel2Layout.setHorizontalGroup(
+            painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painel2Layout.createSequentialGroup()
+                .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painel2Layout.createSequentialGroup()
+                        .addGap(272, 272, 272)
+                        .addComponent(jLabel1))
+                    .addGroup(painel2Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+        painel2Layout.setVerticalGroup(
+            painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel2Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
                 .addComponent(jLabel1)
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 680, 550));
+        getContentPane().add(painel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 700, 560));
+
+        tela.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/plano-de-fundo.jpg"))); // NOI18N
         getContentPane().add(tela, new org.netbeans.lib.awtextra.AbsoluteConstraints(-2, 0, 2130, 610));
 
         setSize(new java.awt.Dimension(814, 638));
@@ -108,7 +118,8 @@ public class Emprestimo extends javax.swing.JFrame {
       
         try {
             con = (Connection) conexao.Conectar();
-        } catch (IOException ex) {
+            PreencherTabela(sql);
+        } catch (IOException | SQLException ex) {
             Logger.getLogger(Emprestimo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowOpened
@@ -117,7 +128,28 @@ public class Emprestimo extends javax.swing.JFrame {
         // Ao fechar a tela:
         conexao.Desconectar();
     }//GEN-LAST:event_formWindowClosing
-
+    public void PreencherTabela(String sql) throws SQLException{ 
+       PreparedStatement stmt = con.prepareStatement(sql);
+       ResultSet rs = stmt.executeQuery(); //Resultado do banco de dados
+       
+       //Gravando as informações da tabela no banco de dados
+       DefaultTableModel modelo = (DefaultTableModel)tabela.getModel();
+       modelo.setNumRows(0);
+       
+       while(rs.next()) {
+          modelo.addRow(new Object[]
+          {
+              rs.getString("data_emprestimo"),
+              rs.getString("id_livro"),
+              rs.getString("data_devolucao"),
+              rs.getString("multa"),
+              rs.getString("situacao"),
+          });
+       
+     } //Fim while
+      rs.close();
+      stmt.close();
+    }
     /**
      * @param args the command line arguments
      */
@@ -153,8 +185,8 @@ public class Emprestimo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel painel2;
     private javax.swing.JTable tabela;
     private javax.swing.JLabel tela;
     // End of variables declaration//GEN-END:variables

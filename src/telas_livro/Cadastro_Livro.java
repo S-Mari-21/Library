@@ -18,8 +18,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import classes_basic.Gerenciar_Livro;
 import classes_basic.Livro;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.ParseException;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author maria
@@ -28,10 +31,10 @@ public class Cadastro_Livro extends javax.swing.JFrame {
     Conexao_db conexao;
     Connection con;
     Gerenciar_Livro gerenciar_livro;
+    Livro livro;
     File imagem;
-    Principal principal;
     
-    String sql = "select * from livro order by titulo";
+    String sql = "select * from livro order by id_livro";
     
            
         
@@ -175,18 +178,27 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         transparencia.setBackground(new java.awt.Color(0, 0, 0, 80));
         transparencia.setForeground(new java.awt.Color(255, 255, 255));
 
+        tfTitulo.setBackground(new java.awt.Color(0, 0, 0));
+        tfTitulo.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfTitulo.setForeground(new java.awt.Color(255, 255, 255));
         tfTitulo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfTituloActionPerformed(evt);
             }
         });
 
+        tfDataLancamento.setBackground(new java.awt.Color(0, 0, 0));
+        tfDataLancamento.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfDataLancamento.setForeground(new java.awt.Color(255, 255, 255));
         tfDataLancamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfDataLancamentoActionPerformed(evt);
             }
         });
 
+        tfAutor.setBackground(new java.awt.Color(0, 0, 0));
+        tfAutor.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfAutor.setForeground(new java.awt.Color(255, 255, 255));
         tfAutor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfAutorActionPerformed(evt);
@@ -201,7 +213,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Descrição:");
 
-        capa.setBackground(new java.awt.Color(255, 255, 255));
+        capa.setBackground(new java.awt.Color(0, 0, 0));
         capa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout capaLayout = new javax.swing.GroupLayout(capa);
@@ -223,30 +235,46 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Categoria:");
 
+        tfDescricao.setBackground(new java.awt.Color(0, 0, 0));
         tfDescricao.setColumns(20);
+        tfDescricao.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfDescricao.setForeground(new java.awt.Color(255, 255, 255));
         tfDescricao.setRows(5);
         jScrollPane2.setViewportView(tfDescricao);
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Título", "Descrição", "Capa"
+                "Código", "Título", "Autor(a)", "Capa"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabela);
         if (tabela.getColumnModel().getColumnCount() > 0) {
-            tabela.getColumnModel().getColumn(0).setResizable(false);
             tabela.getColumnModel().getColumn(1).setResizable(false);
             tabela.getColumnModel().getColumn(2).setResizable(false);
+            tabela.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Data de Lancamento:");
+        jLabel9.setText("Ano de Lancamento:");
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -256,7 +284,9 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Autor:");
 
-        cbCategoria.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        cbCategoria.setBackground(new java.awt.Color(0, 0, 0));
+        cbCategoria.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        cbCategoria.setForeground(new java.awt.Color(255, 255, 255));
         cbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbCategoria.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cbCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -265,7 +295,9 @@ public class Cadastro_Livro extends javax.swing.JFrame {
             }
         });
 
-        cbEditora.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        cbEditora.setBackground(new java.awt.Color(0, 0, 0));
+        cbEditora.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        cbEditora.setForeground(new java.awt.Color(255, 255, 255));
         cbEditora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbEditora.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
@@ -273,13 +305,19 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Título:");
 
-        btInserirCapa.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        btInserirCapa.setBackground(new java.awt.Color(0, 0, 0));
+        btInserirCapa.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btInserirCapa.setForeground(new java.awt.Color(255, 255, 255));
         btInserirCapa.setText("Inserir Capa");
         btInserirCapa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btInserirCapaActionPerformed(evt);
             }
         });
+
+        Quantidade.setBackground(new java.awt.Color(0, 0, 0));
+        Quantidade.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        Quantidade.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
@@ -327,7 +365,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
                         .addComponent(tfDataLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel8)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
                 .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(transparenciaLayout.createSequentialGroup()
@@ -353,7 +391,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
                 .addContainerGap())
             .addComponent(jScrollPane1)
             .addGroup(transparenciaLayout.createSequentialGroup()
-                .addGap(342, 342, 342)
+                .addGap(363, 363, 363)
                 .addComponent(jLabel2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -402,19 +440,19 @@ public class Cadastro_Livro extends javax.swing.JFrame {
                                 .addComponent(btInserirCapa))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(capa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGap(42, 42, 42)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        getContentPane().add(transparencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 860, 480));
+        getContentPane().add(transparencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 910, 530));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/cadastrar_livros.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 950, 550));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/plano-de-fundo.jpg"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 600));
 
-        setSize(new java.awt.Dimension(967, 588));
+        setSize(new java.awt.Dimension(1020, 639));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -463,13 +501,13 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         //livro.setCapa(getCapa());
         
         gerenciar_livro = new Gerenciar_Livro();
-        principal = new Principal();
+        
         if(titulo.length()>0 && autor.length()>0 && data_lancamento.length()>0 && descricao.length()>0){
 
             try {
                 if (gerenciar_livro.Verificar(con,livro) == false){
                     gerenciar_livro.AddLivro(con,livro);
-                    principal.PreencherTabela(sql);
+                    PreencherTabela(sql);
                     JOptionPane.showMessageDialog(null, "O livro foi cadastrado com sucesso!", "Livro Cadastrado!", 1);
                 }
             } catch (SQLException | ParseException ex) {
@@ -492,13 +530,9 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         conexao = new Conexao_db();
         try {
             con = (Connection) Conexao_db.Conectar();
-            Principal principal = new Principal();
-            try {
-                principal.PreencherTabela(sql);
-            } catch (SQLException ex) {
-                Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (IOException ex) {
+            PreencherTabela(sql);
+
+        } catch (IOException | SQLException ex) {
             Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -527,8 +561,9 @@ public class Cadastro_Livro extends javax.swing.JFrame {
     private void lbExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbExcluirMouseClicked
         // Ao clicar em excluir livro:
         Livro livro = new Livro();
-        Integer id = Informacoes.id_livro;
-        livro.setId_livro(id);
+              
+        int linha = tabela.getSelectedRow();  
+        livro.setId_livro(Integer.parseInt(tabela.getValueAt(linha,0).toString()));
         
         Object[] options = { "Sim", "Não" };
         int opcao = JOptionPane.showOptionDialog(null, "Tem certeza que deseja excluir a sua conta?", "Excluir minha conta", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
@@ -537,7 +572,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
          
             try {
                 gerenciar_livro.DelLivro(con,livro);
-                principal.PreencherTabela(sql);
+                PreencherTabela(sql);
                 
             } catch (SQLException ex) {
                 Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
@@ -550,7 +585,9 @@ public class Cadastro_Livro extends javax.swing.JFrame {
 
     private void lbAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAlterarMouseClicked
         //Ao clicar em Alterar livro:
-               
+        int linha = tabela.getSelectedRow();  
+        livro.setId_livro(Integer.parseInt(tabela.getValueAt(linha,0).toString()));
+        
         String titulo = String.valueOf(tfTitulo.getText());
         String autor = String.valueOf(tfAutor.getText());
         String data_lancamento = String.valueOf(tfDataLancamento.getText());
@@ -574,13 +611,17 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         livro.setDescricao(descricao);
         livro.setQuantidade_total(qtd);
         livro.setEpremium(epremium);
-        //livro.setCapa(getCapa());
+        
+//        if(imagem != null){
+//            livro.setCapa(getCapa());
+//        }		
+
         
         
         if(titulo.length()>0 && autor.length()>0 && data_lancamento.length()>0 && descricao.length()>0){             
             try {
                 gerenciar_livro.AltLivro(con,livro);
-                principal.PreencherTabela(sql);
+                PreencherTabela(sql);
                 JOptionPane.showMessageDialog(null, "O livro foi alterado com sucesso!", "Livro Alterado!", 1);
                 
             } catch (SQLException | ParseException ex) {
@@ -592,19 +633,74 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_lbAlterarMouseClicked
-
+    public void PreencherTabela(String sql) throws SQLException{ 
+       PreparedStatement stmt = con.prepareStatement(sql);
+       ResultSet rs = stmt.executeQuery(); //Resultado do banco de dados
+       
+       //Gravando as informações da tabela no banco de dados
+       DefaultTableModel modelo = (DefaultTableModel)tabela.getModel();
+       modelo.setNumRows(0);
+       
+       while(rs.next()) {
+          modelo.addRow(new Object[]
+          {
+             
+              rs.getInt("id_livro"),
+              rs.getString("titulo"),
+              rs.getString("nome_autor"),
+              rs.getBytes("capa"),
+               
+          });
+       
+     } //Fim while
+      rs.close();
+      stmt.close();
+    }
     private void lbRedefinirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbRedefinirMouseClicked
         //Ao clicar em redefinir:
         
         
     }//GEN-LAST:event_lbRedefinirMouseClicked
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        // Ao clicar na tabela (quando se clica na linha da tabela aparece os dados completos do uuário)
+        int linha = tabela.getSelectedRow();
+        System.out.println();
+        
+        livro = new Livro();
+        gerenciar_livro = new Gerenciar_Livro();
+        livro.setId_livro(Integer.parseInt(tabela.getValueAt(linha,0).toString()));
+        
+        try {
+            gerenciar_livro.Dados(con, livro);
+        } catch (SQLException ex) {
+            Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println();
+        
+        
+        tfTitulo.setText(tabela.getValueAt(linha,1).toString());
+        tfAutor.setText(tabela.getValueAt(linha,2).toString());
+        tfDataLancamento.setText(String.valueOf(livro.getAno_lancamento()));
+        tfDescricao.setText(String.valueOf(livro.getDescricao()));
+        Quantidade.setText(String.valueOf(livro.getQuantidade_total()));
+        
+        
+        //Categoria
+        
+        
+        //Editora
+        
+        
+        //ca(tabela.getValueAt(linha,3).toString());
+    }//GEN-LAST:event_tabelaMouseClicked
     public File selecionarImagem(){
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Images em JPEG e PNG", "jpg","png");
         fileChooser.addChoosableFileFilter(filtro);
         fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
-        fileChooser.setCurrentDirectory(new File("c:"));
+        fileChooser.setCurrentDirectory(new File("c:\\Imagens"));
         fileChooser.showOpenDialog(this);
 
         return fileChooser.getSelectedFile();

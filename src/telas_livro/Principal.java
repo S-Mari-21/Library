@@ -212,6 +212,11 @@ public class Principal extends javax.swing.JFrame {
         lbCategorias.setForeground(new java.awt.Color(255, 255, 255));
         lbCategorias.setText("CATEGORIAS");
         lbCategorias.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbCategorias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbCategoriasMouseClicked(evt);
+            }
+        });
 
         lbHistorico.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lbHistorico.setForeground(new java.awt.Color(255, 255, 255));
@@ -405,9 +410,9 @@ public class Principal extends javax.swing.JFrame {
               rs.getString("titulo"),             
               rs.getString("nome_autor"),
               rs.getString("descricao"),
-              rs.getBytes("capa"),
-              rs.getInt("id_livro"),
-              rs.getInt("id_editora"),
+              //rs.getBytes("capa"),
+              //rs.getInt("id_livro"),
+              //rs.getInt("id_editora"),
           });
        
      } //Fim while
@@ -418,9 +423,15 @@ public class Principal extends javax.swing.JFrame {
         //Ao clicar em área premium:
         //1º Verificar se já é usuário premium:
        Boolean epremium = Boolean.valueOf(Informacoes.ePremium);
+       String sqlLivrosPremium = "SELECT * FROM livro WHERE epremium = '"+epremium+"'";
        
        if (epremium == true ){
-           //Exibir os livros premium na tabela
+           try {
+               //Exibir os livros premium na tabela
+               PreencherTabela(sqlLivrosPremium);
+           } catch (SQLException ex) {
+               Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+           }
        } else {
           Assinatura_Premium ass = new Assinatura_Premium();
           ass.setVisible(true);
@@ -450,12 +461,12 @@ public class Principal extends javax.swing.JFrame {
         // Ao clicar na tabela:
         int linha = tabela.getSelectedRow();
         
-        Informacoes.id_livro = Integer.parseInt(tabela.getValueAt(linha,4).toString());
         Informacoes.titulo = String.valueOf(tabela.getValueAt(linha,0).toString());
         Informacoes.descricao = String.valueOf(tabela.getValueAt(linha,2).toString());
         Informacoes.autor = String.valueOf(tabela.getValueAt(linha,1).toString());
-        Informacoes.capa = Byte.valueOf(tabela.getValueAt(linha,3).toString());
-        Informacoes.id_editora =Integer.parseInt(tabela.getValueAt(linha,5).toString());
+        //Informacoes.capa = Byte.valueOf(tabela.getValueAt(linha,3).toString());
+        //Informacoes.id_livro = Integer.parseInt(tabela.getValueAt(linha,4).toString());
+       //Informacoes.id_editora =Integer.parseInt(tabela.getValueAt(linha,5).toString());
         
         Pagina_livro pag = new Pagina_livro();
         pag.setVisible(true);
@@ -472,6 +483,10 @@ public class Principal extends javax.swing.JFrame {
         Informacoes_Sistema info = new Informacoes_Sistema();
         info.setVisible(true);
     }//GEN-LAST:event_jLabel19MouseClicked
+
+    private void lbCategoriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbCategoriasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbCategoriasMouseClicked
 
     /**
      * @param args the command line arguments

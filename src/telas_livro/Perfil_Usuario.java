@@ -7,9 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import classes_basic.Usuario;
+import classes_premium.Usuario_Premium;
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import telas_usuario.Assinatura_Premium;
@@ -21,6 +20,8 @@ public class Perfil_Usuario extends javax.swing.JFrame {
     Conexao_db conexao;
     Connection con;
     Gerenciar_Usuario user;
+    Usuario_Premium userpremium;
+    Usuario usuario;
     
     /**
      * Creates new form Perfil_Usuario
@@ -89,6 +90,9 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Email:");
 
+        tfNumCelular.setBackground(new java.awt.Color(0, 0, 0));
+        tfNumCelular.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfNumCelular.setForeground(new java.awt.Color(255, 255, 255));
         tfNumCelular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfNumCelularActionPerformed(evt);
@@ -115,6 +119,9 @@ public class Perfil_Usuario extends javax.swing.JFrame {
             }
         });
 
+        tfDataNascimento.setBackground(new java.awt.Color(0, 0, 0));
+        tfDataNascimento.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfDataNascimento.setForeground(new java.awt.Color(255, 255, 255));
         tfDataNascimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfDataNascimentoActionPerformed(evt);
@@ -125,12 +132,18 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Livra");
 
+        tfEmail.setBackground(new java.awt.Color(0, 0, 0));
+        tfEmail.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfEmail.setForeground(new java.awt.Color(255, 255, 255));
         tfEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfEmailActionPerformed(evt);
             }
         });
 
+        tfNome.setBackground(new java.awt.Color(0, 0, 0));
+        tfNome.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfNome.setForeground(new java.awt.Color(255, 255, 255));
         tfNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfNomeActionPerformed(evt);
@@ -187,36 +200,54 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("CEP:");
 
+        tfLogradouro.setBackground(new java.awt.Color(0, 0, 0));
+        tfLogradouro.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfLogradouro.setForeground(new java.awt.Color(255, 255, 255));
         tfLogradouro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfLogradouroActionPerformed(evt);
             }
         });
 
+        tfCidade.setBackground(new java.awt.Color(0, 0, 0));
+        tfCidade.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfCidade.setForeground(new java.awt.Color(255, 255, 255));
         tfCidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfCidadeActionPerformed(evt);
             }
         });
 
+        tfCEP1.setBackground(new java.awt.Color(0, 0, 0));
+        tfCEP1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfCEP1.setForeground(new java.awt.Color(255, 255, 255));
         tfCEP1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfCEP1ActionPerformed(evt);
             }
         });
 
+        tfCPF1.setBackground(new java.awt.Color(0, 0, 0));
+        tfCPF1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfCPF1.setForeground(new java.awt.Color(255, 255, 255));
         tfCPF1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfCPF1ActionPerformed(evt);
             }
         });
 
+        tfNumero.setBackground(new java.awt.Color(0, 0, 0));
+        tfNumero.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfNumero.setForeground(new java.awt.Color(255, 255, 255));
         tfNumero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfNumeroActionPerformed(evt);
             }
         });
 
+        tfUF.setBackground(new java.awt.Color(0, 0, 0));
+        tfUF.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfUF.setForeground(new java.awt.Color(255, 255, 255));
         tfUF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfUFActionPerformed(evt);
@@ -236,6 +267,9 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("Bairro:");
 
+        tfBairro.setBackground(new java.awt.Color(0, 0, 0));
+        tfBairro.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        tfBairro.setForeground(new java.awt.Color(255, 255, 255));
         tfBairro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfBairroActionPerformed(evt);
@@ -369,7 +403,7 @@ public class Perfil_Usuario extends javax.swing.JFrame {
                         .addComponent(jLabel17)
                         .addComponent(tfCEP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(btAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
@@ -393,19 +427,29 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         String data_nascimento = String.valueOf(tfDataNascimento.getText());
         String cel = String.valueOf(tfNumCelular.getText());
         String email = String.valueOf(tfEmail.getText());
+        Boolean ePremium = Informacoes.ePremium; 
+        System.out.println("E premium = "+ePremium);
         
         Usuario usuario = new Usuario();
         usuario.setNome(nome);
         usuario.setData_nascimento(data_nascimento);
         usuario.setNum_celular(cel);
         usuario.setEmail(email);
+        usuario.setId_usuario(Informacoes.id_usuario);
+        usuario.setAdmin(Boolean.parseBoolean(Informacoes.eAdmin));
+        usuario.setEpremium(ePremium);
         
         user = new Gerenciar_Usuario();
+        userpremium = new Usuario_Premium();
+        
         if (nome.length()>0 && data_nascimento.length()>0 && cel.length()>0 && email.length()>0){
-      
             try {
                 user.AltUsuario(con,usuario);
-                LimparCampos();
+                if (ePremium == true){
+                   userpremium.AltUsuarioPremium(con,usuario.getId_usuario(), tfLogradouro.getText(), Integer.parseInt(tfNumero.getText()) ,tfBairro.getText(), tfCidade.getText(),tfUF.getText(),tfCEP1.getText(), tfCPF1.getText()); 
+                }
+                
+                GetDados();
                 
             } catch (SQLException | ParseException ex) {
                 Logger.getLogger(Perfil_Usuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -489,33 +533,54 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         conexao = new Conexao_db();
         try {
             con = (Connection) Conexao_db.Conectar();
-            System.out.println("Id do usuario tela perfil: "+Informacoes.id_usuario);
-            Integer ePremium = Integer.parseInt(Informacoes.ePremium); 
-            if(ePremium == 0){
-                tfCEP1.setEnabled(false);
-                tfCidade.setEnabled(false);
-                tfLogradouro.setEnabled(false);
-                tfCPF1.setEnabled(false);
-                tfUF.setEnabled(false);
-                
-                
-               
-                lbAssinaturaPremium.setText("CLIQUE AQUI PARA SE TORNAR PRÊMIUM!");
-            } else {
-                
-            }
+            GetDados();
             
-        } catch (IOException ex) {
+        } catch (IOException | SQLException ex) {
             Logger.getLogger(Perfil_Usuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela:
-        Conexao_db.Desconectar();
+        //Conexao_db.Desconectar();
         
     }//GEN-LAST:event_formWindowClosing
-
+    public void GetDados() throws SQLException{
+            System.out.println("Id do usuario tela perfil: "+Informacoes.id_usuario);
+            System.out.println("Nome do usuario tela perfil: "+String.valueOf(Informacoes.nomeusuario));
+            Boolean ePremium = Informacoes.ePremium; 
+            
+            usuario = new Usuario();
+            usuario.setId_usuario(Informacoes.id_usuario);
+            
+            tfNome.setText(String.valueOf(Informacoes.nomeusuario));
+            tfDataNascimento.setText(String.valueOf(Informacoes.datanascimento));
+            tfNumCelular.setText(String.valueOf(Informacoes.numcelular));
+            tfEmail.setText(String.valueOf(Informacoes.emailusuario));
+            
+            userpremium = new Usuario_Premium();
+            if(ePremium == false){
+                tfCEP1.setEnabled(false);
+                tfCidade.setEnabled(false);
+                tfLogradouro.setEnabled(false);
+                tfCPF1.setEnabled(false);
+                tfUF.setEnabled(false);
+                tfBairro.setEnabled(false);
+                tfNumero.setEnabled(false);
+                
+                lbAssinaturaPremium.setText("CLIQUE AQUI PARA SE TORNAR PRÊMIUM!");
+            } else {
+                userpremium.DadosUserPremium(con, usuario);
+                
+                tfCEP1.setText(String.valueOf(Informacoes.cep));
+                tfCidade.setText(String.valueOf(Informacoes.cidade));
+                tfLogradouro.setText(String.valueOf(Informacoes.logradouro));
+                tfCPF1.setText(String.valueOf(Informacoes.cpf));
+                tfUF.setText(String.valueOf(Informacoes.uf));
+                tfNumero.setText(String.valueOf(Informacoes.numero));
+                tfBairro.setText(String.valueOf(Informacoes.bairro));
+            }
+}
     private void lbAssinaturaPremiumMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAssinaturaPremiumMouseClicked
         //Ao clicar em assinatura premium:
         Assinatura_Premium ass = new Assinatura_Premium();

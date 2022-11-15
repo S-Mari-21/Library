@@ -45,6 +45,7 @@ public class Tela_Editora extends javax.swing.JFrame {
         lbEditar = new javax.swing.JLabel();
         lbNova = new javax.swing.JLabel();
         lbExcluir = new javax.swing.JLabel();
+        lbRedefinir = new javax.swing.JLabel();
         painel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -102,12 +103,24 @@ public class Tela_Editora extends javax.swing.JFrame {
             }
         });
 
+        lbRedefinir.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbRedefinir.setForeground(new java.awt.Color(255, 255, 255));
+        lbRedefinir.setText("Redefinir");
+        lbRedefinir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbRedefinir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbRedefinirMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbRedefinir)
+                .addGap(18, 18, 18)
                 .addComponent(lbNova)
                 .addGap(18, 18, 18)
                 .addComponent(lbEditar)
@@ -121,11 +134,12 @@ public class Tela_Editora extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbNova)
                     .addComponent(lbEditar)
-                    .addComponent(lbExcluir))
+                    .addComponent(lbExcluir)
+                    .addComponent(lbRedefinir))
                 .addGap(0, 13, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 30));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 30));
 
         painel2.setBackground(new java.awt.Color(0, 0, 0, 80));
 
@@ -165,7 +179,7 @@ public class Tela_Editora extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome", "Ano de Fundação", "Descrição"
+                "Código", "Nome", "Ano de Fundação", "Descrição"
             }
         ));
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -180,28 +194,29 @@ public class Tela_Editora extends javax.swing.JFrame {
         painel2Layout.setHorizontalGroup(
             painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painel2Layout.createSequentialGroup()
+                .addGap(237, 237, 237)
+                .addComponent(jLabel2)
+                .addContainerGap(302, Short.MAX_VALUE))
+            .addGroup(painel2Layout.createSequentialGroup()
                 .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painel2Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
-                        .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, painel2Layout.createSequentialGroup()
-                                .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel3))
+                        .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(painel2Layout.createSequentialGroup()
+                                .addComponent(tfNome)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(painel2Layout.createSequentialGroup()
-                                        .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(tfAno))
-                                    .addComponent(jScrollPane1)))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(painel2Layout.createSequentialGroup()
-                        .addGap(237, 237, 237)
-                        .addComponent(jLabel2)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                                .addComponent(tfAno, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(29, 29, 29))
         );
         painel2Layout.setVerticalGroup(
             painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,18 +232,18 @@ public class Tela_Editora extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        getContentPane().add(painel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 560, 450));
+        getContentPane().add(painel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 610, 500));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/leitor.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 490));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/plano-de-fundo.jpg"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 550));
 
-        setSize(new java.awt.Dimension(669, 527));
+        setSize(new java.awt.Dimension(717, 590));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -245,17 +260,21 @@ public class Tela_Editora extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // Ao fechar a tela:
-        //conexao.Desconectar();
+        try {
+            // Ao fechar a tela:
+            conexao.Conectar();
+        } catch (IOException ex) {
+            Logger.getLogger(Tela_Editora.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_formWindowClosing
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         // Ao clicar na tabela (quando se clica na linha da tabela aparece os dados completos do uuário)
         int linha = tabela.getSelectedRow();
         
-        tfNome.setText(tabela.getValueAt(linha,0).toString());
-        tfAno.setText(tabela.getValueAt(linha,1).toString());
-        tfDescricao.setText(tabela.getValueAt(linha,2).toString());
+        tfNome.setText(tabela.getValueAt(linha,1).toString());
+        tfAno.setText(tabela.getValueAt(linha,2).toString());
+        tfDescricao.setText(tabela.getValueAt(linha,3).toString());
         
         
     }//GEN-LAST:event_tabelaMouseClicked
@@ -299,7 +318,9 @@ public class Tela_Editora extends javax.swing.JFrame {
         String nome = String.valueOf(tfNome.getText());
         String ano = String.valueOf(tfAno.getText());
         String descricao = String.valueOf(tfDescricao.getText());
-        Integer id = Informacoes.id_editora;
+        
+        int linha = tabela.getSelectedRow();  
+        Integer id = Integer.parseInt(tabela.getValueAt(linha,0).toString());
         
         Editora editora = new Editora();
         editora.setAno_fundacao(ano);
@@ -307,6 +328,7 @@ public class Tela_Editora extends javax.swing.JFrame {
         editora.setDescricao(descricao);
         editora.setId_editora(id);
         
+        ger_editora = new GerenciarEditora();
         if (nome.length()>0 && ano.length()>0 && descricao.length()>0){
             try {
                 ger_editora.AltEditora(con,editora);
@@ -323,7 +345,8 @@ public class Tela_Editora extends javax.swing.JFrame {
     }//GEN-LAST:event_lbEditarMouseClicked
 
     private void lbExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbExcluirMouseClicked
-        Integer id = Informacoes.id_editora;
+        int linha = tabela.getSelectedRow();  
+        Integer id = Integer.parseInt(tabela.getValueAt(linha,0).toString());
         
         Editora editora = new Editora();
         editora.setId_editora(id);
@@ -343,6 +366,14 @@ public class Tela_Editora extends javax.swing.JFrame {
             }  
         } 
     }//GEN-LAST:event_lbExcluirMouseClicked
+
+    private void lbRedefinirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbRedefinirMouseClicked
+        // Ao clicar em redefinir:
+        tfAno.setText("");
+        tfDescricao.setText("");
+        tfNome.setText("");
+        
+    }//GEN-LAST:event_lbRedefinirMouseClicked
     public void PreencherTabela(String sql) throws SQLException{ 
        PreparedStatement stmt = con.prepareStatement(sql);
        ResultSet rs = stmt.executeQuery(); //Resultado do banco de dados
@@ -354,6 +385,7 @@ public class Tela_Editora extends javax.swing.JFrame {
        while(rs.next()) {
           modelo.addRow(new Object[]
           {
+              rs.getInt("id_editora"),
               rs.getString("nome_editora"),
               rs.getString("ano_fundacao"),
               rs.getString("descricao"),
@@ -410,6 +442,7 @@ public class Tela_Editora extends javax.swing.JFrame {
     private javax.swing.JLabel lbEditar;
     private javax.swing.JLabel lbExcluir;
     private javax.swing.JLabel lbNova;
+    private javax.swing.JLabel lbRedefinir;
     private javax.swing.JPanel painel2;
     private javax.swing.JTable tabela;
     private javax.swing.JTextField tfAno;

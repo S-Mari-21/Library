@@ -24,7 +24,7 @@ public class Tela_Categoria extends javax.swing.JFrame {
     Connection con;
     GerenciarCategoria cat;
     
-    String sql = "select * from categoria order by nome_categoria";
+    String sql = "select * from categoria order by id_categoria";
     /**
      * Creates new form Categoria
      */
@@ -51,6 +51,7 @@ public class Tela_Categoria extends javax.swing.JFrame {
         lbNova = new javax.swing.JLabel();
         lbEditar = new javax.swing.JLabel();
         lbExcluir = new javax.swing.JLabel();
+        lbRedefinir = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -86,13 +87,13 @@ public class Tela_Categoria extends javax.swing.JFrame {
         tabela.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Categoria"
+                "Código", "Categoria"
             }
         ));
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -169,18 +170,30 @@ public class Tela_Categoria extends javax.swing.JFrame {
             }
         });
 
+        lbRedefinir.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbRedefinir.setForeground(new java.awt.Color(255, 255, 255));
+        lbRedefinir.setText("Redefinir");
+        lbRedefinir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbRedefinir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbRedefinirMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addContainerGap()
+                .addComponent(lbRedefinir)
+                .addGap(27, 27, 27)
                 .addComponent(lbNova)
-                .addGap(28, 28, 28)
+                .addGap(27, 27, 27)
                 .addComponent(lbEditar)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(lbExcluir)
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,13 +202,14 @@ public class Tela_Categoria extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbNova)
                     .addComponent(lbEditar)
-                    .addComponent(lbExcluir))
+                    .addComponent(lbExcluir)
+                    .addComponent(lbRedefinir))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/leitor.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/plano-de-fundo.jpg"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 500));
 
         setSize(new java.awt.Dimension(657, 537));
@@ -220,12 +234,12 @@ public class Tela_Categoria extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-//        try {
-//            //        // Ao fechar a tela:;
-//            //conexao.Conectar();
-//        } catch (IOException ex) {
-//            Logger.getLogger(Tela_Categoria.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            // Ao fechar a tela:;
+            conexao.Conectar();
+        } catch (IOException ex) {
+            Logger.getLogger(Tela_Categoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_formWindowClosing
 
     private void lbNovaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbNovaMouseClicked
@@ -259,11 +273,13 @@ public class Tela_Categoria extends javax.swing.JFrame {
 
     private void lbEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbEditarMouseClicked
         //Ao clicar em editar:
+        int linha = tabela.getSelectedRow();  
+        Integer id = Integer.parseInt(tabela.getValueAt(linha,0).toString());
         String campo_categoria = String.valueOf(tfCategoria.getText());
         
         Categoria categoria = new Categoria();
         categoria.setNome_categoria(campo_categoria);
-        categoria.setId_categoria(Informacoes.id_categoria);
+        categoria.setId_categoria(id);
         
         cat = new GerenciarCategoria();
         if (campo_categoria.length()>0){
@@ -283,14 +299,17 @@ public class Tela_Categoria extends javax.swing.JFrame {
 
     private void lbExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbExcluirMouseClicked
         // Ao clicar em excluir:
+        int linha = tabela.getSelectedRow();
+         
+        Integer id = Integer.parseInt(tabela.getValueAt(linha,0).toString());
+        
         String campo_categoria = String.valueOf(tfCategoria.getText());
         
         Categoria categoria = new Categoria();
-        categoria.setNome_categoria(campo_categoria);
-        categoria.setId_categoria(Informacoes.id_categoria);
-        
+        categoria.setId_categoria(id);
         
         cat = new GerenciarCategoria();
+        //cat = new GerenciarCategoria();
         
         Object[] options = { "Sim", "Não" };
         int opcao = JOptionPane.showOptionDialog(null, "Tem certeza que deseja excluir esta categoria?", "Excluir categoria", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
@@ -312,10 +331,18 @@ public class Tela_Categoria extends javax.swing.JFrame {
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         // Ao clicar na tabela (quando se clica na linha da tabela aparece os dados completos do uuário)
         int linha = tabela.getSelectedRow();
-         
-        tfCategoria.setText(tabela.getValueAt(linha,0).toString());
+        
+       
+        tfCategoria.setText(tabela.getValueAt(linha,1).toString());
         
     }//GEN-LAST:event_tabelaMouseClicked
+
+    private void lbRedefinirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbRedefinirMouseClicked
+        // Ao clicar em redefinir:
+        tfCategoria.setText("");
+    
+
+    }//GEN-LAST:event_lbRedefinirMouseClicked
     public void PreencherTabela(String sql) throws SQLException{ 
        PreparedStatement stmt = con.prepareStatement(sql);
        ResultSet rs = stmt.executeQuery(); //Resultado do banco de dados
@@ -327,7 +354,9 @@ public class Tela_Categoria extends javax.swing.JFrame {
        while(rs.next()) {
           modelo.addRow(new Object[]
           {
-              rs.getString("nome_categoria"),
+             
+              rs.getInt("id_categoria"),
+               rs.getString("nome_categoria"),
           });
        
      } //Fim while
@@ -378,6 +407,7 @@ public class Tela_Categoria extends javax.swing.JFrame {
     private javax.swing.JLabel lbEditar;
     private javax.swing.JLabel lbExcluir;
     private javax.swing.JLabel lbNova;
+    private javax.swing.JLabel lbRedefinir;
     private javax.swing.JPanel painel2;
     private javax.swing.JTable tabela;
     private javax.swing.JTextField tfCategoria;

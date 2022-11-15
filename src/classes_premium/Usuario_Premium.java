@@ -6,12 +6,40 @@ package classes_premium;
  * @author maria
  */
 import classes_basic.Gerenciar_Usuario;
+import classes_basic.Informacoes;
+import classes_basic.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 
 public class Usuario_Premium extends Gerenciar_Usuario{
+    
+    public void DadosUserPremium(Connection con, Usuario usuario) throws SQLException{
+            String sql = "select *from usuario_premium where id_usuario = ?"; 
+            
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, usuario.getId_usuario());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()){
+                Informacoes.cep = rs.getString("cep");
+                Informacoes.bairro = rs.getString("bairro");
+                Informacoes.cidade = rs.getString("cidade");
+                Informacoes.cpf = rs.getString("cpf");
+                Informacoes.uf = rs.getString("uf");
+                Informacoes.numero = rs.getString("num_local");
+                rs.close();
+                stmt.close();
+
+            }
+            else {
+                rs.close();
+                stmt.close();
+
+            }
+    }
+    
     
     public void AddUsuarioPremium(Connection con, Integer Id_Usuario, String logradouro, Integer Num_Casa, String Bairro, String Cidade, String UF, String CEP, String CPF) throws SQLException, ParseException{
         String sql = "insert into usuario_premium (id_usuario, logradouro, num_casa, bairro, cidade, uf, cep, cpf) values (?, ?, ?, ?, ?, ?, ?, ?)";

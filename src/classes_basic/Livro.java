@@ -5,6 +5,8 @@ package classes_basic;
  */
 public class Livro {
     private Integer id_livro;
+    private Integer id_editora;
+    private Integer id_categoria;
     private String titulo;
     private String descricao;
     private String ano_lancamento;
@@ -19,6 +21,19 @@ public class Livro {
     }
     public void setId_livro(Integer id_livro) {
         this.id_livro = id_livro;
+    }
+    
+    public Integer getId_editora() {
+        return id_editora;
+    }
+    public void setId_editora(Integer id_editora) {
+        this.id_editora = id_editora;
+    }
+    public Integer getId_categoria() {
+        return id_categoria;
+    }
+    public void setId_categoria(Integer id_categoria) {
+        this.id_categoria = id_categoria;
     }
     public String getTitulo() {
         return titulo;

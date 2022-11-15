@@ -1,10 +1,5 @@
 package telas_system;
 
-import classes_banco.Conexao_db;
-import com.mysql.jdbc.Connection;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import telas_livro.Cadastro_Livro;
 import telas_livro.Principal;
 
@@ -13,8 +8,7 @@ import telas_livro.Principal;
  * @author maria
  */
 public class Administracao extends javax.swing.JFrame {
-    Conexao_db conexao;
-    Connection con;
+
     /**
      * Creates new form Administracao
      */
@@ -73,6 +67,9 @@ public class Administracao extends javax.swing.JFrame {
         lbCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbCategoriaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbCategoriaMouseEntered(evt);
             }
         });
 
@@ -171,10 +168,7 @@ public class Administracao extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela:
-//        Principal principal = new Principal();
-//        principal.setVisible(true);
-        //conexao.Desconectar();
-       // dispose();
+
     }//GEN-LAST:event_formWindowClosing
 
     private void lbHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbHomeMouseClicked
@@ -204,13 +198,11 @@ public class Administracao extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // Conectar ao banco:
-        conexao = new Conexao_db();
-        try {
-            con = (Connection) Conexao_db.Conectar();
-        } catch (IOException ex) {
-            Logger.getLogger(Administracao.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_formWindowOpened
+
+    private void lbCategoriaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbCategoriaMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbCategoriaMouseEntered
 
     /**
      * @param args the command line arguments
@@ -240,10 +232,8 @@ public class Administracao extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Administracao().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Administracao().setVisible(true);
         });
     }
 

@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class Usuarios extends javax.swing.JFrame {
     Conexao_db conexao;
     Connection con;
+    
     Gerenciar_Usuario user;
     
     String sql = "select *from usuario order by nome";
@@ -260,8 +261,12 @@ public class Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // Ao fechar a tela:
-        Conexao_db.Desconectar();
+        try {
+            // Ao fechar a tela:
+            Conexao_db.Conectar();
+        } catch (IOException ex) {
+            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_formWindowClosing
 
     private void tabelaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseEntered

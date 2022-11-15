@@ -11,7 +11,7 @@ public class Situacao {
         this.sit = sit;
     }
       
-    public void Informar_Situacao(Character situacao){
+    public String Informar_Situacao(Character situacao){
            
         switch(situacao){
             case 'A':
@@ -41,6 +41,7 @@ public class Situacao {
             default:
                    sit = "Erro";
         }
+        return sit;
     }
     
     

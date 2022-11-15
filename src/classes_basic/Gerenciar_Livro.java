@@ -14,7 +14,32 @@ import java.util.List;
  * @author maria
  */
 public class Gerenciar_Livro {
-    
+    public void Dados(Connection con,Livro livro) throws SQLException{
+        String sql = "select *from livro where id_livro = ? ";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        
+        stmt.setInt(1, livro.getId_livro());
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()){
+            System.out.println("Executando set dados...");
+            livro.setId_livro(rs.getInt("id_livro")) ;
+            livro.setId_editora(rs.getInt("id_editora"));
+            livro.setId_categoria(rs.getInt("id_categoria"));
+            livro.setAno_lancamento(rs.getString("data_lancamento"));
+            livro.setEpremium(rs.getBoolean("ePremium"));
+            livro.setDescricao(rs.getString("descricao"));
+            livro.setQuantidade_total(rs.getInt("quantidade"));
+            
+            rs.close();
+            stmt.close();
+            
+        }
+        else {
+            rs.close();
+            stmt.close();
+            
+        }
+    }
     public boolean Verificar(Connection con,Livro livro) throws SQLException{
         String sql = "select id_livro from livro where titulo = ? ";
         PreparedStatement stmt = con.prepareStatement(sql);

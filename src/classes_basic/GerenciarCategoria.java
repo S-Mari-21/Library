@@ -14,10 +14,10 @@ public class GerenciarCategoria {
     
     @SuppressWarnings("empty-statement")
     public boolean VerificarCategoria(Connection con,Categoria categoria) throws SQLException, ParseException{
-        String sql = "select *from categoria where nome_categoria = ?";
+        String sql = "select *from categoria where id_categoria = ?";
         
         PreparedStatement stmt = con.prepareStatement(sql);
-        stmt.setString(1, categoria.getNome_categoria());
+        stmt.setInt(1, categoria.getId_categoria());
         ResultSet rs = stmt.executeQuery();
         
         if (rs.next()){
@@ -48,11 +48,11 @@ public class GerenciarCategoria {
        }
     
     public void AltCategoria(Connection con,Categoria categoria) throws SQLException, ParseException{
-        String sql = "update medico set nome_categoria = ? where crm = ?";
+        String sql = "update categoria set nome_categoria = ? where id_categoria = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         
-        stmt.setInt(1,  categoria.getId_categoria());
-        stmt.setString(2, categoria.getNome_categoria());
+        stmt.setInt(2,categoria.getId_categoria());
+        stmt.setString(1, categoria.getNome_categoria());
 
         stmt.executeUpdate();
         stmt.close();

@@ -166,8 +166,12 @@ public class Pagina_livro extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        // Ao fechar a tela:
-        Conexao_db.Desconectar();
+        try {
+            // Ao fechar a tela:
+            Conexao_db.Conectar();
+        } catch (IOException ex) {
+            Logger.getLogger(Pagina_livro.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_formWindowClosing
 
