@@ -4,11 +4,29 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GerenciarEditora {
-    
+    public void Dados(Connection con, Editora editora) throws SQLException{
+        String sql = "select nome_editora from categoria where id_editora = ? ";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        
+        stmt.setInt(1, editora.getId_editora());
+        
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()){
+            System.out.println("Executando set dados...");
+            editora.setNome_editora(rs.getString("nome_editora"));
+            editora.setDescricao(rs.getString("descricao"));
+            rs.close();
+            stmt.close();
+            
+        }
+        else {
+            rs.close();
+            stmt.close();
+            
+        }  
+    }    
     public boolean VerificarEditora(Connection con,Editora editora) throws SQLException, ParseException{
         String sql = "select *from editora where nome_editora = ?";
         

@@ -8,7 +8,12 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.io.IOException;
 import classes_basic.Gerenciar_Usuario;
+import classes_basic.Informacoes;
+import static classes_basic.Informacoes.emailusuario;
 import classes_basic.Usuario;
+import classes_seguranca.Criptografar;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 
 
@@ -16,7 +21,7 @@ import classes_basic.Usuario;
 public class Login extends javax.swing.JFrame {
     Conexao_db conexao;
     Gerenciar_Usuario user;
-    
+    Usuario usuario;
     private Connection con;    
  
     /**
@@ -186,31 +191,42 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtLoginMouseClicked
-        // Ao clicar verificar login do usuário entrar no banco e abrir a tela de catalogo: 
-        String email = String.valueOf(tfEmail.getText());
-        String senha = String.valueOf(PfSenha.getPassword());
-        
-        Usuario usuario = new Usuario();
-        usuario.setEmail(email);
-        usuario.setSenha(senha);
-        
-        user = new Gerenciar_Usuario();   
-        
-        if ((email.length()>0) && (senha.length()>0)){
-            try {
-                if(user.VerificarLogon(con, usuario) == true){
-                    Principal principal = new Principal();
-                    principal.setVisible(true);
-                    dispose();
-                    
-                } else{
-                    JOptionPane.showMessageDialog(null, "Usuário e/ou senha incorreta!", "Login inválido!", 2);
+        try {
+            // Ao clicar verificar login do usuário entrar no banco e abrir a tela de catalogo:
+            String email = String.valueOf(tfEmail.getText());
+            String senha = String.valueOf(PfSenha.getPassword());
+            
+        //Criptografar Senha:
+            Criptografar criptografar = new Criptografar();
+            String senhaCriptografada=null;
+            senhaCriptografada=criptografar.CriptografiaMD5(senha);
+        //Fim da criptografia de senha
+            
+            Usuario usuario = new Usuario();
+            usuario.setEmail(email);
+            usuario.setSenha(senhaCriptografada);
+            
+            user = new Gerenciar_Usuario();
+            
+            if ((email.length()>0) && (senha.length()>0)){
+                try {
+                    if(user.VerificarLogon(con, usuario) == true){
+                        
+                        Principal principal = new Principal();
+                        principal.setVisible(true);
+                        dispose();
+                        
+                    } else{
+                        JOptionPane.showMessageDialog(null, "Usuário e/ou senha incorreta!", "Login inválido!", 2);
+                    }
+                } catch (SQLException | IOException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (SQLException | IOException ex) {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            } else {
+                JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos!", "Login inválido!", 2);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos!", "Login inválido!", 2);
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_BtLoginMouseClicked
 

@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import classes_basic.Usuario;
+import classes_seguranca.Criptografar;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
 /**
@@ -237,45 +240,56 @@ public class Recuperar_Senha extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void BtConfirmarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtConfirmarMouseClicked
-        // Ao clicar verificar login do usuário e alterar a senha:
-        Usuario usuario = new Usuario();
-        String email = String.valueOf(tfEmail.getText());
-        String num_celular = String.valueOf(tfNumCelular.getText());
-        String senha = String.valueOf(PfNovaSenha.getPassword());
-        
-        
-        usuario.setEmail(email);
-        usuario.setNum_celular(num_celular);
-        usuario.setSenha(senha); 
-        
-        user = new Gerenciar_Usuario();
-        
-        if (email.length()>0 && num_celular.length()>0 && senha.length()>0){
-            try {
-                if (user.VerificarLogon_RecuperarSenha(con,usuario) == true){
-                    try {
-                        Integer id = Informacoes.id_usuario;
-                        System.out.println(id);
-                        user.Recuperar_Senha(con,usuario);
-                        tfEmail.setText("");
-                        tfNumCelular.setText("");
-                        PfNovaSenha.setText("");
-                        JOptionPane.showMessageDialog(null, "Senha alterada com sucesso!", "Senha Alterada!", 1);
-                        
-                        
-                    } catch (SQLException | ParseException ex) {
-                        Logger.getLogger(Recuperar_Senha.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Usuário não encontrado, verifique os dados informados!", "Erro!", 2);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Recuperar_Senha.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos!", "Erro!", 2);
+        try {
+            // Ao clicar verificar login do usuário e alterar a senha:
+            Usuario usuario = new Usuario();
+            String email = String.valueOf(tfEmail.getText());
+            String num_celular = String.valueOf(tfNumCelular.getText());
+            String senha = String.valueOf(PfNovaSenha.getPassword());
             
+        //Criptografar Senha:
+            Criptografar criptografar = new Criptografar();
+            String senhaCriptografada=null;  
+            senhaCriptografada=criptografar.CriptografiaMD5(senha);
+        //Fim da criptografia de senha
+            
+            usuario.setEmail(email);
+            usuario.setNum_celular(num_celular);
+            usuario.setSenha(senhaCriptografada);
+            
+            user = new Gerenciar_Usuario();
+            
+            if (email.length()>0 && num_celular.length()>0 && senha.length()>0){
+                try {
+                    if (user.VerificarLogon_RecuperarSenha(con,usuario) == true){
+                        try {
+                            Integer id = Informacoes.id_usuario;
+                            System.out.println(id);
+                            user.Recuperar_Senha(con,usuario);
+                            tfEmail.setText("");
+                            tfNumCelular.setText("");
+                            PfNovaSenha.setText("");
+                            JOptionPane.showMessageDialog(null, "Senha alterada com sucesso!", "Senha Alterada!", 1);
+                            
+                            
+                        } catch (SQLException | ParseException ex) {
+                            Logger.getLogger(Recuperar_Senha.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Usuário não encontrado, verifique os dados informados!", "Erro!", 2);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(Recuperar_Senha.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            } else {
+                JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos!", "Erro!", 2);
+                
+            }
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Recuperar_Senha.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Recuperar_Senha.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_BtConfirmarMouseClicked
 

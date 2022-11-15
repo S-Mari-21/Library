@@ -9,7 +9,26 @@ import java.text.ParseException;
  * @author maria
  */
 public class GerenciarCategoria {
-    
+    public void Dados(Connection con,Categoria categoria) throws SQLException{
+        String sql = "select nome_categoria from categoria where id_categoria = ? ";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        
+        stmt.setInt(1, categoria.getId_categoria());
+        
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()){
+            System.out.println("Executando set dados...");
+            categoria.setNome_categoria(rs.getString("nome_categoria"));
+            rs.close();
+            stmt.close();
+            
+        }
+        else {
+            rs.close();
+            stmt.close();
+            
+        }
+    }
     @SuppressWarnings("empty-statement")
     public boolean VerificarCategoria(Connection con,Categoria categoria) throws SQLException, ParseException{
         String sql = "select *from categoria where id_categoria = ?";

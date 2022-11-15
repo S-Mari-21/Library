@@ -3,8 +3,11 @@ import classes_basic.Usuario;
 import javax.swing.JOptionPane;
 import classes_banco.Conexao_db;
 import classes_basic.Gerenciar_Usuario;
+import classes_seguranca.Criptografar;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
@@ -234,42 +237,59 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
     }//GEN-LAST:event_tfNumCelularActionPerformed
 
     private void btCadastrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCadastrarMouseClicked
-        // Ao clicar cadastrar inserir no banco:
-        String nome = String.valueOf(tfNome.getText());
-        String data_nascimento = String.valueOf(tfDataNascimento.getText());
-        String cel = String.valueOf(tfNumCelular.getText());
-        String email = String.valueOf(tfEmail.getText());
-        String senha = String.valueOf(pfSenha.getPassword());
-        
-        Usuario usuario = new Usuario();
-        usuario.setEmail(nome);
-        usuario.setData_nascimento(data_nascimento);
-        usuario.setNum_celular(cel);
-        usuario.setEmail(email);
-        usuario.setSenha(senha);       
-        
-        user = new Gerenciar_Usuario();   
-        if (nome.length()>0 && data_nascimento.length()>0 && cel.length()>0 && email.length()>0 && senha.length()>0){
-            try {
-                if (user.VerificarEmail(con, usuario) == false){
-                    user.AddUsuario(con,usuario);
-                    JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Usuário Cadastrado!", 1);
-
-                    //Limpando os campos:
-                    tfDataNascimento.setText("");
-                    tfEmail.setText("");
-                    tfNome.setText("");
-                    tfNumCelular.setText("");
-                    pfSenha.setText("");
-                } else {
-                    JOptionPane.showMessageDialog(null, "O e-mail informado já está cadastrado no sistema!", "Erro!", 2);
+        try {
+            // Ao clicar cadastrar inserir no banco:
+            String nome = String.valueOf(tfNome.getText());
+            String data_nascimento = String.valueOf(tfDataNascimento.getText());
+            String cel = String.valueOf(tfNumCelular.getText());
+            String email = String.valueOf(tfEmail.getText());
+            String senha = String.valueOf(pfSenha.getPassword());
+            
+            senha = String.valueOf(pfSenha.getPassword());
+            
+            //Criptografar Senha:
+            Criptografar criptografar = new Criptografar();
+            String senhaCriptografada=null;  
+            senhaCriptografada=criptografar.CriptografiaMD5(senha);
+            //Fim da criptografia de senha
+            
+            Usuario usuario = new Usuario();
+            usuario.setId_usuario(0);
+            usuario.setAdmin(false);
+            usuario.setEpremium(false);
+            usuario.setNome(nome);
+            usuario.setData_nascimento(data_nascimento);
+            usuario.setNum_celular(cel);
+            usuario.setEmail(email);
+            usuario.setSenha(senhaCriptografada);
+            
+            user = new Gerenciar_Usuario();
+            if (nome.length()>0 && data_nascimento.length()>0 && cel.length()>0 && email.length()>0 && senha.length()>0){
+                try {
+                    if (user.VerificarEmail(con, usuario) == false){
+                        user.AddUsuario(con,usuario);
+                        JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "Usuário Cadastrado!", 1);
+                        
+                        //Limpando os campos:
+                        tfDataNascimento.setText("");
+                        tfEmail.setText("");
+                        tfNome.setText("");
+                        tfNumCelular.setText("");
+                        pfSenha.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "O e-mail informado já está cadastrado no sistema!", "Erro!", 2);
+                    }
+                } catch (SQLException | ParseException ex) {
+                    Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (SQLException | ParseException ex) {
-                Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-         else {
-           JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos!", "Cadastro inválido!", 2);
+            else {
+                JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos!", "Cadastro inválido!", 2);
+            }
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
         }
                
         

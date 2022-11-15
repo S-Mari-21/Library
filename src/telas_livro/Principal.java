@@ -3,6 +3,7 @@ import telas_system.Administracao;
 import classes_banco.Conexao_db;
 import classes_basic.Gerenciar_Usuario;
 import classes_basic.Informacoes;
+import classes_basic.Livro;
 import classes_basic.Usuario;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
@@ -25,6 +26,7 @@ public class Principal extends javax.swing.JFrame {
     Connection con;
     Gerenciar_Usuario ger_user;
     Usuario usuario;
+ 
     
     String sql = "select * from livro order by titulo";
     
@@ -308,11 +310,11 @@ public class Principal extends javax.swing.JFrame {
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Titulo", "Autor (a)", "Descrição", "Capa"
+                "Código", "Titulo", "Autor (a)", "Descrição", "Capa"
             }
         ));
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -321,6 +323,10 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         tabela1.setViewportView(tabela);
+        if (tabela.getColumnModel().getColumnCount() > 0) {
+            tabela.getColumnModel().getColumn(2).setResizable(false);
+            tabela.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         getContentPane().add(tabela1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 260, 1190, 370));
 
@@ -337,6 +343,9 @@ public class Principal extends javax.swing.JFrame {
             // Ao abrir a tela principal exibir os livros e se for administrador a opção para as ferramentas do admin:
             usuario = new Usuario();
             ger_user = new Gerenciar_Usuario();
+            
+            usuario.setId_usuario(usuario.getId_usuario());
+           
             try {
                 ger_user.Dados(con, usuario);
             } catch (SQLException ex) {
@@ -385,12 +394,11 @@ public class Principal extends javax.swing.JFrame {
             // Ao clicar em admin exibir página com as ferramentas do administrador:
             usuario = new Usuario();
             ger_user = new Gerenciar_Usuario();
+            usuario.getId_usuario();
             
             con = (Connection) Conexao_db.Conectar();
-
+            
             ger_user.Dados(con, usuario);
-            
-            
             Boolean eAdmin = usuario.getAdmin();
             if(eAdmin == true){
                 Administracao adm = new Administracao();
@@ -440,7 +448,7 @@ public class Principal extends javax.swing.JFrame {
        while(rs.next()) {
           modelo.addRow(new Object[]
           {
-              
+              rs.getInt("id_livro"),
               rs.getString("titulo"),             
               rs.getString("nome_autor"),
               rs.getString("descricao"),
@@ -499,19 +507,14 @@ public class Principal extends javax.swing.JFrame {
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         // Ao clicar na tabela:
         int linha = tabela.getSelectedRow();
-        
-        Informacoes.titulo = String.valueOf(tabela.getValueAt(linha,0).toString());
-        Informacoes.descricao = String.valueOf(tabela.getValueAt(linha,2).toString());
-        Informacoes.autor = String.valueOf(tabela.getValueAt(linha,1).toString());
-        //Informacoes.capa = Byte.valueOf(tabela.getValueAt(linha,3).toString());
-        //Informacoes.id_livro = Integer.parseInt(tabela.getValueAt(linha,4).toString());
-       //Informacoes.id_editora =Integer.parseInt(tabela.getValueAt(linha,5).toString());
-        
+        Informacoes.id_livro = Integer.parseInt(tabela.getValueAt(linha,0).toString());
+        Livro livro = new Livro();
+        livro.setId_livro(Integer.parseInt(tabela.getValueAt(linha,0).toString()));
         Pagina_livro pag;
         try {
             pag = new Pagina_livro();
             pag.setVisible(true);
-        } catch (IOException ex) {
+        } catch (IOException | SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
         

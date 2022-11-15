@@ -15,16 +15,15 @@ import java.util.List;
  */
 public class Gerenciar_Usuario {
      public void Dados(Connection con,Usuario usuario) throws SQLException{
-        String sql = "select *from usuario";
+        String sql = "select *from usuario where id_usuario = ? ";
         PreparedStatement stmt = con.prepareStatement(sql);
         
-        //stmt.setInt(1, usuario.getId_usuario());
+        stmt.setInt(1, usuario.getId_usuario());
+        
         ResultSet rs = stmt.executeQuery();
         if (rs.next()){
             System.out.println("Executando set dados...");
-             usuario.setAdmin(rs.getBoolean("eAdmin"));
-
-            
+            usuario.setAdmin(rs.getBoolean("eAdmin"));
             rs.close();
             stmt.close();
             
@@ -45,6 +44,7 @@ public class Gerenciar_Usuario {
             Informacoes.eAdmin = rs.getString("eAdmin");
             Informacoes.ePremium = rs.getBoolean("ePremium");
             Informacoes.id_usuario = rs.getInt("id_usuario");
+            usuario.setId_usuario(rs.getInt("id_usuario"));
             Informacoes.nomeusuario = rs.getString("nome");
             Informacoes.numcelular = rs.getString("num_celular");
             Informacoes.datanascimento = rs.getString("data_nascimento");
@@ -151,10 +151,10 @@ public class Gerenciar_Usuario {
         stmt.close();
     }
        public void Recuperar_Senha(Connection con,Usuario usuario) throws SQLException, ParseException{ 
-        String sql = "UPDATE usuario SET senha = ? WHERE id_usuario = ?";
+        String sql = "UPDATE usuario SET senha = ? WHERE email = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         
-        stmt.setInt(2, usuario.getId_usuario());
+        stmt.setString(2, usuario.getEmail());
         stmt.setString(1, usuario.getSenha());  
         
         stmt.executeUpdate();
