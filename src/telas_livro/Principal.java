@@ -1,9 +1,9 @@
 package telas_livro;
 import telas_system.Administracao;
 import classes_banco.Conexao_db;
+import classes_basic.Gerenciar_Livro;
 import classes_basic.Gerenciar_Usuario;
 import classes_basic.Informacoes;
-import classes_basic.Livro;
 import classes_basic.Usuario;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
@@ -26,7 +26,8 @@ public class Principal extends javax.swing.JFrame {
     Connection con;
     Gerenciar_Usuario ger_user;
     Usuario usuario;
- 
+    Gerenciar_Livro ger_liv;
+    Pagina_livro pag;
     
     String sql = "select * from livro order by titulo";
     
@@ -341,10 +342,11 @@ public class Principal extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try {                                  
             // Ao abrir a tela principal exibir os livros e se for administrador a opção para as ferramentas do admin:
+            con = (Connection) Conexao_db.Conectar();
             usuario = new Usuario();
             ger_user = new Gerenciar_Usuario();
             
-            usuario.setId_usuario(usuario.getId_usuario());
+            usuario.setId_usuario(Informacoes.id_usuario);
            
             try {
                 ger_user.Dados(con, usuario);
@@ -352,18 +354,10 @@ public class Principal extends javax.swing.JFrame {
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            Boolean eAdmin = usuario.getAdmin();
-            
+            Boolean eAdmin = usuario.getAdmin();      
             System.out.println(eAdmin);
             conexao = new Conexao_db();
-            
-            try {
-                con = (Connection) Conexao_db.Conectar();
-            } catch (IOException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-            }
             PreencherTabela(sql);
-            
             
             System.out.println(eAdmin);
             if(eAdmin == true){
@@ -371,12 +365,10 @@ public class Principal extends javax.swing.JFrame {
             } else {
                 lbAdmin.setText("");
             }
-            
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                       
+    } catch (SQLException | IOException ex) {
+        Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+    }
         
         
         
@@ -394,7 +386,8 @@ public class Principal extends javax.swing.JFrame {
             // Ao clicar em admin exibir página com as ferramentas do administrador:
             usuario = new Usuario();
             ger_user = new Gerenciar_Usuario();
-            usuario.getId_usuario();
+            usuario.setId_usuario(Informacoes.id_usuario);
+            //usuario.getId_usuario();
             
             con = (Connection) Conexao_db.Conectar();
             
@@ -463,7 +456,7 @@ public class Principal extends javax.swing.JFrame {
     private void lbAreaPremiumMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAreaPremiumMouseClicked
         //Ao clicar em área premium:
         //1º Verificar se já é usuário premium:
-       Boolean epremium = Boolean.valueOf(Informacoes.ePremium);
+       Boolean epremium = Informacoes.ePremium;
        String sqlLivrosPremium = "SELECT * FROM livro WHERE epremium = '"+epremium+"'";
        
        if (epremium == true ){
@@ -505,16 +498,16 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_lbPesquisarMouseClicked
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
-        // Ao clicar na tabela:
-        int linha = tabela.getSelectedRow();
-        Informacoes.id_livro = Integer.parseInt(tabela.getValueAt(linha,0).toString());
-        Livro livro = new Livro();
-        livro.setId_livro(Integer.parseInt(tabela.getValueAt(linha,0).toString()));
-        Pagina_livro pag;
-        try {
+        try {                                    
+            // Ao clicar na tabela:
+            int linha = tabela.getSelectedRow();
+            Informacoes.id_livro = (Integer.parseInt(tabela.getValueAt(linha,0).toString()));
+            System.out.println("Id editora: "+ Informacoes.id_livro);
             pag = new Pagina_livro();
             pag.setVisible(true);
-        } catch (IOException | SQLException ex) {
+
+            
+        } catch (SQLException | IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -565,14 +558,11 @@ public class Principal extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    new Principal().setVisible(true);
-                } catch (IOException | SQLException ex) {
-                    Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new Principal().setVisible(true);
+            } catch (IOException | SQLException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }

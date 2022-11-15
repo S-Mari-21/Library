@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 
 public class GerenciarEditora {
     public void Dados(Connection con, Editora editora) throws SQLException{
-        String sql = "select nome_editora from categoria where id_editora = ? ";
+        String sql = "select * from editora where id_editora = ? ";
         PreparedStatement stmt = con.prepareStatement(sql);
         
         stmt.setInt(1, editora.getId_editora());
@@ -64,14 +64,11 @@ public class GerenciarEditora {
         String sql = "update editora set nome_editora = ?, ano_fundacao  = ?, descricao  = ? where id_editora = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         
-        stmt.setInt(1, editora.getId_editora());
-        stmt.setString(2, editora.getNome_editora());
-        stmt.setString(3, editora.getAno_fundacao());
-        stmt.setString(4, editora.getDescricao());
         
-        
-        stmt.executeUpdate();
-        stmt.close();
+        stmt.setString(1, editora.getNome_editora());
+        stmt.setString(2, editora.getAno_fundacao());
+        stmt.setString(3, editora.getDescricao());
+        stmt.setInt(4, editora.getId_editora());
         
         stmt.executeUpdate();
         stmt.close();
@@ -87,38 +84,12 @@ public class GerenciarEditora {
         stmt.close();
         
     }
-    
-//    public List<Editora> listarEditora(Connection con) throws SQLException{
-//    
-//            String sql = "select *from editora where id_editora = ?";
-//            
-//            List<Editora> lista = new ArrayList<>();
-//            PreparedStatement stmt = con.prepareStatement(sql);
-//            
-//            ResultSet rs = stmt.executeQuery();
-//            
-//            while(rs.next()){
-//                Editora editora = new Editora();
-//                
-//                editora.setNome_editora(rs.getString("nome_editora"));
-//                editora.setAno_fundacao(rs.getString("ano_fundacao"));
-//                editora.setDescricao(rs.getString("descricao"));
-//   
-//                lista.add(editora);
-//            }
-//            
-//        return lista;
-//        
-//        
-//    }
+ 
     public ResultSet listarEditoras(Connection con) throws SQLException{
         String categorias = "select * from editora order by nome_editora";
         
        
         PreparedStatement stmt = con.prepareStatement(categorias);
-        return stmt.executeQuery();
-        
-        
-    }    
-    
+        return stmt.executeQuery();    
+    }  
 }

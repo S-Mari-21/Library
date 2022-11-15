@@ -239,7 +239,7 @@ public class Tela_Categoria extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela:;
-        Conexao_db.Desconectar();
+       // Conexao_db.Desconectar();
     }//GEN-LAST:event_formWindowClosing
 
     private void lbNovaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbNovaMouseClicked
@@ -257,6 +257,7 @@ public class Tela_Categoria extends javax.swing.JFrame {
                 if (cat.VerificarCategoria(con,categoria) == false){
                     cat.AddCategoria(con,categoria);
                     JOptionPane.showMessageDialog(null, "Categoria cadastrada com sucesso", "Categoria cadastrada!",1);
+                    tfCategoria.setText("");
                     PreencherTabela(sql);
                 } else {
                     JOptionPane.showMessageDialog(null,"A categoria já está cadastrada!", "Erro!", 2);
@@ -287,6 +288,7 @@ public class Tela_Categoria extends javax.swing.JFrame {
             try {
                 cat.AltCategoria(con,categoria);
                 JOptionPane.showMessageDialog(null, "Categoria Alterada com sucesso", "Categoria Alterada!",1);
+                tfCategoria.setText("");
                 PreencherTabela(sql);
             } catch (SQLException | ParseException ex) {
                 Logger.getLogger(Tela_Categoria.class.getName()).log(Level.SEVERE, null, ex);
@@ -319,6 +321,7 @@ public class Tela_Categoria extends javax.swing.JFrame {
             try {
                 cat.DelCategoria(con,categoria);
                 JOptionPane.showMessageDialog(null, "A conta foi excluída com sucesso!", "Conta Excluída!", 1);
+                tfCategoria.setText("");
                 PreencherTabela(sql);
             } catch (SQLException ex) {
                 Logger.getLogger(Tela_Categoria.class.getName()).log(Level.SEVERE, null, ex);

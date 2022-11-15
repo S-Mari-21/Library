@@ -561,7 +561,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela:
-        Conexao_db.Desconectar();
+       // Conexao_db.Desconectar();
     }//GEN-LAST:event_formWindowClosing
 
     private void btInserirCapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInserirCapaActionPerformed
@@ -596,6 +596,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
                 PreencherTabela(sql);
                 restaurarListaCategorias();
                 restaurarListaEditoras();
+                LimparCampos();
                 
             } catch (SQLException | IOException ex) {
                 Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
@@ -612,6 +613,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         tfTitulo.setText("");
         Quantidade.setText("");
         lbcapa.setText("");
+        
         restaurarListaCategorias();
         restaurarListaEditoras();
     }
@@ -843,49 +845,6 @@ public class Cadastro_Livro extends javax.swing.JFrame {
 	}
 }
              
-//    public void abrirImagemTable() throws SQLException{
-//        
-//        tabela.setDefaultRenderer(Object.class, new Render());
-//        DefaultTableModel dt = new DefaultTableModel(){
-//            @Override
-//            public boolean isCellEditable(int row, int column){
-//                return false;
-//            }
-//        };
-//        dt.addColumn("id_livro");
-//        dt.addColumn("titulo");
-//        dt.addColumn("nome_autor");
-//        dt.addColumn("capa");
-//
-//        gerenciar_livro = new Gerenciar_Livro();
-//        Gerenciar_Livro vo = new Gerenciar_Livro();
-//        List<Gerenciar_Livro> list = gerenciar_livro.listarLivros(con);
-//
-//        if(list.size() > 0){
-//            for(int i=0; i<list.size(); i++){
-//                Object fila[] = new Object[5];
-//                vo = list.get(i);
-//                fila[0] = vo.getIdproducto();
-//                fila[1] = vo.getNombre();
-//                fila[2] = vo.getPrecio();
-//                fila[3] = vo.getMarca();
-//                try{
-//                    byte[] bi = vo.getFoto();
-//                    BufferedImage image = null;
-//                    InputStream in = new ByteArrayInputStream(bi);
-//                    image = ImageIO.read(in);
-//                    ImageIcon imgi = new ImageIcon(image.getScaledInstance(60, 60, 0));
-//                    fila[4] = new T(imgi);
-//
-//                }catch(Exception ex){
-//                    fila[4] = new JLabel("No imagen");
-//                }
-//                dt.addRow(fila);
-//            }
-//            tabla.setModel(dt);
-//            tabla.setRowHeight(60);
-//        }
-//    }
     /*
      * @param args the command line arguments
      */

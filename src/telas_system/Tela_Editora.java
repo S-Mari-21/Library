@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Tela_Editora extends javax.swing.JFrame {
     Conexao_db conexao;
-    Connection con;
+    private Connection con ;
     GerenciarEditora ger_editora;
     
     String sql = "select *from editora order by nome_editora";
@@ -251,21 +251,13 @@ public class Tela_Editora extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        //Ao abrir a tela:
-        conexao = new Conexao_db();
 
-        try {
-            con = (Connection) conexao.Conectar();
-            PreencherTabela(sql);
-        } catch (IOException | SQLException ex) {
-            Logger.getLogger(Tela_Categoria.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
 
             // Ao fechar a tela:
-            Conexao_db.Desconectar();
+//            Conexao_db.Desconectar();
 
     }//GEN-LAST:event_formWindowClosing
 
@@ -281,66 +273,70 @@ public class Tela_Editora extends javax.swing.JFrame {
     }//GEN-LAST:event_tabelaMouseClicked
 
     private void lbNovaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbNovaMouseClicked
-        // Ao clicar em nova:
-        String nome = String.valueOf(tfNome.getText());
-        String ano = String.valueOf(tfAno.getText());
-        String descricao = String.valueOf(tfDescricao.getText());
-        
-        
-        Editora editora = new Editora();
-        editora.setAno_fundacao(ano);
-        editora.setNome_editora(nome);
-        editora.setDescricao(descricao);
-        editora.setId_editora(0);
-        
-        ger_editora = new GerenciarEditora();
-        
-        if (nome.length()>0 && ano.length()>0 && descricao.length()>0){
-            try {
-                if(ger_editora.VerificarEditora(con,editora) == false){
-                    ger_editora.AddEditora(con,editora);
-                    JOptionPane.showMessageDialog(null, "Editora cadastrada com sucesso", "Editora cadastrada!",1);
-                    PreencherTabela(sql);
-                } else { 
-                    JOptionPane.showMessageDialog(null, "Editora já está cadastrada!", "Erro!",2);
-                }
-            } catch (SQLException | ParseException | IOException ex) {
-                Logger.getLogger(Tela_Editora.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            
+            // Ao clicar em nova:
+            String nome = String.valueOf(tfNome.getText());
+            String ano = String.valueOf(tfAno.getText());
+            String descricao = String.valueOf(tfDescricao.getText());
+            
+            
+            Editora editora = new Editora();
+            editora.setAno_fundacao(ano);
+            editora.setNome_editora(nome);
+            editora.setDescricao(descricao);
+            editora.setId_editora(0);
+            
+            ger_editora = new GerenciarEditora();
+            
+            if (nome.length()>0 && ano.length()>0 && descricao.length()>0){
+                    if(ger_editora.VerificarEditora(con,editora) == false){
+                        ger_editora.AddEditora(con,editora);
+                        JOptionPane.showMessageDialog(null, "Editora cadastrada com sucesso", "Editora cadastrada!",1);
+                        PreencherTabela(sql);
+                        LimparCampos();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Editora já está cadastrada!", "Erro!",2);
+                    }
+            } else {
+                JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos", "Erro!",2);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos", "Erro!",2);
+        } catch (IOException | SQLException | ParseException ex) {
+            Logger.getLogger(Tela_Editora.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
     }//GEN-LAST:event_lbNovaMouseClicked
 
     private void lbEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbEditarMouseClicked
-        //Ao clicar em editar:
-        String nome = String.valueOf(tfNome.getText());
-        String ano = String.valueOf(tfAno.getText());
-        String descricao = String.valueOf(tfDescricao.getText());
-        
-        int linha = tabela.getSelectedRow();  
-        Integer id = Integer.parseInt(tabela.getValueAt(linha,0).toString());
-        
-        Editora editora = new Editora();
-        editora.setAno_fundacao(ano);
-        editora.setNome_editora(nome);
-        editora.setDescricao(descricao);
-        editora.setId_editora(id);
-        
-        ger_editora = new GerenciarEditora();
-        if (nome.length()>0 && ano.length()>0 && descricao.length()>0){
-            try {
-                ger_editora.AltEditora(con,editora);
-                JOptionPane.showMessageDialog(null, "Editora alterada com sucesso", "Editora alterada!",1);
-                PreencherTabela(sql);
-                
-            } catch (SQLException | ParseException | IOException ex) {
-                Logger.getLogger(Tela_Editora.class.getName()).log(Level.SEVERE, null, ex);
-            }  
-        } else {
-            JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos", "Erro!",2);
+        try {
+            //Ao clicar em editar:
+            
+            String nome = String.valueOf(tfNome.getText());
+            String ano = String.valueOf(tfAno.getText());
+            String descricao = String.valueOf(tfDescricao.getText());
+            
+            int linha = tabela.getSelectedRow();
+            Integer id = Integer.parseInt(tabela.getValueAt(linha,0).toString());
+            
+            Editora editora = new Editora();
+            editora.setAno_fundacao(ano);
+            editora.setNome_editora(nome);
+            editora.setDescricao(descricao);
+            editora.setId_editora(id);
+            
+            ger_editora = new GerenciarEditora();
+            if (nome.length()>0 && ano.length()>0 && descricao.length()>0){
+
+                    ger_editora.AltEditora(con,editora);
+                    JOptionPane.showMessageDialog(null, "Editora alterada com sucesso", "Editora alterada!",1);
+                    PreencherTabela(sql);
+                    LimparCampos();
+            } else {
+                JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos", "Erro!",2);
+            }
+        } catch (IOException | SQLException | ParseException ex) {
+            Logger.getLogger(Tela_Editora.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_lbEditarMouseClicked
@@ -361,6 +357,7 @@ public class Tela_Editora extends javax.swing.JFrame {
                 ger_editora.DelEditora(con,editora);
                 JOptionPane.showMessageDialog(null, "A conta foi excluída com sucesso!", "Conta Excluída!", 1);
                 PreencherTabela(sql);
+                LimparCampos();
                 
             } catch (SQLException | IOException ex) {
                 Logger.getLogger(Tela_Editora.class.getName()).log(Level.SEVERE, null, ex);
@@ -370,13 +367,18 @@ public class Tela_Editora extends javax.swing.JFrame {
 
     private void lbRedefinirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbRedefinirMouseClicked
         // Ao clicar em redefinir:
+        LimparCampos();
+        
+    }//GEN-LAST:event_lbRedefinirMouseClicked
+    public void LimparCampos(){
         tfAno.setText("");
         tfDescricao.setText("");
         tfNome.setText("");
-        
-    }//GEN-LAST:event_lbRedefinirMouseClicked
+    }
+    
     public void PreencherTabela(String sql) throws SQLException, IOException{ 
        con = (Connection) Conexao_db.Conectar();
+       
        PreparedStatement stmt = con.prepareStatement(sql);
        ResultSet rs = stmt.executeQuery(); //Resultado do banco de dados
        

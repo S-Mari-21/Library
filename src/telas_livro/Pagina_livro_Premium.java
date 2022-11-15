@@ -1,6 +1,13 @@
 package telas_livro;
 
 import classes_banco.Conexao_db;
+import classes_basic.Categoria;
+import classes_basic.Editora;
+import classes_basic.GerenciarCategoria;
+import classes_basic.GerenciarEditora;
+import classes_basic.Gerenciar_Livro;
+import classes_basic.Informacoes;
+import classes_basic.Livro;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -14,6 +21,8 @@ import java.util.logging.Logger;
 public class Pagina_livro_Premium extends javax.swing.JFrame {
     Conexao_db conexao;
     Connection con;
+    Livro livro;
+    Gerenciar_Livro ger_liv;
     /**
      * Creates new form Pagina_livro
      * @throws java.io.IOException
@@ -36,14 +45,20 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        capa = new javax.swing.JLabel();
-        tfTitulo = new javax.swing.JLabel();
+        lbcapa = new javax.swing.JLabel();
+        lbTitulo = new javax.swing.JLabel();
         lbDescricao = new javax.swing.JLabel();
-        lbEditora = new javax.swing.JLabel();
+        lbDescricaoEditora = new javax.swing.JLabel();
         lbSituacao = new javax.swing.JLabel();
         lbCarrinho = new javax.swing.JLabel();
-        lbComprar = new javax.swing.JLabel();
+        lb = new javax.swing.JLabel();
+        lb2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lbNomeEditora = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lbNomeCategoria = new javax.swing.JLabel();
         lbAlugar = new javax.swing.JLabel();
+        lbComprar1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         tela = new javax.swing.JLabel();
 
@@ -68,21 +83,27 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(capa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+            .addComponent(lbcapa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(capa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+            .addComponent(lbcapa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
         );
 
-        tfTitulo.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        tfTitulo.setText("Titulo");
+        lbTitulo.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
+        lbTitulo.setText("Titulo");
 
         lbDescricao.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lbDescricao.setText("Descrição");
+        lbDescricao.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        lbDescricao.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        lbDescricao.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
-        lbEditora.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        lbEditora.setText("Sobre a Editora");
+        lbDescricaoEditora.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbDescricaoEditora.setText("Sobre a Editora");
+        lbDescricaoEditora.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        lbDescricaoEditora.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        lbDescricaoEditora.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
         lbSituacao.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         lbSituacao.setText("Situação");
@@ -92,11 +113,25 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
         lbCarrinho.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lbCarrinho.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        lbComprar.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        lbComprar.setText("Preco para Comprar");
+        lb.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lb.setText("Valor para comprar:");
+
+        lb2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lb2.setText("Valor do aluguel:");
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel1.setText("Editora:");
+
+        lbNomeEditora.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel2.setText("Categoria:");
+
+        lbNomeCategoria.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
 
         lbAlugar.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        lbAlugar.setText("Preco para Alugar");
+
+        lbComprar1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -105,19 +140,31 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbEditora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbNomeEditora, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(lbDescricaoEditora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(42, 42, 42)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 681, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 681, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(lbDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 732, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(37, 37, 37)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbComprar)
-                                    .addComponent(lbAlugar))))
-                        .addContainerGap(21, Short.MAX_VALUE))
+                                    .addComponent(lb)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(lbAlugar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lb2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lbComprar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addContainerGap(20, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lbSituacao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -135,19 +182,32 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(tfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(lbDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(28, 28, 28)
-                                .addComponent(lbComprar)
-                                .addGap(28, 28, 28)
-                                .addComponent(lbAlugar)))))
-                .addGap(32, 32, 32)
-                .addComponent(lbEditora, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lb)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbComprar1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lb2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbAlugar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(lbNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lbNomeEditora, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addComponent(lbDescricaoEditora, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 1180, 590));
@@ -187,7 +247,35 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
         
 
     }//GEN-LAST:event_formWindowClosing
+   public void PreencherCampos() throws SQLException{
+        livro = new Livro();
+        ger_liv = new Gerenciar_Livro();
+        //livro.setId_livro(3);
+        livro.setId_livro(Informacoes.id_livro);
+        ger_liv.Dados(con, livro);
 
+        System.out.println("Titulo:"+livro.getTitulo());
+        lbTitulo.setText(livro.getTitulo());
+        lbDescricao.setText("<html> <body style=text-align:justify;>" + livro.getDescricao() + "<br&gtcom HTML!</body> </html>");
+        lbcapa.setText(String.valueOf(livro.getCapa()));
+        
+      
+        
+        GerenciarEditora ger_edt = new GerenciarEditora();
+        Editora editora = new Editora();
+        editora.setId_editora(livro.getId_editora());
+        ger_edt.Dados(con, editora);
+        
+        lbNomeEditora.setText(editora.getNome_editora());
+        lbDescricaoEditora.setText("<html> <body style=text-align:justify;> " + editora.getDescricao() + "<br&gtcom HTML!</body> </html>");
+        
+        GerenciarCategoria ger_cat = new GerenciarCategoria();
+        Categoria categoria = new Categoria();        
+        categoria.setId_categoria(livro.getId_categoria());        
+        ger_cat.Dados(con, categoria);
+        
+        lbNomeCategoria.setText(categoria.getNome_categoria());
+    }
     /**
      * @param args the command line arguments
      */
@@ -230,17 +318,23 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel capa;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lb;
+    private javax.swing.JLabel lb2;
     private javax.swing.JLabel lbAlugar;
     private javax.swing.JLabel lbCarrinho;
-    private javax.swing.JLabel lbComprar;
+    private javax.swing.JLabel lbComprar1;
     private javax.swing.JLabel lbDescricao;
-    private javax.swing.JLabel lbEditora;
+    private javax.swing.JLabel lbDescricaoEditora;
+    private javax.swing.JLabel lbNomeCategoria;
+    private javax.swing.JLabel lbNomeEditora;
     private javax.swing.JLabel lbSituacao;
+    private javax.swing.JLabel lbTitulo;
+    private javax.swing.JLabel lbcapa;
     private javax.swing.JLabel tela;
-    private javax.swing.JLabel tfTitulo;
     // End of variables declaration//GEN-END:variables
 }

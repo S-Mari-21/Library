@@ -267,7 +267,7 @@ public class Usuarios extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela:
-        Conexao_db.Desconectar();
+        //Conexao_db.Desconectar();
     }//GEN-LAST:event_formWindowClosing
 
     private void tabelaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseEntered

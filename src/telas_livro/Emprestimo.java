@@ -126,7 +126,7 @@ public class Emprestimo extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela:
-        conexao.Desconectar();
+        //conexao.Desconectar();
     }//GEN-LAST:event_formWindowClosing
     public void PreencherTabela(String sql) throws SQLException{ 
        PreparedStatement stmt = con.prepareStatement(sql);

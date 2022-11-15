@@ -21,7 +21,9 @@ public class Gerenciar_Livro {
         ResultSet rs = stmt.executeQuery();
         if (rs.next()){
             System.out.println("Executando set dados...");
-            livro.setId_livro(rs.getInt("id_livro")) ;
+            livro.setId_livro(rs.getInt("id_livro"));
+            livro.setTitulo(rs.getString("titulo")) ;
+            livro.setCapa(rs.getBytes("capa"));
             livro.setId_editora(rs.getInt("id_editora"));
             livro.setId_categoria(rs.getInt("id_categoria"));
             livro.setAno_lancamento(rs.getString("data_lancamento"));

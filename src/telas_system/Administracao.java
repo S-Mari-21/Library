@@ -12,7 +12,11 @@ import telas_livro.Principal;
  * @author maria
  */
 public class Administracao extends javax.swing.JFrame {
-   
+    Principal principal;
+    Usuarios usuarios;
+    Tela_Categoria categoria;
+    Cadastro_Livro livro;
+    Tela_Editora editora;
     /**
      * Creates new form Administracao
      */
@@ -167,7 +171,7 @@ public class Administracao extends javax.swing.JFrame {
     private void lbLivrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbLivrosMouseClicked
 
        // Ao clicar em livros:
-        Cadastro_Livro livro;
+        
         try {
             livro = new Cadastro_Livro();
             livro.setVisible(true);
@@ -181,8 +185,9 @@ public class Administracao extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         try {
             // Ao fechar a tela:
-            Principal principal = new Principal();
+            principal = new Principal();
             principal.setVisible(true);
+            dispose();
         } catch (IOException | SQLException ex) {
             Logger.getLogger(Administracao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -190,8 +195,8 @@ public class Administracao extends javax.swing.JFrame {
 
     private void lbHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbHomeMouseClicked
         // Ao clicar em home:
-        Principal principal;
-        try {
+  
+        try {  
             principal = new Principal();
             principal.setVisible(true);
             dispose();
@@ -203,7 +208,7 @@ public class Administracao extends javax.swing.JFrame {
 
     private void lbCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbCategoriaMouseClicked
         //Ao clicar em categoria:
-        Tela_Categoria categoria;
+        
         try {
             categoria = new Tela_Categoria();
             categoria.setVisible(true);
@@ -215,13 +220,11 @@ public class Administracao extends javax.swing.JFrame {
 
     private void lbEditoraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbEditoraMouseClicked
         //Ao clicar em Editora:
-        Tela_Editora editora;
+        
         try {
             editora = new Tela_Editora();
             editora.setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(Administracao.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (IOException | SQLException ex) {
             Logger.getLogger(Administracao.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -229,7 +232,7 @@ public class Administracao extends javax.swing.JFrame {
 
     private void lbUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbUsuarioMouseClicked
         // Ao clicar em Usuario:
-        Usuarios usuarios;
+       
         try {
             usuarios = new Usuarios();
             usuarios.setVisible(true);
