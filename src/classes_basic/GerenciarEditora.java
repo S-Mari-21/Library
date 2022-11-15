@@ -70,29 +70,37 @@ public class GerenciarEditora {
         
     }
     
-    public List<Editora> listarEditora(Connection con) throws SQLException{
-    
-            String sql = "select *from editora where id_editora = ?";
-            
-            List<Editora> lista = new ArrayList<>();
-            PreparedStatement stmt = con.prepareStatement(sql);
-            
-            ResultSet rs = stmt.executeQuery();
-            
-            while(rs.next()){
-                Editora editora = new Editora();
-                
-                editora.setNome_editora(rs.getString("nome_editora"));
-                editora.setAno_fundacao(rs.getString("ano_fundacao"));
-                editora.setDescricao(rs.getString("descricao"));
-   
-                lista.add(editora);
-            }
-            
-        return lista;
+//    public List<Editora> listarEditora(Connection con) throws SQLException{
+//    
+//            String sql = "select *from editora where id_editora = ?";
+//            
+//            List<Editora> lista = new ArrayList<>();
+//            PreparedStatement stmt = con.prepareStatement(sql);
+//            
+//            ResultSet rs = stmt.executeQuery();
+//            
+//            while(rs.next()){
+//                Editora editora = new Editora();
+//                
+//                editora.setNome_editora(rs.getString("nome_editora"));
+//                editora.setAno_fundacao(rs.getString("ano_fundacao"));
+//                editora.setDescricao(rs.getString("descricao"));
+//   
+//                lista.add(editora);
+//            }
+//            
+//        return lista;
+//        
+//        
+//    }
+    public ResultSet listarEditoras(Connection con) throws SQLException{
+        String categorias = "select * from editora order by nome_editora";
+        
+       
+        PreparedStatement stmt = con.prepareStatement(categorias);
+        return stmt.executeQuery();
         
         
-    }
-    
+    }    
     
 }

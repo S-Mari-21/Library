@@ -27,9 +27,13 @@ public class Tela_Categoria extends javax.swing.JFrame {
     String sql = "select * from categoria order by id_categoria";
     /**
      * Creates new form Categoria
+     * @throws java.io.IOException
+     * @throws java.sql.SQLException
      */
-    public Tela_Categoria() {
+    public Tela_Categoria() throws IOException, SQLException {
         initComponents();
+        con = (Connection) Conexao_db.Conectar();
+        PreencherTabela(sql);
     }
 
     /**
@@ -225,7 +229,7 @@ public class Tela_Categoria extends javax.swing.JFrame {
         conexao = new Conexao_db();
 
         try {
-            con = (Connection) conexao.Conectar();
+            con = (Connection) Conexao_db.Conectar();
             PreencherTabela(sql);
         } catch (IOException | SQLException ex) {
             Logger.getLogger(Tela_Categoria.class.getName()).log(Level.SEVERE, null, ex);
@@ -234,12 +238,8 @@ public class Tela_Categoria extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        try {
-            // Ao fechar a tela:;
-            conexao.Conectar();
-        } catch (IOException ex) {
-            Logger.getLogger(Tela_Categoria.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // Ao fechar a tela:;
+        Conexao_db.Desconectar();
     }//GEN-LAST:event_formWindowClosing
 
     private void lbNovaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbNovaMouseClicked
@@ -391,9 +391,11 @@ public class Tela_Categoria extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
                 new Tela_Categoria().setVisible(true);
+            } catch (IOException | SQLException ex) {
+                Logger.getLogger(Tela_Categoria.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }

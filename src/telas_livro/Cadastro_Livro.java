@@ -1,10 +1,10 @@
 package telas_livro;
 import classes_banco.Conexao_db;
-import classes_basic.Informacoes;
 import java.awt.Graphics2D;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
-
+import classes_basic.GerenciarCategoria;
+import classes_basic.GerenciarEditora;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +21,7 @@ import classes_basic.Livro;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.ParseException;
+import java.util.Vector;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -31,6 +32,8 @@ public class Cadastro_Livro extends javax.swing.JFrame {
     Conexao_db conexao;
     Connection con;
     Gerenciar_Livro gerenciar_livro;
+    GerenciarCategoria gerenciar_cat;
+    PreparedStatement stmt;
     Livro livro;
     File imagem;
     
@@ -40,9 +43,15 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         
     /**
      * Creates new form Cadastro_Livro
+     * @throws java.sql.SQLException
+     * @throws java.io.IOException
      */
-    public Cadastro_Livro() {
+    public Cadastro_Livro() throws SQLException, IOException {
         initComponents();
+        con = (Connection) Conexao_db.Conectar();
+        PreencherTabela(sql);
+        restaurarListaCategorias();
+        restaurarListaEditoras();
     }
 
     /**
@@ -284,10 +293,10 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Autor:");
 
-        cbCategoria.setBackground(new java.awt.Color(0, 0, 0));
+        cbCategoria.setBackground(new java.awt.Color(153, 153, 153));
         cbCategoria.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         cbCategoria.setForeground(new java.awt.Color(255, 255, 255));
-        cbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione" }));
         cbCategoria.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cbCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -295,10 +304,10 @@ public class Cadastro_Livro extends javax.swing.JFrame {
             }
         });
 
-        cbEditora.setBackground(new java.awt.Color(0, 0, 0));
+        cbEditora.setBackground(new java.awt.Color(153, 153, 153));
         cbEditora.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         cbEditora.setForeground(new java.awt.Color(255, 255, 255));
-        cbEditora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbEditora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione" }));
         cbEditora.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -490,15 +499,25 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         } else {
             System.out.println("Erro ao selecionar o se é premium!");
         }
+        Integer id_cat = id_categoria.get(cbCategoria.getSelectedIndex() -1);
+        Integer id_edt = id_editora.get(cbEditora.getSelectedIndex() -1);
         
         Livro livro = new Livro();
+        livro.setId_livro(0);
         livro.setTitulo(titulo);
         livro.setNome_autor(autor);
         livro.setAno_lancamento(data_lancamento);
         livro.setDescricao(descricao);
         livro.setQuantidade_total(qtd);
         livro.setEpremium(epremium);
-        //livro.setCapa(getCapa());
+        livro.setId_categoria(id_cat);
+        livro.setId_editora(id_edt);
+        livro.setQuantidade_emprestados(0);
+        try {
+            livro.setCapa(getCapa());
+        } catch (IOException ex) {
+            Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         gerenciar_livro = new Gerenciar_Livro();
         
@@ -508,9 +527,10 @@ public class Cadastro_Livro extends javax.swing.JFrame {
                 if (gerenciar_livro.Verificar(con,livro) == false){
                     gerenciar_livro.AddLivro(con,livro);
                     PreencherTabela(sql);
+                    LimparCampos();
                     JOptionPane.showMessageDialog(null, "O livro foi cadastrado com sucesso!", "Livro Cadastrado!", 1);
                 }
-            } catch (SQLException | ParseException ex) {
+            } catch (SQLException | ParseException | IOException ex) {
                 Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
             }
  
@@ -531,6 +551,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         try {
             con = (Connection) Conexao_db.Conectar();
             PreencherTabela(sql);
+            //restaurarListaCategorias();
 
         } catch (IOException | SQLException ex) {
             Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
@@ -540,7 +561,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela:
-        conexao.Desconectar();
+        Conexao_db.Desconectar();
     }//GEN-LAST:event_formWindowClosing
 
     private void btInserirCapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInserirCapaActionPerformed
@@ -573,8 +594,10 @@ public class Cadastro_Livro extends javax.swing.JFrame {
             try {
                 gerenciar_livro.DelLivro(con,livro);
                 PreencherTabela(sql);
+                restaurarListaCategorias();
+                restaurarListaEditoras();
                 
-            } catch (SQLException ex) {
+            } catch (SQLException | IOException ex) {
                 Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
             }
                 JOptionPane.showMessageDialog(null, "O livro foi excluído com sucesso!", "Livro Excluído!", 1);
@@ -582,11 +605,20 @@ public class Cadastro_Livro extends javax.swing.JFrame {
   
         } 
     }//GEN-LAST:event_lbExcluirMouseClicked
-
+    public void LimparCampos() throws IOException{
+        tfAutor.setText("");
+        tfDescricao.setText("");
+        tfDataLancamento.setText("");
+        tfTitulo.setText("");
+        Quantidade.setText("");
+        lbcapa.setText("");
+        restaurarListaCategorias();
+        restaurarListaEditoras();
+    }
     private void lbAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAlterarMouseClicked
         //Ao clicar em Alterar livro:
         int linha = tabela.getSelectedRow();  
-        livro.setId_livro(Integer.parseInt(tabela.getValueAt(linha,0).toString()));
+        
         
         String titulo = String.valueOf(tfTitulo.getText());
         String autor = String.valueOf(tfAutor.getText());
@@ -603,18 +635,24 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         } else {
             System.out.println("Erro ao selecionar o se é premium!");
         }
+        Integer id_cat = id_categoria.get(cbCategoria.getSelectedIndex() -1);
+        Integer id_edt = id_editora.get(cbEditora.getSelectedIndex() -1);
         
         Livro livro = new Livro();
+        livro.setId_livro(Integer.parseInt(tabela.getValueAt(linha,0).toString()));
         livro.setTitulo(titulo);
         livro.setNome_autor(autor);
         livro.setAno_lancamento(data_lancamento);
         livro.setDescricao(descricao);
         livro.setQuantidade_total(qtd);
         livro.setEpremium(epremium);
-        
-//        if(imagem != null){
-//            livro.setCapa(getCapa());
-//        }		
+        livro.setId_categoria(id_cat);
+        livro.setId_editora(id_edt);
+        try {
+            livro.setCapa(getCapa());
+        } catch (IOException ex) {
+            Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         
         
@@ -622,9 +660,10 @@ public class Cadastro_Livro extends javax.swing.JFrame {
             try {
                 gerenciar_livro.AltLivro(con,livro);
                 PreencherTabela(sql);
+                LimparCampos();
                 JOptionPane.showMessageDialog(null, "O livro foi alterado com sucesso!", "Livro Alterado!", 1);
                 
-            } catch (SQLException | ParseException ex) {
+            } catch (SQLException | ParseException | IOException ex) {
                 Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -633,14 +672,16 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_lbAlterarMouseClicked
-    public void PreencherTabela(String sql) throws SQLException{ 
+    public void PreencherTabela(String sql) throws SQLException, IOException{ 
+       con = (Connection) Conexao_db.Conectar();
+       
        PreparedStatement stmt = con.prepareStatement(sql);
        ResultSet rs = stmt.executeQuery(); //Resultado do banco de dados
        
        //Gravando as informações da tabela no banco de dados
        DefaultTableModel modelo = (DefaultTableModel)tabela.getModel();
        modelo.setNumRows(0);
-       
+                
        while(rs.next()) {
           modelo.addRow(new Object[]
           {
@@ -653,11 +694,55 @@ public class Cadastro_Livro extends javax.swing.JFrame {
           });
        
      } //Fim while
+       
       rs.close();
       stmt.close();
     }
+    
+    Vector<Integer> id_editora = new Vector<>();
+    public void restaurarListaEditoras() throws IOException{
+        con = (Connection) Conexao_db.Conectar();
+        
+        GerenciarEditora editora = new GerenciarEditora();
+        ResultSet rs;
+        try {
+            rs = (ResultSet) editora.listarEditoras(con);
+            while(rs.next()){
+                id_editora.addElement(rs.getInt(1));
+                cbEditora.addItem(rs.getString(2));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+
+    }
+
+    Vector<Integer> id_categoria = new Vector<>();
+    public void restaurarListaCategorias() throws IOException{
+        con = (Connection) Conexao_db.Conectar();
+        
+        GerenciarCategoria categoria = new GerenciarCategoria();
+        ResultSet rs;
+        try {
+            rs = (ResultSet) categoria.listarCategorias(con);
+            while(rs.next()){
+                id_categoria.addElement(rs.getInt(1));
+                cbCategoria.addItem(rs.getString(2));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+
+    }
     private void lbRedefinirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbRedefinirMouseClicked
-        //Ao clicar em redefinir:
+        try {
+            //Ao clicar em redefinir:
+            LimparCampos();
+        } catch (IOException ex) {
+            Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
     }//GEN-LAST:event_lbRedefinirMouseClicked
@@ -687,7 +772,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         
         
         //Categoria
-        
+       // cbCategoria.set
         
         //Editora
         
@@ -784,9 +869,11 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
                 new Cadastro_Livro().setVisible(true);
+            } catch (SQLException | IOException ex) {
+                Logger.getLogger(Cadastro_Livro.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }

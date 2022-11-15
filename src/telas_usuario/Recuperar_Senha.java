@@ -21,9 +21,12 @@ public class Recuperar_Senha extends javax.swing.JFrame {
     Gerenciar_Usuario user;
     /**
      * Creates new form LoginUser
+     * @throws java.io.IOException
      */
-    public Recuperar_Senha() {
+    public Recuperar_Senha() throws IOException {
         initComponents();
+        con = (Connection) Conexao_db.Conectar();
+        
     }
 
     /**
@@ -223,8 +226,14 @@ public class Recuperar_Senha extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
        // Desconectar o banco de dados
         conexao.Desconectar();
-        Login l = new Login();
-        l.setVisible(true);
+        Login l;
+        try {
+            l = new Login();
+            l.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(Recuperar_Senha.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_formWindowClosing
 
     private void BtConfirmarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtConfirmarMouseClicked
@@ -287,11 +296,15 @@ public class Recuperar_Senha extends javax.swing.JFrame {
     }//GEN-LAST:event_PfNovaSenhaActionPerformed
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
-        // Ao clicar em voltar a página anterior:
-
-        Login login = new Login();
-        login.setVisible(true);
-        dispose();
+        try {
+            // Ao clicar em voltar a página anterior:
+            
+            Login login = new Login();
+            login.setVisible(true);
+            dispose();
+        } catch (IOException ex) {
+            Logger.getLogger(Recuperar_Senha.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jLabel11MouseClicked
 
     /**
@@ -326,7 +339,11 @@ public class Recuperar_Senha extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new Recuperar_Senha().setVisible(true);
+            try {
+                new Recuperar_Senha().setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(Recuperar_Senha.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
 

@@ -17,11 +17,14 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
     Conexao_db conexao;
     Gerenciar_Usuario user;
     Connection con;
+    Login l;
     /**
      * Creates new form Cadastro_Usuario
      */
-    public Cadastro_Usuario() {
+    public Cadastro_Usuario() throws IOException {
         initComponents();
+        con = (Connection) Conexao_db.Conectar();
+        
     }
 
     /**
@@ -295,16 +298,28 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
         // Ao clicar em voltar a página anterior:
         
-        Login login = new Login();
-        login.setVisible(true);
+        Login login;
+        try {
+            login = new Login();
+             login.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
         dispose();
     }//GEN-LAST:event_jLabel11MouseClicked
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela :
         Conexao_db.Desconectar();
-        Login l = new Login();
-        l.setVisible(true);
+        Login l;
+        try {
+            l = new Login();
+            l.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
   
     }//GEN-LAST:event_formWindowClosing
 
@@ -347,8 +362,13 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new Cadastro_Usuario().setVisible(true);
+                try {
+                    new Cadastro_Usuario().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(Cadastro_Usuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

@@ -3,6 +3,7 @@ package telas_livro;
 import classes_banco.Conexao_db;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,10 +16,13 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
     Connection con;
     /**
      * Creates new form Pagina_livro
+     * @throws java.io.IOException
      */
-    public Pagina_livro_Premium() {
+    public Pagina_livro_Premium() throws IOException {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);//Para abrir a tela inteira automáticamente
+        con = (Connection) Conexao_db.Conectar();
+        
     }
 
     /**
@@ -153,7 +157,7 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
         jLabel4.setText("LIVRA");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 30, 130, 50));
 
-        tela.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/principal.jpg"))); // NOI18N
+        tela.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/plano-de-fundo.jpg"))); // NOI18N
         getContentPane().add(tela, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1410, 810));
 
         setSize(new java.awt.Dimension(1425, 846));
@@ -173,8 +177,14 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela:
         Conexao_db.Desconectar();
-        Principal principal = new Principal();
-        principal.setVisible(true);
+        Principal principal;
+        try {
+            principal = new Principal();
+            principal.setVisible(true);
+        } catch (IOException | SQLException ex) {
+            Logger.getLogger(Pagina_livro_Premium.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
 
     }//GEN-LAST:event_formWindowClosing
 
@@ -208,8 +218,13 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new Pagina_livro_Premium().setVisible(true);
+                try {
+                    new Pagina_livro_Premium().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(Pagina_livro_Premium.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

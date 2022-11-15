@@ -21,9 +21,12 @@ public class Login extends javax.swing.JFrame {
  
     /**
      * Creates new form Recuperar_Senha
+     * @throws java.io.IOException
      */
-    public Login() {
+    public Login() throws IOException {
         initComponents();
+        con = (Connection) Conexao_db.Conectar();
+        
     }
 
     /**
@@ -203,7 +206,7 @@ public class Login extends javax.swing.JFrame {
                 } else{
                     JOptionPane.showMessageDialog(null, "Usuário e/ou senha incorreta!", "Login inválido!", 2);
                 }
-            } catch (SQLException ex) {
+            } catch (SQLException | IOException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
@@ -225,17 +228,29 @@ public class Login extends javax.swing.JFrame {
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         //Ao Clicar em recuperar a senha:
-        Recuperar_Senha r = new Recuperar_Senha();
-        r.setVisible(true);
+        Recuperar_Senha r;
+        try {
+            r = new Recuperar_Senha();
+            r.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         dispose();
         
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         //Ao clicar em criar novo usuário:
-        Cadastro_Usuario cadastrar = new Cadastro_Usuario();
-        cadastrar.setVisible(true);
-        dispose();
+        Cadastro_Usuario cadastrar;
+        try {
+            cadastrar = new Cadastro_Usuario();
+            cadastrar.setVisible(true);
+            dispose();
+        } catch (IOException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         
         
     }//GEN-LAST:event_jLabel5MouseClicked
@@ -286,8 +301,15 @@ public class Login extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new Login().setVisible(true);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    new Login().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         });
     }
 

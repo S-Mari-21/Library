@@ -3,7 +3,6 @@ package telas_system;
 import classes_banco.Conexao_db;
 import classes_basic.Editora;
 import classes_basic.GerenciarEditora;
-import classes_basic.Informacoes;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -27,9 +26,13 @@ public class Tela_Editora extends javax.swing.JFrame {
     String sql = "select *from editora order by nome_editora";
     /**
      * Creates new form Tela_Editora
+     * @throws java.io.IOException
+     * @throws java.sql.SQLException
      */
-    public Tela_Editora() {
+    public Tela_Editora() throws IOException, SQLException {
         initComponents();
+        con = (Connection) Conexao_db.Conectar();
+        PreencherTabela(sql);
     }
 
     /**
@@ -260,12 +263,10 @@ public class Tela_Editora extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        try {
+
             // Ao fechar a tela:
-            conexao.Conectar();
-        } catch (IOException ex) {
-            Logger.getLogger(Tela_Editora.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            Conexao_db.Desconectar();
+
     }//GEN-LAST:event_formWindowClosing
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
@@ -303,7 +304,7 @@ public class Tela_Editora extends javax.swing.JFrame {
                 } else { 
                     JOptionPane.showMessageDialog(null, "Editora já está cadastrada!", "Erro!",2);
                 }
-            } catch (SQLException | ParseException ex) {
+            } catch (SQLException | ParseException | IOException ex) {
                 Logger.getLogger(Tela_Editora.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
@@ -335,7 +336,7 @@ public class Tela_Editora extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Editora alterada com sucesso", "Editora alterada!",1);
                 PreencherTabela(sql);
                 
-            } catch (SQLException | ParseException ex) {
+            } catch (SQLException | ParseException | IOException ex) {
                 Logger.getLogger(Tela_Editora.class.getName()).log(Level.SEVERE, null, ex);
             }  
         } else {
@@ -361,7 +362,7 @@ public class Tela_Editora extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "A conta foi excluída com sucesso!", "Conta Excluída!", 1);
                 PreencherTabela(sql);
                 
-            } catch (SQLException ex) {
+            } catch (SQLException | IOException ex) {
                 Logger.getLogger(Tela_Editora.class.getName()).log(Level.SEVERE, null, ex);
             }  
         } 
@@ -374,7 +375,8 @@ public class Tela_Editora extends javax.swing.JFrame {
         tfNome.setText("");
         
     }//GEN-LAST:event_lbRedefinirMouseClicked
-    public void PreencherTabela(String sql) throws SQLException{ 
+    public void PreencherTabela(String sql) throws SQLException, IOException{ 
+       con = (Connection) Conexao_db.Conectar();
        PreparedStatement stmt = con.prepareStatement(sql);
        ResultSet rs = stmt.executeQuery(); //Resultado do banco de dados
        
@@ -423,9 +425,11 @@ public class Tela_Editora extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
                 new Tela_Editora().setVisible(true);
+            } catch (IOException | SQLException ex) {
+                Logger.getLogger(Tela_Editora.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }

@@ -26,9 +26,13 @@ public class Usuarios extends javax.swing.JFrame {
     String sql = "select *from usuario order by nome";
     /**
      * Creates new form Usuarios
+     * @throws java.io.IOException
+     * @throws java.sql.SQLException
      */
-    public Usuarios() {
+    public Usuarios() throws IOException, SQLException {
         initComponents();
+        con = (Connection) Conexao_db.Conectar();
+        PreencherTabela(sql);
     }
     public void PreencherTabela(String sql) throws SQLException{ 
        PreparedStatement stmt = con.prepareStatement(sql);
@@ -41,10 +45,11 @@ public class Usuarios extends javax.swing.JFrame {
        while(rs.next()) {
           modelo.addRow(new Object[]
           {
+              rs.getInt("id_usuario"),
               rs.getString("nome"),
               rs.getString("email"),
-              rs.getString("eAdmin"),
-              rs.getInt("id_usuario"),
+              rs.getBoolean("eAdmin"),
+              
               
           });
        
@@ -94,7 +99,7 @@ public class Usuarios extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome", "E-mail", "Nível"
+                "Código", "Nome", "E-mail", "Nível"
             }
         ));
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -159,10 +164,10 @@ public class Usuarios extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(66, 66, 66))
-            .addGroup(painel2Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         painel2Layout.setVerticalGroup(
             painel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,8 +236,8 @@ public class Usuarios extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/leitor.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 500));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/plano-de-fundo.jpg"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 510));
 
         setSize(new java.awt.Dimension(709, 539));
         setLocationRelativeTo(null);
@@ -245,7 +250,7 @@ public class Usuarios extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         //Ao abrir a tela:
         conexao = new Conexao_db();
-
+        
         try {
             con = (Connection) Conexao_db.Conectar();
             tfNome.setEnabled(false);
@@ -261,12 +266,8 @@ public class Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        try {
-            // Ao fechar a tela:
-            Conexao_db.Conectar();
-        } catch (IOException ex) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // Ao fechar a tela:
+        Conexao_db.Desconectar();
     }//GEN-LAST:event_formWindowClosing
 
     private void tabelaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseEntered
@@ -277,10 +278,10 @@ public class Usuarios extends javax.swing.JFrame {
         // Ao clicar na tabela (quando se clica na linha da tabela aparece os dados completos do uuário)
         int linha = tabela.getSelectedRow();
          
-        tfNome.setText(tabela.getValueAt(linha,0).toString());
-        tfEmail.setText(tabela.getValueAt(linha,1).toString());
+        tfNome.setText(tabela.getValueAt(linha,1).toString());
+        tfEmail.setText(tabela.getValueAt(linha,2).toString());
         
-        if (Integer.parseInt(tabela.getValueAt(linha,2).toString()) == 1){
+        if (Boolean.valueOf(tabela.getValueAt(linha,3).toString()) == true){
           tfNivel.setText("Administrador");  
           
         } else {
@@ -293,11 +294,13 @@ public class Usuarios extends javax.swing.JFrame {
     private void lbAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAdminMouseClicked
         // Ao clicar em tornar adminstrador:
         int linha = tabela.getSelectedRow();
-        Integer id = Integer.parseInt(tabela.getValueAt(linha,3).toString());
+        Integer id = Integer.parseInt(tabela.getValueAt(linha,0).toString());
+        Boolean nivel = Boolean.valueOf(tabela.getValueAt(linha,3).toString());
         
         Usuario usuario = new Usuario();
-        usuario.setAdmin(true);
+        usuario.setAdmin(!(nivel));
         usuario.setId_usuario(id);
+        
         
         user = new Gerenciar_Usuario();
         
@@ -321,7 +324,7 @@ public class Usuarios extends javax.swing.JFrame {
     private void lbUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbUserMouseClicked
         // Ao clicar em tornar usuario:
         int linha = tabela.getSelectedRow();
-        Integer id = Integer.parseInt(tabela.getValueAt(linha,3).toString());
+        Integer id = Integer.parseInt(tabela.getValueAt(linha,0).toString());
         
         Usuario usuario = new Usuario();
         usuario.setAdmin(false);
@@ -374,7 +377,11 @@ public class Usuarios extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new Usuarios().setVisible(true);
+            try {
+                new Usuarios().setVisible(true);
+            } catch (IOException | SQLException ex) {
+                Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
 

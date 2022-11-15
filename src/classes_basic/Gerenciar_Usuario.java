@@ -14,7 +14,27 @@ import java.util.List;
  * @author maria
  */
 public class Gerenciar_Usuario {
- 
+     public void Dados(Connection con,Usuario usuario) throws SQLException{
+        String sql = "select *from usuario";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        
+        //stmt.setInt(1, usuario.getId_usuario());
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()){
+            System.out.println("Executando set dados...");
+             usuario.setAdmin(rs.getBoolean("eAdmin"));
+
+            
+            rs.close();
+            stmt.close();
+            
+        }
+        else {
+            rs.close();
+            stmt.close();
+            
+        }
+    }
     public boolean VerificarLogon(Connection con, Usuario usuario) throws SQLException{
         String sql = "select * from usuario where email = ? and senha = ? ";
         PreparedStatement stmt = con.prepareStatement(sql);
@@ -156,8 +176,8 @@ public class Gerenciar_Usuario {
     public void NivelUsuario(Connection con, Usuario usuario) throws SQLException{
         String sql = "UPDATE usuario SET eAdmin = ? WHERE id_usuario = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
-        stmt.setInt(1,usuario.getId_usuario());
         stmt.setInt(2,usuario.getId_usuario());
+        stmt.setBoolean(1,usuario.getAdmin());
         
         
         stmt.executeUpdate();

@@ -1,3 +1,4 @@
+
 package telas_usuario;
 import classes_banco.Conexao_db;
 import classes_premium.Usuario_Premium;
@@ -23,9 +24,12 @@ public class Assinatura_Premium extends javax.swing.JFrame {
     Gerenciar_Usuario ger_usuario;
     /**
      * Creates new form Assinatura_Premium
+     * @throws java.io.IOException
      */
-    public Assinatura_Premium() {
+    public Assinatura_Premium() throws IOException {
         initComponents();
+        con = (Connection) Conexao_db.Conectar();
+        
     }
 
     /**
@@ -437,8 +441,15 @@ public class Assinatura_Premium extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new Assinatura_Premium().setVisible(true);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    new Assinatura_Premium().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(Assinatura_Premium.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         });
     }
 

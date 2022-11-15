@@ -1,11 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package telas_system;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Timer;
 import telas_usuario.Login;
 
@@ -33,9 +32,15 @@ public class Splash extends javax.swing.JFrame {
                  //Desligar o Timer
                  t.stop();
                  //Abrir tela de Loging
-                 Login login = new Login();
-                 login.setVisible(true);
-                 dispose();
+                 Login login;
+                 try {
+                     login = new Login();
+                     login.setVisible(true);
+                     dispose();
+                 } catch (IOException ex) {
+                     Logger.getLogger(Splash.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+                 
              }//Fim else
              
              //Modificando label carregando:

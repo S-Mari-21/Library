@@ -11,7 +11,7 @@ public class Livro {
     private String descricao;
     private String ano_lancamento;
     private String nome_autor;
-    private Byte[] capa;
+    private byte[] capa;
     private Integer quantidade_total;
     private Integer quantidade_emprestados;
     private Boolean epremium;
@@ -59,10 +59,10 @@ public class Livro {
     public void setNome_autor(String nome_autor) {
         this.nome_autor = nome_autor;
     }
-    public Byte[] getCapa() {
+    public byte[] getCapa() {
         return capa;
     }
-    public void setCapa(Byte[] capa) {
+    public void setCapa(byte[] capa) {
         this.capa = capa;
     }
     public Integer getQuantidade_total() {

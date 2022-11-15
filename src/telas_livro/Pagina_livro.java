@@ -19,10 +19,13 @@ public class Pagina_livro extends javax.swing.JFrame {
     
     /**
      * Creates new form Pagina_livro
+     * @throws java.io.IOException
      */
-    public Pagina_livro() {
+    public Pagina_livro() throws IOException {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);//Para abrir a tela inteira automáticamente
+        con = (Connection) Conexao_db.Conectar();
+       
     }
 
     /**
@@ -138,10 +141,10 @@ public class Pagina_livro extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 1180, 600));
 
-        tela1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/principal.jpg"))); // NOI18N
+        tela1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/plano-de-fundo.jpg"))); // NOI18N
         getContentPane().add(tela1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1410, 810));
 
-        setSize(new java.awt.Dimension(1293, 789));
+        setSize(new java.awt.Dimension(1432, 775));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -166,12 +169,8 @@ public class Pagina_livro extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        try {
-            // Ao fechar a tela:
-            Conexao_db.Conectar();
-        } catch (IOException ex) {
-            Logger.getLogger(Pagina_livro.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // Ao fechar a tela:
+        Conexao_db.Desconectar();
 
     }//GEN-LAST:event_formWindowClosing
 
@@ -203,9 +202,11 @@ public class Pagina_livro extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
                 new Pagina_livro().setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(Pagina_livro.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }

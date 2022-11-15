@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +28,7 @@ public class Gerenciar_Livro {
             livro.setEpremium(rs.getBoolean("ePremium"));
             livro.setDescricao(rs.getString("descricao"));
             livro.setQuantidade_total(rs.getInt("quantidade"));
+            livro.setQuantidade_emprestados(rs.getInt("quantidade_emprestados"));
             
             rs.close();
             stmt.close();
@@ -61,18 +61,21 @@ public class Gerenciar_Livro {
   
   
     public void AddLivro(Connection con,Livro livro) throws SQLException, ParseException{
-        String sql = "insert into livro (id_livro, titulo, descricao, data_lancamento, nome_autor, capa, quantidade, quantidade_emprestados, epremium) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into livro (id_livro, id_editora, id_categoria, titulo, descricao, data_lancamento, nome_autor, capa, quantidade, quantidade_emprestados, epremium) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = con.prepareStatement(sql); //Este Statement é quem permite executar esta isntrução no sql
         
         stmt.setInt(1, livro.getId_livro());
-        stmt.setString(2, livro.getTitulo());
-        stmt.setString(3, livro.getDescricao());
-        stmt.setString(4, livro.getAno_lancamento()); 
-        stmt.setString(5, livro.getNome_autor());
-        //stmt.setBytes(6,livro.getCapa());
-        stmt.setInt(7, livro.getQuantidade_total()); 
-        stmt.setInt(8, livro.getQuantidade_emprestados()); 
-        stmt.setBoolean(9, livro.getEpremium()); 
+        stmt.setInt(2, livro.getId_editora());
+        stmt.setInt(3, livro.getId_editora());
+        stmt.setString(4, livro.getTitulo());
+        stmt.setString(5, livro.getDescricao());
+        stmt.setString(6, livro.getAno_lancamento()); 
+        stmt.setString(7, livro.getNome_autor());
+        stmt.setBytes(8,livro.getCapa());
+        stmt.setInt(9, livro.getQuantidade_total());  
+        stmt.setInt(10, livro.getQuantidade_emprestados()); 
+        stmt.setBoolean(11, livro.getEpremium()); 
+       
         
         stmt.executeUpdate();
         stmt.close();
@@ -81,18 +84,19 @@ public class Gerenciar_Livro {
     
     
      public void AltLivro(Connection con,Livro livro) throws SQLException, ParseException{
-        String sql = "update livro set titulo = ?, descricao = ?, data_lancamento = ?, nome_autor = ?, capa = ?, quantidade = ?, quantidade_emprestados = ?, epremium = ? where id_livro = ?";
+        String sql = "update livro set id_editora = ?, id_categoria = ?, titulo = ?, descricao = ?, data_lancamento = ?, nome_autor = ?, capa = ?, quantidade = ?, epremium = ? where id_livro = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         
         stmt.setInt(1, livro.getId_livro());
-        stmt.setString(2, livro.getTitulo());
-        stmt.setString(3, livro.getDescricao());
-        stmt.setString(4, livro.getAno_lancamento()); 
-        stmt.setString(5, livro.getNome_autor());
-        //stmt.setBytes(6,livro.getCapa());
-        stmt.setInt(7, livro.getQuantidade_total()); 
-        stmt.setInt(8, livro.getQuantidade_emprestados()); 
-        stmt.setBoolean(9, livro.getEpremium()); 
+        stmt.setInt(2, livro.getId_editora());
+        stmt.setInt(3, livro.getId_editora());
+        stmt.setString(4, livro.getTitulo());
+        stmt.setString(5, livro.getDescricao());
+        stmt.setString(6, livro.getAno_lancamento()); 
+        stmt.setString(7, livro.getNome_autor());
+        stmt.setBytes(8,livro.getCapa());
+        stmt.setInt(9, livro.getQuantidade_total());  
+        stmt.setBoolean(10, livro.getEpremium()); 
         
         
         stmt.executeUpdate();
@@ -124,7 +128,7 @@ public class Gerenciar_Livro {
                 livro.setTitulo(rs.getString("livro"));
                 livro.setNome_autor(rs.getString("nome_autor"));
                 livro.setDescricao(rs.getString("descricao"));
-                //livro.setCapa(rs.getBytes("capa"));
+                livro.setCapa(rs.getBytes("capa"));
    
                 lista.add(livro);
             }

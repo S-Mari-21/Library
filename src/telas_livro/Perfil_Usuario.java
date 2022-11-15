@@ -25,9 +25,12 @@ public class Perfil_Usuario extends javax.swing.JFrame {
     
     /**
      * Creates new form Perfil_Usuario
+     * @throws java.io.IOException
      */
-    public Perfil_Usuario() {
+    public Perfil_Usuario() throws IOException {
         initComponents();
+        con = (Connection) Conexao_db.Conectar();
+        
         
     }
 
@@ -583,9 +586,15 @@ public class Perfil_Usuario extends javax.swing.JFrame {
 }
     private void lbAssinaturaPremiumMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAssinaturaPremiumMouseClicked
         //Ao clicar em assinatura premium:
-        Assinatura_Premium ass = new Assinatura_Premium();
-        ass.setVisible(true);
-        dispose();
+        Assinatura_Premium ass;
+        try {
+            ass = new Assinatura_Premium();
+            ass.setVisible(true);
+            dispose();
+        } catch (IOException ex) {
+            Logger.getLogger(Perfil_Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
     }//GEN-LAST:event_lbAssinaturaPremiumMouseClicked
 
     private void tfBairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfBairroActionPerformed
@@ -638,8 +647,15 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new Perfil_Usuario().setVisible(true);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    new Perfil_Usuario().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(Perfil_Usuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         });
     }
 

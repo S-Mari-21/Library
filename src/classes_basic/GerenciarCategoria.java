@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 /**
  *
  * @author maria
@@ -34,7 +32,7 @@ public class GerenciarCategoria {
            
     } 
     
-     public void AddCategoria(Connection con,Categoria categoria) throws SQLException, ParseException{
+     public void AddCategoria(Connection con, Categoria categoria) throws SQLException, ParseException{
         String sql = "insert into categoria (id_categoria, nome_categoria) values (?, ?)";
         
         PreparedStatement stmt = con.prepareStatement(sql); //Este Statement é quem permite executar esta isntrução no sql
@@ -71,24 +69,33 @@ public class GerenciarCategoria {
         
     }
     
-    public List<Categoria> listarCategoria(Connection con) throws SQLException{
-    
-            String sql = "select *from categoria where id_categoria = ?";
-            
-            List<Categoria> lista = new ArrayList<>();
-            PreparedStatement stmt = con.prepareStatement(sql);
-            
-            ResultSet rs = stmt.executeQuery();
-            
-            while(rs.next()){
-                Categoria categoria = new Categoria();
-                
-                categoria.setId_categoria(rs.getInt("id_categoria"));
-                categoria.setNome_categoria(rs.getString("nome_categoria"));
-   
-                lista.add(categoria);
-            }
-     return lista;
+//    public List<Categoria> listarCategoria(Connection con) throws SQLException{
+//    
+//            String sql = "select *from categoria";
+//            
+//            List<Categoria> lista = new ArrayList<>();
+//            PreparedStatement stmt = con.prepareStatement(sql);
+//            
+//            ResultSet rs = stmt.executeQuery();
+//            
+//            while(rs.next()){
+//                Categoria categoria = new Categoria();
+//                
+//                categoria.setId_categoria(rs.getInt("id_categoria"));
+//                categoria.setNome_categoria(rs.getString("nome_categoria"));
+//   
+//                lista.add(categoria);
+//            }
+//     return lista;
+//        
+//    }
+    public ResultSet listarCategorias(Connection con) throws SQLException{
+        String categorias = "select * from categoria order by nome_categoria";
+        
+       
+        PreparedStatement stmt = con.prepareStatement(categorias);
+        return stmt.executeQuery();
+        
         
     }
     

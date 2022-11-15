@@ -1,7 +1,9 @@
 package telas_livro;
 import telas_system.Administracao;
 import classes_banco.Conexao_db;
+import classes_basic.Gerenciar_Usuario;
 import classes_basic.Informacoes;
+import classes_basic.Usuario;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -21,17 +23,22 @@ import telas_usuario.Assinatura_Premium;
 public class Principal extends javax.swing.JFrame {
     Conexao_db conexao;
     Connection con;
-    
+    Gerenciar_Usuario ger_user;
+    Usuario usuario;
     
     String sql = "select * from livro order by titulo";
     
     
     /**
      * Creates new form Catalogo
+     * @throws java.io.IOException
+     * @throws java.sql.SQLException
      */
-    public Principal() {
+    public Principal() throws IOException, SQLException {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);//Para abrir a tela inteira automáticamente
+        con = (Connection) Conexao_db.Conectar();
+        PreencherTabela(sql);
     }
 
     /**
@@ -328,7 +335,16 @@ public class Principal extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try {                                  
             // Ao abrir a tela principal exibir os livros e se for administrador a opção para as ferramentas do admin:
-            Integer eAdmin = Integer.parseInt(Informacoes.eAdmin);
+            usuario = new Usuario();
+            ger_user = new Gerenciar_Usuario();
+            try {
+                ger_user.Dados(con, usuario);
+            } catch (SQLException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            Boolean eAdmin = usuario.getAdmin();
+            
             System.out.println(eAdmin);
             conexao = new Conexao_db();
             
@@ -341,7 +357,7 @@ public class Principal extends javax.swing.JFrame {
             
             
             System.out.println(eAdmin);
-            if(eAdmin == 1){
+            if(eAdmin == true){
                 lbAdmin.setText("Administrador");
             } else {
                 lbAdmin.setText("");
@@ -365,16 +381,28 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void lbAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbAdminMouseClicked
-        // Ao clicar em admin exibir página com as ferramentas do administrador:
-        Integer eAdmin = Integer.parseInt(Informacoes.eAdmin);
-        if(eAdmin == 1){
-            Administracao adm = new Administracao();
-            adm.setVisible(true);
-            //dispose();
+        try {
+            // Ao clicar em admin exibir página com as ferramentas do administrador:
+            usuario = new Usuario();
+            ger_user = new Gerenciar_Usuario();
             
-        } else {
-            JOptionPane.showMessageDialog(null, "Usuário não possui previlégios para acessar as ferramentas de administrador!", "Não permitido!", 2);
-    
+            con = (Connection) Conexao_db.Conectar();
+
+            ger_user.Dados(con, usuario);
+            
+            
+            Boolean eAdmin = usuario.getAdmin();
+            if(eAdmin == true){
+                Administracao adm = new Administracao();
+                adm.setVisible(true);
+                dispose();
+                
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuário não possui previlégios para acessar as ferramentas de administrador!", "Não permitido!", 2);
+                
+            }
+        } catch (IOException | SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_lbAdminMouseClicked
 
@@ -386,8 +414,14 @@ public class Principal extends javax.swing.JFrame {
 
     private void lbPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPerfilMouseClicked
         // Ao clicar em Perfil:
-        Perfil_Usuario perfil = new Perfil_Usuario();
-        perfil.setVisible(true);
+        Perfil_Usuario perfil;
+        try {
+            perfil = new Perfil_Usuario();
+            perfil.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
     }//GEN-LAST:event_lbPerfilMouseClicked
 
     private void lbEmprestimosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbEmprestimosMouseClicked
@@ -410,9 +444,8 @@ public class Principal extends javax.swing.JFrame {
               rs.getString("titulo"),             
               rs.getString("nome_autor"),
               rs.getString("descricao"),
-              //rs.getBytes("capa"),
-              //rs.getInt("id_livro"),
-              //rs.getInt("id_editora"),
+              rs.getBytes("capa"),
+
           });
        
      } //Fim while
@@ -433,8 +466,14 @@ public class Principal extends javax.swing.JFrame {
                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
            }
        } else {
-          Assinatura_Premium ass = new Assinatura_Premium();
-          ass.setVisible(true);
+          Assinatura_Premium ass;
+           try {
+               ass = new Assinatura_Premium();
+               ass.setVisible(true);
+           } catch (IOException ex) {
+               Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+           }
+          
        }
        
     }//GEN-LAST:event_lbAreaPremiumMouseClicked
@@ -468,8 +507,14 @@ public class Principal extends javax.swing.JFrame {
         //Informacoes.id_livro = Integer.parseInt(tabela.getValueAt(linha,4).toString());
        //Informacoes.id_editora =Integer.parseInt(tabela.getValueAt(linha,5).toString());
         
-        Pagina_livro pag = new Pagina_livro();
-        pag.setVisible(true);
+        Pagina_livro pag;
+        try {
+            pag = new Pagina_livro();
+            pag.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_tabelaMouseClicked
 
     private void jLabel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel18MouseClicked
@@ -518,8 +563,13 @@ public class Principal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new Principal().setVisible(true);
+                try {
+                    new Principal().setVisible(true);
+                } catch (IOException | SQLException ex) {
+                    Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
