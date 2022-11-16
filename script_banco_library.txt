@@ -5,9 +5,9 @@ use library;
 create table usuario (
 	id_usuario int(4) auto_increment,
 	nome varchar(35) not null,
-	senha varchar(20) not null,
+	senha varchar(100) not null,
 	data_nascimento varchar(10) not null,
-	num_celular int(12) not null,
+	num_celular varchar(12) not null,
 	email varchar(30) not null,
 	eAdmin boolean not null,
     	ePremium boolean not null,
@@ -53,7 +53,7 @@ create table livro (
 	descricao varchar(2000) not null,
 	data_lancamento varchar(8) not null,
 	nome_autor varchar(30) not null,
-	capa longblob,
+	capa longblob null,
 	quantidade int(50) not null,
 	quantidade_emprestados int(50) not null,
 	epremium boolean not null,
@@ -139,36 +139,3 @@ Com uma apurada seleção de títulos, vários livros alcançam um expressivo n�
 obtendo assim uma incomum unanimidade de elogios por parte do público, da crítica e do mercado. À bem cuidada curadoria editorial alia-se o apuro 
 na produção gráfica, o que transforma as edições em objetos de culto a serviço da boa literatura.');
 
--- Anotações de comandos:
-UPDATE usuario SET nome = 'Mariana', senha = '123', num_celular = '999988888',  email = 'maria@gmail.br', eAdmin = true WHERE id_usuario = 1;
-UPDATE usuario SET ePremium = true WHERE id_usuario=2;
-
-ALTER TABLE usuario ADD ePremium boolean not null;
-ALTER TABLE livro CHANGE epremium epremium boolean not null;
-ALTER TABLE editora CHANGE descricao descricao varchar(2000) not null;
-
-select * from usuario where email = 'mariana@gmail.com' and senha = '123456';
-select * from usuario where email = 'sarah@gmail.com' and num_celular = '99998888';
-select titulo, nome_autor, descricao, capa from livro where titulo ='' or nome_autor = '' order by titulo;
-select titulo, nome_autor, descricao, capa from livro order by titulo;
-select id_livro, titulo, descricao, capa from livro;
-select * from livro where titulo = 'Joana';
-select eAdmin, id_usuario from usuario where email = 'maria@gmail.br' and senha = '123';
-
-Delete from usuario where id_usuario = 4;
-
-
--- Selecionando as tabelas:
-select *from usuario;
-select *from usuario_premium;
-select *from livro;
-select *from livro_premium;
-select *from transacao;
-select *from historico;
-select *from editora;
-select *from emprestimo;
-select *from categoria;
-
-
--- Excluindo o banco de dados:
-drop database library;
