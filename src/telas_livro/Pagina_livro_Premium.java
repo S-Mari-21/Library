@@ -8,6 +8,7 @@ import classes_basic.GerenciarEditora;
 import classes_basic.Gerenciar_Livro;
 import classes_basic.Informacoes;
 import classes_basic.Livro;
+import classes_premium.Livro_Premium;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,15 +24,17 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
     Connection con;
     Livro livro;
     Gerenciar_Livro ger_liv;
+    Livro_Premium livro_premium;
     /**
      * Creates new form Pagina_livro
      * @throws java.io.IOException
+     * @throws java.sql.SQLException
      */
-    public Pagina_livro_Premium() throws IOException {
+    public Pagina_livro_Premium() throws IOException, SQLException {
         initComponents();
         setExtendedState(MAXIMIZED_BOTH);//Para abrir a tela inteira automáticamente
         con = (Connection) Conexao_db.Conectar();
-        
+        PreencherCampos();
     }
 
     /**
@@ -51,14 +54,15 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
         lbDescricaoEditora = new javax.swing.JLabel();
         lbSituacao = new javax.swing.JLabel();
         lbCarrinho = new javax.swing.JLabel();
-        lb = new javax.swing.JLabel();
-        lb2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         lbNomeEditora = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lbNomeCategoria = new javax.swing.JLabel();
-        lbAlugar = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         lbComprar1 = new javax.swing.JLabel();
+        lbAlugar = new javax.swing.JLabel();
+        lb2 = new javax.swing.JLabel();
+        lb = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         tela = new javax.swing.JLabel();
 
@@ -113,12 +117,6 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
         lbCarrinho.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lbCarrinho.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        lb.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        lb.setText("Valor para comprar:");
-
-        lb2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        lb2.setText("Valor do aluguel:");
-
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel1.setText("Editora:");
 
@@ -129,9 +127,51 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
 
         lbNomeCategoria.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
 
-        lbAlugar.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         lbComprar1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbComprar1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        lbAlugar.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbAlugar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        lb2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lb2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lb2.setText("Valor do aluguel:");
+
+        lb.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lb.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lb.setText("Valor para comprar:");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbAlugar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lb2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbComprar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lb)))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addComponent(lb)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbComprar1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lb2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbAlugar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -142,34 +182,32 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbNomeEditora, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(lbDescricaoEditora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 681, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lbDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 732, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(37, 37, 37)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lb)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(lbAlugar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lb2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lbComprar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                        .addContainerGap(20, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lbSituacao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lbCarrinho, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))))
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbNomeEditora, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbNomeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lbDescricaoEditora, javax.swing.GroupLayout.PREFERRED_SIZE, 1069, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbSituacao)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(42, 42, 42)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 681, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 732, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lbCarrinho, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(20, 20, 20))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,25 +216,18 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbSituacao)
                     .addComponent(lbCarrinho))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lbTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lbTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(lbDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addComponent(lb)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbComprar1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lb2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbAlugar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addComponent(lbDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -233,24 +264,18 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
             Logger.getLogger(Pagina_livro_Premium.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowOpened
+    public void ExibirValoresPremium(){
 
+    }
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela:
-        Conexao_db.Desconectar();
-        Principal principal;
-        try {
-            principal = new Principal();
-            principal.setVisible(true);
-        } catch (IOException | SQLException ex) {
-            Logger.getLogger(Pagina_livro_Premium.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
 
     }//GEN-LAST:event_formWindowClosing
    public void PreencherCampos() throws SQLException{
         livro = new Livro();
         ger_liv = new Gerenciar_Livro();
-        //livro.setId_livro(3);
+        //livro.setId_livro(7);
         livro.setId_livro(Informacoes.id_livro);
         ger_liv.Dados(con, livro);
 
@@ -258,8 +283,6 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
         lbTitulo.setText(livro.getTitulo());
         lbDescricao.setText("<html> <body style=text-align:justify;>" + livro.getDescricao() + "<br&gtcom HTML!</body> </html>");
         lbcapa.setText(String.valueOf(livro.getCapa()));
-        
-      
         
         GerenciarEditora ger_edt = new GerenciarEditora();
         Editora editora = new Editora();
@@ -275,6 +298,11 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
         ger_cat.Dados(con, categoria);
         
         lbNomeCategoria.setText(categoria.getNome_categoria());
+        
+        livro_premium = new Livro_Premium();
+        livro_premium.Dados(con, Informacoes.id_livro); //7
+        lbAlugar.setText(String.valueOf(Informacoes.valor_alugar));
+        lbComprar1.setText(String.valueOf(Informacoes.valor_venda));
     }
     /**
      * @param args the command line arguments
@@ -310,7 +338,7 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
             public void run() {
                 try {
                     new Pagina_livro_Premium().setVisible(true);
-                } catch (IOException ex) {
+                } catch (IOException | SQLException ex) {
                     Logger.getLogger(Pagina_livro_Premium.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -323,6 +351,7 @@ public class Pagina_livro_Premium extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lb;
     private javax.swing.JLabel lb2;
     private javax.swing.JLabel lbAlugar;

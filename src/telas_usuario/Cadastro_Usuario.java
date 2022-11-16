@@ -42,11 +42,9 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        tfNumCelular = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         btCadastrar = new javax.swing.JButton();
         pfSenha = new javax.swing.JPasswordField();
-        tfDataNascimento = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         tfEmail = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -54,6 +52,8 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        tfDataNascimento = new javax.swing.JFormattedTextField();
+        tfNumCelular = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -86,12 +86,6 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Email:");
 
-        tfNumCelular.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfNumCelularActionPerformed(evt);
-            }
-        });
-
         jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Nome Completo:");
@@ -115,12 +109,6 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         pfSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pfSenhaActionPerformed(evt);
-            }
-        });
-
-        tfDataNascimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfDataNascimentoActionPerformed(evt);
             }
         });
 
@@ -156,6 +144,18 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Número de Celular:");
 
+        try {
+            tfDataNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            tfNumCelular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -183,13 +183,12 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
                             .addComponent(pfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(tfDataNascimento, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(tfNumCelular, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)))
-                        .addGap(106, 106, 106))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btCadastrar)
-                .addGap(26, 26, 26))
+                                .addComponent(tfNumCelular, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                                .addComponent(tfDataNascimento, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addGap(106, 106, 106))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(btCadastrar)
+                        .addGap(26, 26, 26))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,10 +230,6 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(765, 541));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tfNumCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNumCelularActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfNumCelularActionPerformed
 
     private void btCadastrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCadastrarMouseClicked
         try {
@@ -303,10 +298,6 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_pfSenhaActionPerformed
 
-    private void tfDataNascimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfDataNascimentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfDataNascimentoActionPerformed
-
     private void tfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfEmailActionPerformed
@@ -331,7 +322,7 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // Ao fechar a tela :
-        Conexao_db.Desconectar();
+        //Conexao_db.Desconectar();
         Login l;
         try {
             l = new Login();
@@ -406,9 +397,9 @@ public class Cadastro_Usuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField pfSenha;
-    private javax.swing.JTextField tfDataNascimento;
+    private javax.swing.JFormattedTextField tfDataNascimento;
     private javax.swing.JTextField tfEmail;
     private javax.swing.JTextField tfNome;
-    private javax.swing.JTextField tfNumCelular;
+    private javax.swing.JFormattedTextField tfNumCelular;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,6 +4,7 @@ import classes_banco.Conexao_db;
 import classes_basic.Gerenciar_Livro;
 import classes_basic.Gerenciar_Usuario;
 import classes_basic.Informacoes;
+import classes_basic.Livro;
 import classes_basic.Usuario;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
@@ -28,8 +29,10 @@ public class Principal extends javax.swing.JFrame {
     Usuario usuario;
     Gerenciar_Livro ger_liv;
     Pagina_livro pag;
+    Pagina_livro_Premium pag_premium;
+    Livro livro;
     
-    String sql = "select * from livro order by titulo";
+    String sql = "select * from livro where epremium = false order by titulo";
     
     
     /**
@@ -63,6 +66,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lbPesquisar = new javax.swing.JLabel();
         lbAdmin = new javax.swing.JLabel();
+        lbVoltar = new javax.swing.JLabel();
         painel4 = new javax.swing.JPanel();
         lbEmprestimos = new javax.swing.JLabel();
         lbCategorias = new javax.swing.JLabel();
@@ -205,6 +209,16 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(lbAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 0, 100, 30));
+
+        lbVoltar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        lbVoltar.setForeground(new java.awt.Color(255, 255, 255));
+        lbVoltar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbVoltarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(lbVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 230, 260, 20));
 
         painel4.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -457,12 +471,13 @@ public class Principal extends javax.swing.JFrame {
         //Ao clicar em área premium:
         //1º Verificar se já é usuário premium:
        Boolean epremium = Informacoes.ePremium;
-       String sqlLivrosPremium = "SELECT * FROM livro WHERE epremium = '"+epremium+"'";
+       String sqlLivrosPremium = "SELECT * FROM livro WHERE epremium = true";
        
        if (epremium == true ){
            try {
                //Exibir os livros premium na tabela
                PreencherTabela(sqlLivrosPremium);
+               lbVoltar.setText("Sair Área Premium");
            } catch (SQLException ex) {
                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
            }
@@ -503,10 +518,20 @@ public class Principal extends javax.swing.JFrame {
             int linha = tabela.getSelectedRow();
             Informacoes.id_livro = (Integer.parseInt(tabela.getValueAt(linha,0).toString()));
             System.out.println("Id editora: "+ Informacoes.id_livro);
-            pag = new Pagina_livro();
-            pag.setVisible(true);
-
             
+            livro = new Livro();
+            ger_liv = new Gerenciar_Livro();
+            livro.setId_livro(Integer.parseInt(tabela.getValueAt(linha,0).toString()));
+            ger_liv.Dados(con, livro);
+            
+            if (livro.getEpremium() == false){
+                pag = new Pagina_livro();
+                pag.setVisible(true);   
+                
+            } else {
+                pag_premium = new Pagina_livro_Premium();
+                pag_premium.setVisible(true);
+            }  
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -528,6 +553,16 @@ public class Principal extends javax.swing.JFrame {
     private void lbCategoriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbCategoriasMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_lbCategoriasMouseClicked
+
+    private void lbVoltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbVoltarMouseClicked
+        try {
+            // Ao clicar em sair area premium:
+            PreencherTabela(sql);
+            lbVoltar.setText("");
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_lbVoltarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -584,6 +619,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel lbPerfil;
     private javax.swing.JLabel lbPesquisar;
     private javax.swing.JLabel lbRecomendados;
+    private javax.swing.JLabel lbVoltar;
     private javax.swing.JPanel painel2;
     private javax.swing.JPanel painel3;
     private javax.swing.JPanel painel4;

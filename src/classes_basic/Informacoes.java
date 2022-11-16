@@ -34,6 +34,10 @@ public class Informacoes {
     public static byte capa;
     public static Boolean livroepremium;
     
+    //Livro Premium
+    public static Double valor_venda;
+    public static Double valor_alugar;
+    
     //Categoria:
     public static Integer id_categoria;
     

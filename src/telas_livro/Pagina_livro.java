@@ -9,12 +9,10 @@ import classes_basic.Gerenciar_Livro;
 import classes_basic.Informacoes;
 import classes_basic.Livro;
 import com.mysql.jdbc.Connection;
-import static java.awt.SystemColor.text;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static javax.tools.JavaFileObject.Kind.HTML;
 
 /**
  *
@@ -120,6 +118,11 @@ public class Pagina_livro extends javax.swing.JFrame {
         lbEmprestimo.setText("Pedir Empréstimo");
         lbEmprestimo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lbEmprestimo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbEmprestimo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbEmprestimoMouseClicked(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel1.setText("Editora:");
@@ -214,6 +217,11 @@ public class Pagina_livro extends javax.swing.JFrame {
 //        Conexao_db.Desconectar();
 
     }//GEN-LAST:event_formWindowClosing
+
+    private void lbEmprestimoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbEmprestimoMouseClicked
+        // Ao pedir emprestimo:
+        
+    }//GEN-LAST:event_lbEmprestimoMouseClicked
     public void PreencherCampos() throws SQLException{
         livro = new Livro();
         ger_liv = new Gerenciar_Livro();

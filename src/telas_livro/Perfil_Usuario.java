@@ -7,10 +7,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import classes_basic.Usuario;
+import classes_premium.Livro_Premium;
 import classes_premium.Usuario_Premium;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import telas_usuario.Assinatura_Premium;
 /**
  *
@@ -45,10 +49,8 @@ public class Perfil_Usuario extends javax.swing.JFrame {
 
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        tfNumCelular = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         btAlterar = new javax.swing.JButton();
-        tfDataNascimento = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         tfEmail = new javax.swing.JTextField();
         tfNome = new javax.swing.JTextField();
@@ -65,13 +67,15 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         tfLogradouro = new javax.swing.JTextField();
         tfCidade = new javax.swing.JTextField();
-        tfCEP1 = new javax.swing.JTextField();
-        tfCPF1 = new javax.swing.JTextField();
         tfNumero = new javax.swing.JTextField();
         tfUF = new javax.swing.JTextField();
         lbAssinaturaPremium = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         tfBairro = new javax.swing.JTextField();
+        tfDataNascimento = new javax.swing.JFormattedTextField();
+        tfNumCelular = new javax.swing.JFormattedTextField();
+        tfCPF1 = new javax.swing.JFormattedTextField();
+        tfCEP1 = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -93,15 +97,6 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Email:");
 
-        tfNumCelular.setBackground(new java.awt.Color(0, 0, 0));
-        tfNumCelular.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        tfNumCelular.setForeground(new java.awt.Color(255, 255, 255));
-        tfNumCelular.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfNumCelularActionPerformed(evt);
-            }
-        });
-
         jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Nome Completo:");
@@ -119,15 +114,6 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         btAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btAlterarActionPerformed(evt);
-            }
-        });
-
-        tfDataNascimento.setBackground(new java.awt.Color(0, 0, 0));
-        tfDataNascimento.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        tfDataNascimento.setForeground(new java.awt.Color(255, 255, 255));
-        tfDataNascimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfDataNascimentoActionPerformed(evt);
             }
         });
 
@@ -221,24 +207,6 @@ public class Perfil_Usuario extends javax.swing.JFrame {
             }
         });
 
-        tfCEP1.setBackground(new java.awt.Color(0, 0, 0));
-        tfCEP1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        tfCEP1.setForeground(new java.awt.Color(255, 255, 255));
-        tfCEP1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfCEP1ActionPerformed(evt);
-            }
-        });
-
-        tfCPF1.setBackground(new java.awt.Color(0, 0, 0));
-        tfCPF1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        tfCPF1.setForeground(new java.awt.Color(255, 255, 255));
-        tfCPF1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfCPF1ActionPerformed(evt);
-            }
-        });
-
         tfNumero.setBackground(new java.awt.Color(0, 0, 0));
         tfNumero.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         tfNumero.setForeground(new java.awt.Color(255, 255, 255));
@@ -279,6 +247,43 @@ public class Perfil_Usuario extends javax.swing.JFrame {
             }
         });
 
+        tfDataNascimento.setBackground(new java.awt.Color(0, 0, 0));
+        tfDataNascimento.setForeground(new java.awt.Color(255, 255, 255));
+        try {
+            tfDataNascimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        tfNumCelular.setBackground(new java.awt.Color(0, 0, 0));
+        tfNumCelular.setForeground(new java.awt.Color(255, 255, 255));
+        try {
+            tfNumCelular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        tfCPF1.setBackground(new java.awt.Color(0, 0, 0));
+        tfCPF1.setForeground(new java.awt.Color(255, 255, 255));
+        try {
+            tfCPF1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        tfCEP1.setBackground(new java.awt.Color(0, 0, 0));
+        tfCEP1.setForeground(new java.awt.Color(255, 255, 255));
+        try {
+            tfCEP1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        tfCEP1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfCEP1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -294,9 +299,10 @@ public class Perfil_Usuario extends javax.swing.JFrame {
                                     .addComponent(jLabel6)
                                     .addComponent(jLabel7)
                                     .addComponent(jLabel10))
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                                        .addGap(0, 26, Short.MAX_VALUE)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel3)
                                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -305,50 +311,47 @@ public class Perfil_Usuario extends javax.swing.JFrame {
                                         .addGap(138, 138, 138)
                                         .addComponent(lbExcluirConta))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(tfDataNascimento, javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(tfNumCelular, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel17)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfCEP1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel18)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                                .addComponent(tfNumCelular, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                                                .addComponent(tfDataNascimento, javax.swing.GroupLayout.Alignment.LEADING)))
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel14)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jLabel17)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(tfCEP1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel18)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel13)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(tfLogradouro))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jLabel12)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(tfCPF1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(jLabel11))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jLabel15)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(tfCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel16)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(tfUF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(lbAssinaturaPremium, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(jLabel11)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                                        .addComponent(lbAssinaturaPremium, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel12)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(tfCPF1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel15)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(tfCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel16)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(tfUF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(80, 80, 80))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -372,7 +375,7 @@ public class Perfil_Usuario extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(tfDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
+                .addGap(13, 13, 13)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(tfNumCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -390,8 +393,8 @@ public class Perfil_Usuario extends javax.swing.JFrame {
                     .addComponent(jLabel15)
                     .addComponent(jLabel16)
                     .addComponent(tfCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfCPF1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfCPF1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
@@ -404,9 +407,9 @@ public class Perfil_Usuario extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel14)
                         .addComponent(jLabel17)
-                        .addComponent(tfCEP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addComponent(tfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfCEP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(btAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
@@ -419,10 +422,6 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(755, 549));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tfNumCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNumCelularActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfNumCelularActionPerformed
 
     private void btAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btAlterarMouseClicked
         // Ao clicar alterar inserir no banco:
@@ -449,15 +448,15 @@ public class Perfil_Usuario extends javax.swing.JFrame {
             try {
                 user.AltUsuario(con,usuario);
                 if (ePremium == true){
-                   userpremium.AltUsuarioPremium(con,usuario.getId_usuario(), tfLogradouro.getText(), Integer.parseInt(tfNumero.getText()) ,tfBairro.getText(), tfCidade.getText(),tfUF.getText(),tfCEP1.getText(), tfCPF1.getText()); 
+                    userpremium.AltUsuarioPremium(con,Informacoes.id_usuario, tfLogradouro.getText(), Integer.parseInt(tfNumero.getText()) ,tfBairro.getText(), tfCidade.getText(),tfUF.getText(),tfCEP1.getText(), tfCPF1.getText());
+                    GetDados();
                 }
                 
                 GetDados();
-                
+                JOptionPane.showMessageDialog(null, "Alteração de Cadastro realizada com sucesso!", "Conta alterada!", 1);
             } catch (SQLException | ParseException ex) {
                 Logger.getLogger(Perfil_Usuario.class.getName()).log(Level.SEVERE, null, ex);
             }
-            JOptionPane.showMessageDialog(null, "Alteração de Cadastro realizada com sucesso!", "Conta alterada!", 1);
 
         } else {
             JOptionPane.showMessageDialog(null, "Todos os campos precisam ser preenchidos!", "Cadastro inválido!", 2);
@@ -468,10 +467,6 @@ public class Perfil_Usuario extends javax.swing.JFrame {
     private void btAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAlterarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btAlterarActionPerformed
-
-    private void tfDataNascimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfDataNascimentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfDataNascimentoActionPerformed
 
     private void tfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEmailActionPerformed
         // TODO add your handling code here:
@@ -488,14 +483,6 @@ public class Perfil_Usuario extends javax.swing.JFrame {
     private void tfCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCidadeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfCidadeActionPerformed
-
-    private void tfCEP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCEP1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfCEP1ActionPerformed
-
-    private void tfCPF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCPF1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfCPF1ActionPerformed
 
     private void tfNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNumeroActionPerformed
         // TODO add your handling code here:
@@ -551,15 +538,29 @@ public class Perfil_Usuario extends javax.swing.JFrame {
     public void GetDados() throws SQLException{
             System.out.println("Id do usuario tela perfil: "+Informacoes.id_usuario);
             System.out.println("Nome do usuario tela perfil: "+String.valueOf(Informacoes.nomeusuario));
+            
             Boolean ePremium = Informacoes.ePremium; 
             
             usuario = new Usuario();
             usuario.setId_usuario(Informacoes.id_usuario);
             
             tfNome.setText(String.valueOf(Informacoes.nomeusuario));
-            tfDataNascimento.setText(String.valueOf(Informacoes.datanascimento));
             tfNumCelular.setText(String.valueOf(Informacoes.numcelular));
             tfEmail.setText(String.valueOf(Informacoes.emailusuario));
+            
+            String dataNascimento = Informacoes.datanascimento;
+           
+
+            String dia = dataNascimento.substring(0,4);
+            String mes= dataNascimento.substring(5,7);
+            String ano= dataNascimento.substring(8);
+
+            String data = ano+mes+dia;
+            
+            tfDataNascimento.setText(data);
+            
+            System.out.println("Data: " + dataNascimento);
+            System.out.println("Data formatada: " + data);
             
             userpremium = new Usuario_Premium();
             if(ePremium == false){
@@ -600,6 +601,10 @@ public class Perfil_Usuario extends javax.swing.JFrame {
     private void tfBairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfBairroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfBairroActionPerformed
+
+    private void tfCEP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCEP1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfCEP1ActionPerformed
     
 //Limpando os campos:
     public void LimparCampos(){
@@ -680,14 +685,14 @@ public class Perfil_Usuario extends javax.swing.JFrame {
     private javax.swing.JLabel lbAssinaturaPremium;
     private javax.swing.JLabel lbExcluirConta;
     private javax.swing.JTextField tfBairro;
-    private javax.swing.JTextField tfCEP1;
-    private javax.swing.JTextField tfCPF1;
+    private javax.swing.JFormattedTextField tfCEP1;
+    private javax.swing.JFormattedTextField tfCPF1;
     private javax.swing.JTextField tfCidade;
-    private javax.swing.JTextField tfDataNascimento;
+    private javax.swing.JFormattedTextField tfDataNascimento;
     private javax.swing.JTextField tfEmail;
     private javax.swing.JTextField tfLogradouro;
     private javax.swing.JTextField tfNome;
-    private javax.swing.JTextField tfNumCelular;
+    private javax.swing.JFormattedTextField tfNumCelular;
     private javax.swing.JTextField tfNumero;
     private javax.swing.JTextField tfUF;
     // End of variables declaration//GEN-END:variables

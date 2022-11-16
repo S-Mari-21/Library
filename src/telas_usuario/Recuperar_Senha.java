@@ -228,7 +228,7 @@ public class Recuperar_Senha extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
        // Desconectar o banco de dados
-        conexao.Desconectar();
+        //conexao.Desconectar();
         Login l;
         try {
             l = new Login();

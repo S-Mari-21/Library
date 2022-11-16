@@ -127,25 +127,24 @@ public class Gerenciar_Usuario {
        }
     
     public void AltUsuario(Connection con,Usuario usuario) throws SQLException, ParseException{
-        String sql = "UPDATE usuario SET nome = ?, senha = ?, num_celular = ?,  email = ?, eAdmin = ?, ePremium = ? WHERE id_usuario = ?";
+        String sql = "UPDATE usuario SET nome = ?,data_nascimento =?, num_celular = ?,  email = ?, eAdmin = ?, ePremium = ? WHERE id_usuario = ?";
         PreparedStatement stmt = con.prepareStatement(sql);
         
-        stmt.setInt(1, usuario.getId_usuario());
+        
         stmt.setString(2, usuario.getNome());
-        stmt.setString(3, usuario.getSenha());
 
         //Conversão do campo data sql-java
         SimpleDateFormat sdf = new  SimpleDateFormat("dd/MM/yyyy"); //Estabelecendo o formato da data String
         java.util.Date data = sdf.parse(usuario.getData_nascimento()); // Transformando a data para um campo java
         java.sql.Date datasql = new java.sql.Date(data.getTime()); // Transformando a data para sql
-        stmt.setDate(4, datasql);
+        stmt.setDate(3, datasql);
         
-        stmt.setString(5, usuario.getNum_celular());
-        stmt.setString(6, usuario.getEmail());
+        stmt.setString(4, usuario.getNum_celular());
+        stmt.setString(5, usuario.getEmail());
         
-        stmt.setBoolean(7, usuario.getAdmin());
-        stmt.setBoolean(8, usuario.getEpremium());
-        
+        stmt.setBoolean(6, usuario.getAdmin());
+        stmt.setBoolean(7, usuario.getEpremium());
+        stmt.setInt(1, usuario.getId_usuario());
         
         stmt.executeUpdate();
         stmt.close();
