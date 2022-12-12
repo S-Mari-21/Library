@@ -7,14 +7,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import classes_basic.Usuario;
-import classes_premium.Livro_Premium;
 import classes_premium.Usuario_Premium;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import telas_usuario.Assinatura_Premium;
 /**
  *
@@ -30,11 +26,12 @@ public class Perfil_Usuario extends javax.swing.JFrame {
     /**
      * Creates new form Perfil_Usuario
      * @throws java.io.IOException
+     * @throws java.sql.SQLException
      */
-    public Perfil_Usuario() throws IOException {
+    public Perfil_Usuario() throws IOException, SQLException {
         initComponents();
         con = (Connection) Conexao_db.Conectar();
-        
+        GetDados();
         
     }
 
@@ -51,7 +48,6 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         btAlterar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         tfEmail = new javax.swing.JTextField();
         tfNome = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -116,10 +112,6 @@ public class Perfil_Usuario extends javax.swing.JFrame {
                 btAlterarActionPerformed(evt);
             }
         });
-
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Livra");
 
         tfEmail.setBackground(new java.awt.Color(0, 0, 0));
         tfEmail.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -302,13 +294,9 @@ public class Perfil_Usuario extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(0, 26, Short.MAX_VALUE)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3)
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGap(15, 15, 15)
-                                                .addComponent(jLabel2)))
-                                        .addGap(138, 138, 138)
+                                        .addGap(46, 46, 46)
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(lbExcluirConta))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,11 +351,9 @@ public class Perfil_Usuario extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(lbExcluirConta))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addGap(28, 28, 28)
+                    .addComponent(lbExcluirConta)
+                    .addComponent(jLabel3))
+                .addGap(69, 69, 69)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -441,6 +427,8 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         usuario.setAdmin(Boolean.parseBoolean(Informacoes.eAdmin));
         usuario.setEpremium(ePremium);
         
+        String cpf = String.valueOf(tfCPF1.getText());
+        
         user = new Gerenciar_Usuario();
         userpremium = new Usuario_Premium();
         
@@ -448,12 +436,11 @@ public class Perfil_Usuario extends javax.swing.JFrame {
             try {
                 user.AltUsuario(con,usuario);
                 if (ePremium == true){
-                    userpremium.AltUsuarioPremium(con,Informacoes.id_usuario, tfLogradouro.getText(), Integer.parseInt(tfNumero.getText()) ,tfBairro.getText(), tfCidade.getText(),tfUF.getText(),tfCEP1.getText(), tfCPF1.getText());
-                    GetDados();
-                }
-                
+                    userpremium.AltUsuarioPremium(con,Informacoes.id_usuario, tfLogradouro.getText(), Integer.parseInt(tfNumero.getText()) ,tfBairro.getText(), tfCidade.getText(),tfUF.getText(),tfCEP1.getText(),cpf);
+                }    
                 GetDados();
                 JOptionPane.showMessageDialog(null, "Alteração de Cadastro realizada com sucesso!", "Conta alterada!", 1);
+                
             } catch (SQLException | ParseException ex) {
                 Logger.getLogger(Perfil_Usuario.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -511,7 +498,8 @@ public class Perfil_Usuario extends javax.swing.JFrame {
                 System.exit(0);   
             } catch (SQLException ex) {
                 Logger.getLogger(Perfil_Usuario.class.getName()).log(Level.SEVERE, null, ex);
-            }      
+            }
+     
          
         }       
        
@@ -536,8 +524,15 @@ public class Perfil_Usuario extends javax.swing.JFrame {
         
     }//GEN-LAST:event_formWindowClosing
     public void GetDados() throws SQLException{
+            System.out.println("Executando GetDados...");
             System.out.println("Id do usuario tela perfil: "+Informacoes.id_usuario);
             System.out.println("Nome do usuario tela perfil: "+String.valueOf(Informacoes.nomeusuario));
+            
+            Usuario usuario = new Usuario();
+            usuario.setId_usuario(Informacoes.id_usuario);
+            
+            Gerenciar_Usuario user = new Gerenciar_Usuario();
+            user.Dados(con, usuario);
             
             Boolean ePremium = Informacoes.ePremium; 
             
@@ -552,8 +547,8 @@ public class Perfil_Usuario extends javax.swing.JFrame {
            
 
             String dia = dataNascimento.substring(0,4);
-            String mes= dataNascimento.substring(5,7);
-            String ano= dataNascimento.substring(8);
+            String mes = dataNascimento.substring(5,7);
+            String ano = dataNascimento.substring(8);
 
             String data = ano+mes+dia;
             
@@ -656,7 +651,11 @@ public class Perfil_Usuario extends javax.swing.JFrame {
             @Override
             public void run() {
                 try {
-                    new Perfil_Usuario().setVisible(true);
+                    try {
+                        new Perfil_Usuario().setVisible(true);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Perfil_Usuario.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } catch (IOException ex) {
                     Logger.getLogger(Perfil_Usuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -676,7 +675,6 @@ public class Perfil_Usuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;

@@ -8,8 +8,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.io.IOException;
 import classes_basic.Gerenciar_Usuario;
-import classes_basic.Informacoes;
-import static classes_basic.Informacoes.emailusuario;
 import classes_basic.Usuario;
 import classes_seguranca.Criptografar;
 import java.io.UnsupportedEncodingException;

@@ -362,11 +362,7 @@ public class Principal extends javax.swing.JFrame {
             
             usuario.setId_usuario(Informacoes.id_usuario);
            
-            try {
-                ger_user.Dados(con, usuario);
-            } catch (SQLException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            ger_user.Dados(con, usuario);
 
             Boolean eAdmin = usuario.getAdmin();      
             System.out.println(eAdmin);
@@ -423,8 +419,15 @@ public class Principal extends javax.swing.JFrame {
 
     private void lbCarrinhoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbCarrinhoMouseClicked
         // Ao clicar em Carrinho:
-        Carrinho carrinho = new Carrinho();
-        carrinho.setVisible(true);
+        
+        Carrinho carrinho;
+        try {
+            carrinho = new Carrinho();
+            carrinho.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_lbCarrinhoMouseClicked
 
     private void lbPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPerfilMouseClicked
@@ -433,7 +436,7 @@ public class Principal extends javax.swing.JFrame {
         try {
             perfil = new Perfil_Usuario();
             perfil.setVisible(true);
-        } catch (IOException ex) {
+        } catch (IOException | SQLException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
        
@@ -524,14 +527,26 @@ public class Principal extends javax.swing.JFrame {
             livro.setId_livro(Integer.parseInt(tabela.getValueAt(linha,0).toString()));
             ger_liv.Dados(con, livro);
             
+            Usuario usuarioi = new Usuario();
+            usuario.setId_usuario(Informacoes.id_usuario);
+            Gerenciar_Usuario ger_user = new Gerenciar_Usuario();
+            ger_user.Dados(con, usuario);
+            
             if (livro.getEpremium() == false){
-                pag = new Pagina_livro();
-                pag.setVisible(true);   
+                   pag = new Pagina_livro();
+                   pag.setVisible(true);   
+            
                 
             } else {
-                pag_premium = new Pagina_livro_Premium();
-                pag_premium.setVisible(true);
-            }  
+                   if (usuario.getEpremium()== true){
+                        pag_premium = new Pagina_livro_Premium();
+                        pag_premium.setVisible(true);
+
+                   } else {
+                        JOptionPane.showMessageDialog(null, "Para ter acesso ao conteúdo deste livro realize a assinatura premium!", "Realize a assinatura!", 2); 
+                   }
+            }
+ 
         } catch (SQLException | IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }

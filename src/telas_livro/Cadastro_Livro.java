@@ -94,6 +94,10 @@ public class Cadastro_Livro extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         rbBasico = new javax.swing.JRadioButton();
         rbPremium = new javax.swing.JRadioButton();
+        valorAluguel = new javax.swing.JTextField();
+        valorVenda = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -353,6 +357,22 @@ public class Cadastro_Livro extends javax.swing.JFrame {
             }
         });
 
+        valorAluguel.setBackground(new java.awt.Color(0, 0, 0));
+        valorAluguel.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        valorAluguel.setForeground(new java.awt.Color(255, 255, 255));
+
+        valorVenda.setBackground(new java.awt.Color(0, 0, 0));
+        valorVenda.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        valorVenda.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Valor venda:");
+
+        jLabel13.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("Valor aluguel:");
+
         javax.swing.GroupLayout transparenciaLayout = new javax.swing.GroupLayout(transparencia);
         transparencia.setLayout(transparenciaLayout);
         transparenciaLayout.setHorizontalGroup(
@@ -360,55 +380,75 @@ public class Cadastro_Livro extends javax.swing.JFrame {
             .addGroup(transparenciaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(transparenciaLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(29, 29, 29)
-                        .addComponent(tfTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(transparenciaLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(29, 29, 29)
-                        .addComponent(tfAutor, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(transparenciaLayout.createSequentialGroup()
-                        .addComponent(jLabel9)
+                        .addGap(363, 363, 363)
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, transparenciaLayout.createSequentialGroup()
+                        .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(transparenciaLayout.createSequentialGroup()
+                                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(transparenciaLayout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(tfDataLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel8))
+                                .addGap(0, 232, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2)
+                            .addGroup(transparenciaLayout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(29, 29, 29)
+                                .addComponent(tfAutor))
+                            .addGroup(transparenciaLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(29, 29, 29)
+                                .addComponent(tfTitulo)))
                         .addGap(18, 18, 18)
-                        .addComponent(tfDataLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel8)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
-                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(transparenciaLayout.createSequentialGroup()
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(20, 20, 20)
-                            .addComponent(cbEditora, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(transparenciaLayout.createSequentialGroup()
-                            .addComponent(jLabel10)
-                            .addGap(5, 5, 5)
-                            .addComponent(cbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(btInserirCapa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(transparenciaLayout.createSequentialGroup()
-                            .addComponent(jLabel7)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Quantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(transparenciaLayout.createSequentialGroup()
-                            .addComponent(rbBasico)
-                            .addGap(18, 18, 18)
-                            .addComponent(rbPremium)))
-                    .addComponent(jLabel11))
-                .addGap(31, 31, 31)
-                .addComponent(capa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(transparenciaLayout.createSequentialGroup()
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(20, 20, 20)
+                                    .addComponent(cbEditora, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(transparenciaLayout.createSequentialGroup()
+                                    .addComponent(jLabel10)
+                                    .addGap(5, 5, 5)
+                                    .addComponent(cbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(transparenciaLayout.createSequentialGroup()
+                                    .addComponent(jLabel7)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(Quantidade))
+                                .addGroup(transparenciaLayout.createSequentialGroup()
+                                    .addComponent(jLabel13)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(valorAluguel))
+                                .addGroup(transparenciaLayout.createSequentialGroup()
+                                    .addGap(20, 20, 20)
+                                    .addComponent(rbBasico)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(rbPremium))
+                                .addGroup(transparenciaLayout.createSequentialGroup()
+                                    .addGap(3, 3, 3)
+                                    .addComponent(jLabel12)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(valorVenda)))
+                            .addComponent(jLabel11))
+                        .addGap(31, 31, 31)
+                        .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btInserirCapa, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(capa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
-            .addComponent(jScrollPane1)
-            .addGroup(transparenciaLayout.createSequentialGroup()
-                .addGap(363, 363, 363)
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         transparenciaLayout.setVerticalGroup(
             transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(transparenciaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(transparenciaLayout.createSequentialGroup()
+                        .addComponent(capa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btInserirCapa))
                     .addGroup(transparenciaLayout.createSequentialGroup()
                         .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(transparenciaLayout.createSequentialGroup()
@@ -438,30 +478,36 @@ public class Cadastro_Livro extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(jLabel8)
                         .addGap(4, 4, 4)
-                        .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(transparenciaLayout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(rbBasico)
                                     .addComponent(rbPremium))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btInserirCapa))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(capa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(42, 42, 42)
+                                .addGap(18, 18, 18)
+                                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(valorVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel12))
+                                .addGap(18, 18, 18)
+                                .addGroup(transparenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel13)
+                                    .addComponent(valorAluguel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2))))
+                .addGap(47, 47, 47)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        getContentPane().add(transparencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 910, 530));
+        getContentPane().add(transparencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 950, 600));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/plano-de-fundo.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 600));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 670));
 
-        setSize(new java.awt.Dimension(1020, 639));
+        setSize(new java.awt.Dimension(1039, 711));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -892,6 +938,8 @@ public class Cadastro_Livro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -915,5 +963,7 @@ public class Cadastro_Livro extends javax.swing.JFrame {
     private javax.swing.JTextArea tfDescricao;
     private javax.swing.JTextField tfTitulo;
     private javax.swing.JPanel transparencia;
+    private javax.swing.JTextField valorAluguel;
+    private javax.swing.JTextField valorVenda;
     // End of variables declaration//GEN-END:variables
 }

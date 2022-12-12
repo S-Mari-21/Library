@@ -5,8 +5,11 @@ import classes_premium.Usuario_Premium;
 import classes_basic.Usuario;
 import classes_basic.Gerenciar_Usuario;
 import classes_basic.Informacoes;
+import classes_seguranca.Criptografar;
 import com.mysql.jdbc.Connection;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
@@ -49,7 +52,6 @@ public class Assinatura_Premium extends javax.swing.JFrame {
         btCadastrar = new javax.swing.JButton();
         tfLogradouro = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        tfCPF = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -58,10 +60,11 @@ public class Assinatura_Premium extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         pfSenha = new javax.swing.JPasswordField();
         tfCidade = new javax.swing.JTextField();
-        tfCep = new javax.swing.JTextField();
         tfBairro = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         tfEmail = new javax.swing.JTextField();
+        tfCPF = new javax.swing.JFormattedTextField();
+        tfCep = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -125,14 +128,6 @@ public class Assinatura_Premium extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Bairro:");
 
-        tfCPF.setBackground(new java.awt.Color(0, 0, 0));
-        tfCPF.setForeground(new java.awt.Color(255, 255, 255));
-        tfCPF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfCPFActionPerformed(evt);
-            }
-        });
-
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Assinatura Premium");
@@ -177,14 +172,6 @@ public class Assinatura_Premium extends javax.swing.JFrame {
             }
         });
 
-        tfCep.setBackground(new java.awt.Color(0, 0, 0));
-        tfCep.setForeground(new java.awt.Color(255, 255, 255));
-        tfCep.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfCepActionPerformed(evt);
-            }
-        });
-
         tfBairro.setBackground(new java.awt.Color(0, 0, 0));
         tfBairro.setForeground(new java.awt.Color(255, 255, 255));
         tfBairro.addActionListener(new java.awt.event.ActionListener() {
@@ -204,6 +191,22 @@ public class Assinatura_Premium extends javax.swing.JFrame {
                 tfEmailActionPerformed(evt);
             }
         });
+
+        tfCPF.setBackground(new java.awt.Color(0, 0, 0));
+        tfCPF.setForeground(new java.awt.Color(255, 255, 255));
+        try {
+            tfCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        tfCep.setBackground(new java.awt.Color(0, 0, 0));
+        tfCep.setForeground(new java.awt.Color(255, 255, 255));
+        try {
+            tfCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -227,22 +230,12 @@ public class Assinatura_Premium extends javax.swing.JFrame {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
                                     .addComponent(jLabel9))
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(32, 32, 32)
-                                        .addComponent(tfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(215, 219, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel11)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(tfCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel12))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(36, 36, 36)
-                                        .addComponent(tfCep, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(tfCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel12))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addGap(0, 0, Short.MAX_VALUE)))
@@ -255,13 +248,16 @@ public class Assinatura_Premium extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(tfLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(12, 12, 12)
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(tfNum, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(tfNum, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(tfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(tfCep, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tfBairro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel14)
@@ -270,7 +266,7 @@ public class Assinatura_Premium extends javax.swing.JFrame {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(pfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 62, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,7 +276,7 @@ public class Assinatura_Premium extends javax.swing.JFrame {
                 .addGap(67, 67, 67)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(tfCPF))
+                    .addComponent(tfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -295,11 +291,15 @@ public class Assinatura_Premium extends javax.swing.JFrame {
                     .addComponent(jLabel12)
                     .addComponent(tfCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(tfCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tfCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -326,43 +326,52 @@ public class Assinatura_Premium extends javax.swing.JFrame {
     }//GEN-LAST:event_tfNumActionPerformed
 
     private void btCadastrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btCadastrarMouseClicked
-        // Ao clicar verificar login do usuário entrar no banco:
-        String cpf = String.valueOf(tfCPF.getText());
-        String logradouro = String.valueOf(tfLogradouro.getText());
-        Integer numero = Integer.parseInt(tfNum.getText());
-        String bairro = String.valueOf(tfCep.getText());
-        String cidade = String.valueOf(tfCidade.getText());
-        String uf = String.valueOf(tfUF.getText());
-        String cep = String.valueOf(tfCep.getText());
-        String email = String.valueOf(tfEmail.getText());
-        String senha = String.valueOf(pfSenha.getPassword());
-        
-        
-        user = new Usuario_Premium();
-        usuario = new Usuario();
-        usuario.setEmail(email);
-        usuario.setSenha(senha);
-        
-        
-        ger_usuario = new Gerenciar_Usuario();
-        
-        if (cpf.length()>0 && logradouro.length()>0 && tfNum.getText().length()>0 && bairro.length()>0  && cidade.length()>0  && uf.length()>0 && cep.length()>0 && senha.length()>0 && email.length()>0){
-            try {
-                if ((ger_usuario.VerificarLogon(con, usuario)) == true){
-                        
-                        user.AddUsuarioPremium(con, Informacoes.id_usuario, logradouro, numero, bairro, cidade, uf, cep, cpf);
-                        JOptionPane.showMessageDialog(null,"Cadastro Premium realizado com sucesso!", "usuário Premium", 1);
-                        System.exit(0);
-               
-                }else {
-                    JOptionPane.showMessageDialog(null,"E-mail ou senha incorretas!", "Erro!", 2);
-                }
-            } catch (SQLException | ParseException ex) {
-                Logger.getLogger(Assinatura_Premium.class.getName()).log(Level.SEVERE, null, ex);
-            }
 
-        }else {
-            JOptionPane.showMessageDialog(null,"Todos os campos precisam estar preenchidos!", "Erro!", 2);
+        try {
+            // Ao clicar verificar login do usuário entrar no banco:
+            String cpf = String.valueOf(tfCPF.getText());
+            String logradouro = String.valueOf(tfLogradouro.getText());
+            Integer numero = Integer.parseInt(tfNum.getText());
+            String bairro = String.valueOf(tfCep.getText());
+            String cidade = String.valueOf(tfCidade.getText());
+            String uf = String.valueOf(tfUF.getText());
+            String cep = String.valueOf(tfCep.getText());
+            String email = String.valueOf(tfEmail.getText());
+            String senha = String.valueOf(pfSenha.getPassword());
+            
+            //Criptografar Senha:
+            Criptografar criptografar = new Criptografar();
+            String senhaCriptografada=null;
+            senhaCriptografada=criptografar.CriptografiaMD5(senha);
+            //Fim da criptografia de senha
+            
+            Usuario usuario = new Usuario();
+            usuario.setId_usuario(Informacoes.id_usuario);
+            usuario.setEmail(email);
+            usuario.setSenha(senhaCriptografada);
+            
+            user = new Usuario_Premium();
+            ger_usuario = new Gerenciar_Usuario();
+            
+            if (cpf.length()>0 && logradouro.length()>0 && tfNum.getText().length()>0 && bairro.length()>0  && cidade.length()>0  && uf.length()>0 && cep.length()>0 && senha.length()>0 && email.length()>0){
+                if ((ger_usuario.VerificarLogon(con, usuario)) == true){
+                    
+                    ger_usuario.AltPremium(con, usuario);
+                    user.AddUsuarioPremium(con, Informacoes.id_usuario, logradouro, numero, bairro, cidade, uf, cep, cpf);
+                    dispose();
+                    JOptionPane.showMessageDialog(null,"Cadastro Premium realizado com sucesso!", "Usuário Premium", 1);
+                    JOptionPane.showMessageDialog(null,"Parabéns pelo cadastro! Agora você terá acesso a todos os livros da Livra!", "Parabéns!", 1);
+                    
+                }else {
+                    JOptionPane.showMessageDialog(null,"E-mail ou senha incorretos!", "Erro!", 2);
+                }
+                
+            }else {
+                JOptionPane.showMessageDialog(null,"Todos os campos precisam estar preenchidos!", "Erro!", 2);
+            }
+            
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException | SQLException | ParseException ex) {
+            Logger.getLogger(Assinatura_Premium.class.getName()).log(Level.SEVERE, null, ex);
         }
                 
     }//GEN-LAST:event_btCadastrarMouseClicked
@@ -370,10 +379,6 @@ public class Assinatura_Premium extends javax.swing.JFrame {
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btCadastrarActionPerformed
-
-    private void tfCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCPFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfCPFActionPerformed
 
     private void tfLogradouroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfLogradouroActionPerformed
         // TODO add your handling code here:
@@ -390,10 +395,6 @@ public class Assinatura_Premium extends javax.swing.JFrame {
     private void tfCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCidadeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfCidadeActionPerformed
-
-    private void tfCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCepActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfCepActionPerformed
 
     private void tfBairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfBairroActionPerformed
         // TODO add your handling code here:
@@ -469,8 +470,8 @@ public class Assinatura_Premium extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField pfSenha;
     private javax.swing.JTextField tfBairro;
-    private javax.swing.JTextField tfCPF;
-    private javax.swing.JTextField tfCep;
+    private javax.swing.JFormattedTextField tfCPF;
+    private javax.swing.JFormattedTextField tfCep;
     private javax.swing.JTextField tfCidade;
     private javax.swing.JTextField tfEmail;
     private javax.swing.JTextField tfLogradouro;
